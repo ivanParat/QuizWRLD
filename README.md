@@ -16,6 +16,7 @@
 ### Semester Assignments
 
 - Link to Assignment 1: [**Assignment 1**](/assignments/1.mp4)
+- Link to Assignment 2: [**Assignment 2**](/assignments/2.docx)
 
 ## Project Requirements
 
