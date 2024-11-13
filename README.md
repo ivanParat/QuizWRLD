@@ -8,7 +8,7 @@
 
 ## Project Structure
 
-- **`/`**: The source code of main project
+- **`/code`**: The source code of main project
 - **`/assignments`**: Results of semester assignments
 
 ## My Project Links
