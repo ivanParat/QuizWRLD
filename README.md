@@ -21,6 +21,7 @@
 
 - Link to Assignment 1: [**Assignment 1**](/assignments/assignment%201/figma_essentials-hero_section.mp4)
 - Link to Assignment 2: [**Assignment 2**](/assignments/assignment%202/user_personas_and_information_architecture.pdf)
+- Link to Assignment 3: [**Assignment 3**](https://quiz-wrld.vercel.app/)
 
 ## Project Requirements
 
