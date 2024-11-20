@@ -13,6 +13,10 @@
 
 ## My Project Links
 
+### Semester Project
+
+- Link to production version: [**Production Version**](https://quiz-wrld.vercel.app/)
+
 ### Semester Assignments
 
 - Link to Assignment 1: [**Assignment 1**](/assignments/assignment%201/figma_essentials-hero_section.mp4)
