@@ -14,8 +14,8 @@ const pages: Page[] = [
     path: "/discover-quizzes/quiz-recommendations",
   },
   {
-    title: "Search",
-    path: "/discover-quizzes/search",
+    title: "Categories",
+    path: "/discover-quizzes/categories",
   },
 ];
 
