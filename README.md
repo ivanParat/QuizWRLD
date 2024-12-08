@@ -19,10 +19,10 @@
 
 ### Semester Assignments
 
-- Link to Assignment 1: [**Assignment 1**](/assignments/assignment%201/figma_essentials-hero_section.mp4)
-- Link to Assignment 2: [**Assignment 2**](/assignments/assignment%202/user_personas_and_information_architecture.pdf)
-- Link to Assignment 3: [**Assignment 3**](https://quiz-wrld.vercel.app/)
-- Link to Assignment 4: [**Assignment 4**](/assignments/assignment%204/home_page_figma_prototype.png)
+- Link to Assignment 1: [**Figma essentials - hero section**](/assignments/assignment%201/figma_essentials-hero_section.mp4)
+- Link to Assignment 2: [**User personas and information architecture**](/assignments/assignment%202/user_personas_and_information_architecture.pdf)
+- Link to Assignment 3: [**Deploying Next.js app**](https://quiz-wrld.vercel.app/)
+- Link to Assignment 4: [**Figma prototype of home page**](/assignments/assignment%204/home_page_figma_prototype.png)
 
 ## Project Requirements
 
