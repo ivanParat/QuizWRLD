@@ -21,7 +21,11 @@ const pages: Page[] = [
   {
     title: "About us",
     path: "/about",
-  },  
+  },
+  {
+    title: "Blog",
+    path: "/blog",
+  }, 
   {
     title: "Log in",
     path: "/login",
