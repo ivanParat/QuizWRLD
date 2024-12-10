@@ -15,7 +15,10 @@ const geistMono = localFont({
 });
 
 export const metadata: Metadata = {
-  title: "QuizWRLD",
+  title: {
+    template: "%s | QuizWRLD",
+    default: "QuizWRLD",
+  },
   description: "Create or solve fun and challenging quizzes instantly.",
 };
 
