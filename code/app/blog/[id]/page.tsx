@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { BASE_API_URL } from "../page";
 import type { Post } from "../page";
-import { ArrowLeft, CloudCog } from "lucide-react";
+import { ArrowLeft } from "lucide-react";
 import { Metadata } from "next";
 export const metadata: Metadata = {
   title: "Blog",
