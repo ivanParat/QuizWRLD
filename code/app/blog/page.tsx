@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { BASE_API_URL } from "./config";
 
 export type Post = {
   userId: number;
@@ -27,7 +28,6 @@ export const metadata: Metadata = {
   title: "Blog",
 };
 
-export const BASE_API_URL = "https://jsonplaceholder.typicode.com";
 const PAGE_SIZE = 6;
 
 async function getPosts({

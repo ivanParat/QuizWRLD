@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { BASE_API_URL } from "../page";
+import { BASE_API_URL } from "../config";
 import type { Post } from "../page";
 import { ArrowLeft } from "lucide-react";
 import { Metadata } from "next";
