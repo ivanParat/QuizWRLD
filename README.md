@@ -23,6 +23,7 @@
 - Link to Assignment 2: [**User personas and information architecture**](/assignments/assignment%202/user_personas_and_information_architecture.pdf)
 - Link to Assignment 3: [**Deploying Next.js app**](https://quiz-wrld.vercel.app/)
 - Link to Assignment 4: [**Figma prototype of home page**](/assignments/assignment%204/home_page_figma_prototype.png)
+- Link to Assignment 5: [**Dynamic routes, data fetching**](https://quiz-wrld.vercel.app/)
 
 ## Project Requirements
 
