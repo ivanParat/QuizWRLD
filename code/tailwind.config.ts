@@ -23,6 +23,9 @@ export default {
         'correct': '#28A745',
         'incorrect': '#DC3545',
       },
+      fontFamily: {
+        sans: ["var(--font-roboto)", "sans-serif"], // Map to Roboto
+      },
     },
   },
   plugins: [],
