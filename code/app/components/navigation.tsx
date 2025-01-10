@@ -38,19 +38,25 @@ const pages: Page[] = [
 function processPage(page: Page, index: number,  onClick?: () => void) {
   return (
     <li key={index}>
-      <Link
-        href={page.path}
-        onClick={onClick}
-        className="font-bold hover:text-brand active:text-brand px-5 py-1 md:px-1 lg:px-3 xl:px-5"
-      >
-        {page.title === "Log in" ? (
-          <button className="font-bold bg-brand text-white px-5 py-1 rounded-md hover:bg-brand-hover active:bg-brand-hover">
-            Log in
+      {page.title === "Log in" ? (
+        <Link
+          href={page.path}
+          onClick={onClick}
+          className="font-bold md:ml-1 lg:ml-3 xl:ml-5"
+        >
+          <button className="bg-brand text-white px-5 py-1 rounded-md hover:bg-brand-hover active:bg-brand-hover">
+            {page.title}
           </button>
-        ) : (
-          page.title
-        )}
-      </Link>
+        </Link>
+      ) : (
+        <Link
+          href={page.path}
+          onClick={onClick}
+          className="font-bold hover:text-brand active:text-brand px-5 py-1 md:px-1 lg:px-3 xl:px-5"
+        >
+          {page.title}
+        </Link>
+      )}
     </li>
   );
 }
@@ -79,8 +85,8 @@ type SearchIconProps = {
 function SearchIcon({ closeMenu }: SearchIconProps){
   return (
     <button className="md:hidden ml-2 text-black hover:text-brand" onClick={closeMenu}>
-      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="size-6">
-        <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="size-6">
+        <path strokeLinecap="round" strokeLinejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
       </svg>
     </button>
   )
