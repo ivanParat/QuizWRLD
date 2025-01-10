@@ -11,8 +11,10 @@ export default {
       colors: {
         background: "var(--background)",
         foreground: "var(--foreground)",
+        'black': "var(--foreground)",
         brand: {
           DEFAULT: '#007BFF', 
+          hover: '#63aeff',
           light: '#B1D7FF',  
           dark: '#243648',   
         },
@@ -24,7 +26,7 @@ export default {
         'incorrect': '#DC3545',
       },
       fontFamily: {
-        sans: ["var(--font-roboto)", "sans-serif"], // Map to Roboto
+        sans: ["var(--font-roboto)", "sans-serif"],
       },
     },
   },
