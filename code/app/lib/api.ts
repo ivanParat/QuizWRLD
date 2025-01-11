@@ -11,8 +11,8 @@ export const getMainNavigation = unstable_cache(
       const data = response.items;
 
       const navigationItems = data.map((item) => ({
-        title: item.fields.navigationItem,
-        link: item.fields.link,
+        title: String(item.fields.title) || "",
+        link: String(item.fields.link) || "",
       }));
 
       return navigationItems;
