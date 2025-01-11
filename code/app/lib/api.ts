@@ -1,5 +1,5 @@
 import { unstable_cache } from "next/cache";
-import client from "./contentfulClinet";
+import client from "./contentfulClient";
 
 const MINUTE = 60;
 const HOUR = 60 * MINUTE;
