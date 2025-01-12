@@ -86,7 +86,7 @@ const Footer = () => {
           Don't have an account yet?
         </div>
         <Link href="/login">
-          <button className="bg-brand-light text-brand-dark w-24 rounded-md p-1 font-bold mt-1">
+          <button className="bg-brand-light text-brand-dark w-24 rounded-md p-1 font-bold mt-1 hover:bg-brand-hover">
             Sign in
           </button>
         </Link>
