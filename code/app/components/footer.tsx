@@ -32,6 +32,34 @@ const pages: Page[] = [
   },
 ];
 
+const socialIcons = [
+  { src: FacebookIcon, alt: "Facebook", href: "https://www.facebook.com" },
+  { src: LinkedinIcon, alt: "LinkedIn", href: "https://www.linkedin.com" },
+  { src: InstagramIcon, alt: "Instagram", href: "https://www.instagram.com" },
+  { src: YoutubeIcon, alt: "YouTube", href: "https://www.youtube.com" },
+];
+
+const SocialLinks = () => {
+  return (
+    <div className="flex gap-3 mt-1">
+      {socialIcons.map((icon, index) => (
+        <a
+          href={icon.href}
+          key={index}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <Image
+            src={icon.src}
+            alt={icon.alt}
+            className="md:w-full md:h-full w-10/12 h-10/12"
+          />
+        </a>
+      ))}
+    </div>
+  );
+};
+
 const UsefulLinks = ({ pages }: { pages: Page[] }) => {
   return (
     <ul className="space-y-1">
@@ -67,7 +95,7 @@ const Footer = () => {
       <div className="flex flex-row md:contents justify-between items-start gap-4 mt-8 md:mt-0">
         <div className="md:block flex flex-col justify-start items-start">
           <div className="font-bold text-xl mb-2">Contact Us</div>
-          <div className="flex gap-1">
+          <div className="flex gap-1 justify-center items-center">
             <Image
               src={emailicon}
               alt="Email"
@@ -80,18 +108,7 @@ const Footer = () => {
             </a>
           </div>
           <div className="flex gap-3 mt-1">
-            <Link href="https://www.facebook.com">
-              <Image src={FacebookIcon} alt="Facebook"></Image>
-            </Link>
-            <Link href="https://www.linkedin.com">
-              <Image src={LinkedinIcon} alt="LinkedIn"></Image>
-            </Link>
-            <Link href="https://www.instagram.com">
-              <Image src={InstagramIcon} alt="Instagram"></Image>
-            </Link>
-            <Link href="https://www.youtube.com">
-              <Image src={YoutubeIcon} alt="Youtube"></Image>
-            </Link>
+            <SocialLinks></SocialLinks>
           </div>
         </div>
 
