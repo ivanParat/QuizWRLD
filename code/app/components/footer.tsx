@@ -89,7 +89,7 @@ const Footer = () => {
       <div className="md:block flex flex-col  justify-start item-start">
         <Logo theme="dark" className="mb-2" />
         <div className="text-[14px] md:text-[15px]">
-          Don't have an account yet?
+          Don&apos;t have an account yet?
         </div>
         <Link href="/login">
           <button className="bg-brand-light text-brand-dark w-24 rounded-md p-1 font-bold mt-1 hover:bg-brand-hover active:bg-brand-hover">
