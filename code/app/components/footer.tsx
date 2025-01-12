@@ -37,7 +37,10 @@ const UsefulLinks = ({ pages }: { pages: Page[] }) => {
     <ul className="space-y-1">
       {pages.map((page) => (
         <li key={page.title}>
-          <Link href={page.path} className="hover:text-brand">
+          <Link
+            href={page.path}
+            className="hover:text-brand text-[15px] md:text-[17px]"
+          >
             {page.title}
           </Link>
         </li>
@@ -51,7 +54,9 @@ const Footer = () => {
     <div className="bg-brand-dark w-svw flex flex-col md:flex-row justify-between xl:px-72 lg:px-40 md:px-20 sm:px-20 py-6 lg:wgap-72 md:wgap-1  px-4 absolute bottom-0">
       <div className="md:block flex flex-col  justify-start item-start">
         <Logo className="mb-2" />
-        <div>Don't have an account yet?</div>
+        <div className="text-[14px] md:text-[15px]">
+          Don't have an account yet?
+        </div>
         <Link href="/login">
           <button className="bg-brand-light text-brand-dark w-24 rounded-md p-1 font-bold mt-1">
             Sign in
@@ -69,7 +74,9 @@ const Footer = () => {
               className="hover:text-brand"
             ></Image>
             <a href="mailto:support@quizwrld.com" className="hover:text-brand">
-              <div>support@quizwrld.com</div>
+              <div className="text-[15px] md:text-[17px]">
+                support@quizwrld.com
+              </div>
             </a>
           </div>
           <div className="flex gap-3 mt-1">
@@ -93,7 +100,7 @@ const Footer = () => {
           <UsefulLinks pages={pages}></UsefulLinks>
         </div>
       </div>
-      <div className="absolute bottom-0 left-0 opacity-80">
+      <div className="absolute bottom-0 left-0 opacity-80 text-[15px]">
         © Copyright QuizWRLD 2024
       </div>
     </div>
