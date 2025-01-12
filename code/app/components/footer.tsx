@@ -39,7 +39,13 @@ const socialIcons = [
   { src: YoutubeIcon, alt: "YouTube", href: "https://www.youtube.com" },
 ];
 
-const SocialLinks = () => {
+type SocialMediaIcons = {
+  src: string;
+  alt: string;
+  href: string;
+};
+
+const SocialLinks = ({ socialIcons }: { socialIcons: SocialMediaIcons[] }) => {
   return (
     <div className="flex gap-3 mt-1">
       {socialIcons.map((icon, index) => (
@@ -108,7 +114,7 @@ const Footer = () => {
             </a>
           </div>
           <div className="flex gap-3 mt-1">
-            <SocialLinks></SocialLinks>
+            <SocialLinks socialIcons={socialIcons}></SocialLinks>
           </div>
         </div>
 
