@@ -30,7 +30,7 @@ const pages: Page[] = [
     path: "/blog",
   }, 
   {
-    title: "Log in",
+    title: "Sign in",
     path: "/login",
   },
 ];
@@ -38,7 +38,7 @@ const pages: Page[] = [
 function processPage(page: Page, index: number,  onClick?: () => void) {
   return (
     <li key={index}>
-      {page.title === "Log in" ? (
+      {page.path === "/login" ? (
         <Link
           href={page.path}
           onClick={onClick}

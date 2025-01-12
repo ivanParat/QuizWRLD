@@ -5,7 +5,7 @@ type LogoProps = {
 
 const Logo = ({ theme = "light", className = "" }: LogoProps) => {
   return (
-    <p className={`text-xl md:text-2xl ${className}`}>
+    <h1 className={`text-xl md:text-2xl ${className}`}>
       {theme === "light" ? (
         <>
           <span className="text-brand font-bold">Quiz</span>
@@ -17,7 +17,7 @@ const Logo = ({ theme = "light", className = "" }: LogoProps) => {
           <span className="text-white font-bold">WRLD</span>
         </>
       )}
-    </p>
+    </h1>
   );
 };
 

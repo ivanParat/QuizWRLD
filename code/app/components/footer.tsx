@@ -34,9 +34,9 @@ const pages: Page[] = [
 
 const socialIcons = [
   { src: FacebookIcon, alt: "Facebook", href: "https://www.facebook.com" },
+  { src: YoutubeIcon, alt: "YouTube", href: "https://www.youtube.com" },
   { src: LinkedinIcon, alt: "LinkedIn", href: "https://www.linkedin.com" },
   { src: InstagramIcon, alt: "Instagram", href: "https://www.instagram.com" },
-  { src: YoutubeIcon, alt: "YouTube", href: "https://www.youtube.com" },
 ];
 
 type SocialMediaIcons = {
@@ -73,7 +73,7 @@ const UsefulLinks = ({ pages }: { pages: Page[] }) => {
         <li key={page.title}>
           <Link
             href={page.path}
-            className="hover:text-brand text-[15px] md:text-[17px]"
+            className="hover:text-brand-light active:text-brand-light text-[15px] md:text-[17px]"
           >
             {page.title}
           </Link>
@@ -84,15 +84,15 @@ const UsefulLinks = ({ pages }: { pages: Page[] }) => {
 };
 
 const Footer = () => {
-  return (
-    <div className="bg-brand-dark w-svw flex flex-col md:flex-row justify-between xl:px-72 lg:px-40 md:px-20 sm:px-20 py-6 lg:wgap-72 md:wgap-1  px-4 absolute bottom-0">
+  return (<>
+    <div className="bg-brand-dark text-white w-svw flex flex-col md:flex-row justify-between xl:px-72 lg:px-40 md:px-20 sm:px-20 pt-6 md:pb-0 md:pt-8 md:mt-3 lg:wgap-72 md:wgap-1  px-4 bottom-0">
       <div className="md:block flex flex-col  justify-start item-start">
-        <Logo className="mb-2" />
+        <Logo theme="dark" className="mb-2" />
         <div className="text-[14px] md:text-[15px]">
           Don't have an account yet?
         </div>
         <Link href="/login">
-          <button className="bg-brand-light text-brand-dark w-24 rounded-md p-1 font-bold mt-1 hover:bg-brand-hover">
+          <button className="bg-brand-light text-brand-dark w-24 rounded-md p-1 font-bold mt-1 hover:bg-brand-hover active:bg-brand-hover">
             Sign in
           </button>
         </Link>
@@ -105,9 +105,9 @@ const Footer = () => {
             <Image
               src={emailicon}
               alt="Email"
-              className="hover:text-brand"
+              className="hover:text-brand-light"
             ></Image>
-            <a href="mailto:support@quizwrld.com" className="hover:text-brand">
+            <a href="mailto:support@quizwrld.com" className="hover:text-brand-light">
               <div className="text-[15px] md:text-[17px]">
                 support@quizwrld.com
               </div>
@@ -123,10 +123,11 @@ const Footer = () => {
           <UsefulLinks pages={pages}></UsefulLinks>
         </div>
       </div>
-      <div className="absolute bottom-0 left-0 opacity-80 text-[15px]">
-        © Copyright QuizWRLD 2024
-      </div>
     </div>
+    <div className="bg-brand-dark text-[#97a9bd] pb-1 pl-4 md:pl-1 text-[15px]">
+      © Copyright QuizWRLD 2024
+    </div>
+    </>
   );
 };
 export default Footer;
