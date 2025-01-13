@@ -47,7 +47,7 @@ type SocialMediaIcons = {
 
 const SocialLinks = ({ socialIcons }: { socialIcons: SocialMediaIcons[] }) => {
   return (
-    <div className="flex gap-3 mt-1">
+    <div className="flex gap-1 md:gap-3 mt-1">
       {socialIcons.map((icon, index) => (
         <a
           href={icon.href}
@@ -68,12 +68,12 @@ const SocialLinks = ({ socialIcons }: { socialIcons: SocialMediaIcons[] }) => {
 
 const UsefulLinks = ({ pages }: { pages: Page[] }) => {
   return (
-    <ul className="space-y-1">
+    <ul>
       {pages.map((page) => (
-        <li key={page.title}>
+        <li key={page.title} className="pb-1">
           <Link
             href={page.path}
-            className="hover:text-brand-light active:text-brand-light text-[15px] md:text-[17px]"
+            className="hover:text-brand-light active:text-brand-light text-[15px] md:text-[17px] py-[5px]"
           >
             {page.title}
           </Link>

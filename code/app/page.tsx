@@ -41,7 +41,7 @@ type QuizCard = {
 
 const quizCards: QuizCard[] = [
   {
-    title: "Quiz title",
+    title: "A quiz title that is a little bit longer",
     category: "Category",
     rating: 4.4,
     imageSrc: "/images/placeholder.png",
@@ -187,22 +187,24 @@ function processQuizCard(quizCard: QuizCard, index: number, {isMobile}: PopularS
         className="object-cover"
       />
       <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black flex flex-col justify-end px-1.5 py-1 text-white">
-        <div className="flex flex-row justify-between">
+        <div className="flex flex-col justify-between">
           <div>
-            <h3 className="text-[13px] md:text-[15px] font-semibold">{quizCard.title}</h3>
-            <p className="text-[11px] md:text-[13px]">{quizCard.category}</p>
+            <h3 className="text-[14px] md:text-[15px] font-semibold">{quizCard.title}</h3>
           </div>
-          <div className="flex items-end">
-            <span className="flex">
-              {[1, 2, 3, 4, 5].map((i) => {
-                const isFull = (i <= Math.floor(quizCard.rating) || (i === Math.floor(quizCard.rating) + 1 && quizCard.rating % 1 >= 0.75)); 
-                const isHalf = (i === Math.floor(quizCard.rating) + 1 && quizCard.rating % 1 >= 0.25); 
-                const filled = isFull ? "yes" : isHalf ? "half" : "no"; 
+          <div className="flex justify-between">
+            <p className="text-[12px] md:text-[13px]">{quizCard.category}</p>
+            <div className="flex items-end">
+              <span className="flex">
+                {[1, 2, 3, 4, 5].map((i) => {
+                  const isFull = (i <= Math.floor(quizCard.rating) || (i === Math.floor(quizCard.rating) + 1 && quizCard.rating % 1 >= 0.75)); 
+                  const isHalf = (i === Math.floor(quizCard.rating) + 1 && quizCard.rating % 1 >= 0.25); 
+                  const filled = isFull ? "yes" : isHalf ? "half" : "no"; 
 
-                return <Star key={i} filled={filled} isMobile={isMobile}/>;
-              })}
-            </span>
-            <span className="text-[11px] md:text-[13px] ml-1.5 font-medium">{quizCard.rating.toFixed(1)}</span>
+                  return <Star key={i} filled={filled} isMobile={isMobile}/>;
+                })}
+              </span>
+              <span className="hidden  md:block text-[11px] md:text-[13px] ml-1.5 font-medium">{quizCard.rating.toFixed(1)}</span>
+            </div>
           </div>
         </div>
       </div>
