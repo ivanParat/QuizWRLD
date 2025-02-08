@@ -39,12 +39,6 @@ function HeroSection() {
     </section>
   );
 }
-// type QuizCard = {
-//   title: string;
-//   category: string;
-//   rating: number;
-//   imageSrc: string;
-// };
 
 type QuizCard = {
   title: string;
@@ -54,106 +48,11 @@ type QuizCard = {
   category: { name: string };
 };
 
-// const quizCards: QuizCard[] = [
-//   {
-//     title: "A quiz title that is a little bit longer",
-//     category: "Category",
-//     rating: 4.4,
-//     imageSrc: "/images/placeholder.png",
-//   },
-//   {
-//     title: "Quiz title",
-//     category: "Category",
-//     rating: 3.4,
-//     imageSrc: "/images/placeholder.png",
-//   },
-//   {
-//     title: "Quiz title",
-//     category: "Category",
-//     rating: 3.9,
-//     imageSrc: "/images/placeholder.png",
-//   },
-//   {
-//     title: "Quiz title",
-//     category: "Category",
-//     rating: 4.0,
-//     imageSrc: "/images/placeholder.png",
-//   },
-//   {
-//     title: "Quiz title",
-//     category: "Category",
-//     rating: 4.6,
-//     imageSrc: "/images/placeholder.png",
-//   },
-//   {
-//     title: "Quiz title",
-//     category: "Category",
-//     rating: 4.8,
-//     imageSrc: "/images/placeholder.png",
-//   },
-//   {
-//     title: "Quiz title",
-//     category: "Category",
-//     rating: 4.41,
-//     imageSrc: "/images/placeholder.png",
-//   },
-//   {
-//     title: "Quiz title",
-//     category: "Category",
-//     rating: 4.4,
-//     imageSrc: "/images/placeholder.png",
-//   },
-// ];
-
 type CategoryCard = {
   category: string;
-  // color: `#${string}`;
   color: string;
   image: string;
 };
-
-// const categoryCards: CategoryCard[] = [
-//   {
-//     category: "Category",
-//     color: "#006EE4",
-//     imageSrc: "/images/placeholder.png",
-//   },
-//   {
-//     category: "Category",
-//     color: "#F40000",
-//     imageSrc: "/images/placeholder.png",
-//   },
-//   {
-//     category: "Category",
-//     color: "#FFAA00",
-//     imageSrc: "/images/placeholder.png",
-//   },
-//   {
-//     category: "Category",
-//     color: "#DE00F2",
-//     imageSrc: "/images/placeholder.png",
-//   },
-//   {
-//     category: "Category",
-//     color: "#07CA00",
-//     imageSrc: "/images/placeholder.png",
-//   },
-//   {
-//     category: "Category",
-//     color: "#ACAC00",
-//     imageSrc: "/images/placeholder.png",
-//   },
-//   {
-//     category: "Category",
-//     color: "#00B982",
-//     imageSrc: "/images/placeholder.png",
-//   },
-//   {
-//     category: "Category",
-//     color: "#EE0053",
-//     imageSrc: "/images/placeholder.png",
-//   },
-// ];
 
 type StarProps = {
   filled: "yes" | "no" | "half";
