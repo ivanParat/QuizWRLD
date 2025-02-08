@@ -1,9 +1,12 @@
 "use client";
 import Image from "next/image";
 import { useState, useEffect } from "react";
-import { TypeQuizzHomePage } from "./content-types";
+import { TypeCategory, TypeQuizzHomePage } from "./content-types";
 type HomeQuizzProps = {
   quizzes: TypeQuizzHomePage<"WITHOUT_UNRESOLVABLE_LINKS">[];
+};
+type HomeCategoriesProps = {
+  categories: TypeCategory<"WITHOUT_UNRESOLVABLE_LINKS">[];
 };
 
 function HeroSection() {
@@ -106,51 +109,51 @@ type CategoryCard = {
   category: string;
   // color: `#${string}`;
   color: string;
-  imageSrc: string;
+  image: string;
 };
 
-const categoryCards: CategoryCard[] = [
-  {
-    category: "Category",
-    color: "#006EE4",
-    imageSrc: "/images/placeholder.png",
-  },
-  {
-    category: "Category",
-    color: "#F40000",
-    imageSrc: "/images/placeholder.png",
-  },
-  {
-    category: "Category",
-    color: "#FFAA00",
-    imageSrc: "/images/placeholder.png",
-  },
-  {
-    category: "Category",
-    color: "#DE00F2",
-    imageSrc: "/images/placeholder.png",
-  },
-  {
-    category: "Category",
-    color: "#07CA00",
-    imageSrc: "/images/placeholder.png",
-  },
-  {
-    category: "Category",
-    color: "#ACAC00",
-    imageSrc: "/images/placeholder.png",
-  },
-  {
-    category: "Category",
-    color: "#00B982",
-    imageSrc: "/images/placeholder.png",
-  },
-  {
-    category: "Category",
-    color: "#EE0053",
-    imageSrc: "/images/placeholder.png",
-  },
-];
+// const categoryCards: CategoryCard[] = [
+//   {
+//     category: "Category",
+//     color: "#006EE4",
+//     imageSrc: "/images/placeholder.png",
+//   },
+//   {
+//     category: "Category",
+//     color: "#F40000",
+//     imageSrc: "/images/placeholder.png",
+//   },
+//   {
+//     category: "Category",
+//     color: "#FFAA00",
+//     imageSrc: "/images/placeholder.png",
+//   },
+//   {
+//     category: "Category",
+//     color: "#DE00F2",
+//     imageSrc: "/images/placeholder.png",
+//   },
+//   {
+//     category: "Category",
+//     color: "#07CA00",
+//     imageSrc: "/images/placeholder.png",
+//   },
+//   {
+//     category: "Category",
+//     color: "#ACAC00",
+//     imageSrc: "/images/placeholder.png",
+//   },
+//   {
+//     category: "Category",
+//     color: "#00B982",
+//     imageSrc: "/images/placeholder.png",
+//   },
+//   {
+//     category: "Category",
+//     color: "#EE0053",
+//     imageSrc: "/images/placeholder.png",
+//   },
+// ];
 
 type StarProps = {
   filled: "yes" | "no" | "half";
@@ -254,17 +257,14 @@ function processQuizCard(
 }
 
 function processCategoryCard(categoryCard: CategoryCard, index: number) {
+  const imageUrl = `https:${categoryCard.image}`;
+  console.log(categoryCard.color);
   return (
     <div
       key={index}
       className={`rounded-md overflow-hidden relative bg-gradient-to-tr aspect-[1/1] lg:aspect-[4/3]`}
     >
-      <Image
-        src={categoryCard.imageSrc}
-        alt="Quiz image"
-        fill
-        className="object-cover"
-      />
+      <Image src={imageUrl} alt="Quiz image" fill className="object-cover" />
       <div
         className="absolute inset-0 bg-gradient-to-b flex flex-col justify-end px-1.5 py-1 text-white"
         style={{
@@ -310,7 +310,15 @@ function PopularQuizzesSection({
   );
 }
 
-function PopularCategoriesSection({ isMobile }: PopularSectionsProps) {
+function PopularCategoriesSection({
+  isMobile,
+  categories,
+}: PopularSectionsProps & HomeCategoriesProps) {
+  const categoryCards: CategoryCard[] = categories.map((category) => ({
+    category: category.fields.name,
+    color: category.fields.color || "000000",
+    image: category.fields?.image?.fields?.file?.url || "/default-image.png",
+  }));
   const visibleItems: CategoryCard[] = isMobile
     ? categoryCards.slice(0, 6)
     : categoryCards;
@@ -328,7 +336,10 @@ function PopularCategoriesSection({ isMobile }: PopularSectionsProps) {
   );
 }
 
-export default function Home({ quizzes }: HomeQuizzProps) {
+export default function Home({
+  quizzes,
+  categories,
+}: HomeQuizzProps & HomeCategoriesProps) {
   const [isMobile, setIsMobile] = useState<boolean>(false);
   useEffect(() => {
     const updateView = () => setIsMobile(window.innerWidth < 768);
@@ -342,7 +353,7 @@ export default function Home({ quizzes }: HomeQuizzProps) {
       <HeroSection />
       <div className="h-32 w-full bg-gradient-to-b from-off-white to-white"></div>
       <PopularQuizzesSection quizzes={quizzes} isMobile={isMobile} />
-      <PopularCategoriesSection isMobile={isMobile} />
+      <PopularCategoriesSection categories={categories} isMobile={isMobile} />
     </main>
   );
 }

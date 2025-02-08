@@ -1,7 +1,11 @@
 "use server";
 import { unstable_cache } from "next/cache";
 import client from "./contentfulClient";
-import { TypeQuizzSkeleton, TypeQuizzHomePageSkeleton } from "../content-types";
+import {
+  TypeQuizzSkeleton,
+  TypeQuizzHomePageSkeleton,
+  TypeCategorySkeleton,
+} from "../content-types";
 
 const MINUTE = 60;
 const HOUR = 60 * MINUTE;
@@ -81,4 +85,24 @@ export const getQuizzesHomePage = unstable_cache(
   },
   ["quizzes"],
   { revalidate: HOUR, tags: ["quizzes"] }
+);
+
+export const getCategories = unstable_cache(
+  async () => {
+    try {
+      const data =
+        await client.withoutUnresolvableLinks.getEntries<TypeCategorySkeleton>({
+          content_type: "category",
+          select: ["fields.name", "fields.color", "fields.image"],
+          include: 1,
+        });
+
+      return data.items;
+    } catch (error) {
+      console.error("Error fetching categories:", error);
+      return [];
+    }
+  },
+  ["categories"],
+  { revalidate: HOUR, tags: ["categories"] }
 );
