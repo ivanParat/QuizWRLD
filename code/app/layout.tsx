@@ -6,9 +6,9 @@ import { Navigation } from "./components/navigation";
 import Footer from "./components/footer";
 
 const roboto = Roboto({
-  subsets: ["latin"], 
+  subsets: ["latin"],
   weight: ["100", "300", "400", "500", "700", "900"],
-  variable: "--font-roboto", 
+  variable: "--font-roboto",
 });
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -39,9 +39,9 @@ export default function RootLayout({
       <body
         className={`${roboto.variable} ${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <Navigation/>
+        <Navigation />
         {children}
-        <Footer/>
+        <Footer />
       </body>
     </html>
   );
