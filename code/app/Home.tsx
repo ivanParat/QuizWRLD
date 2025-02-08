@@ -48,7 +48,7 @@ type QuizCard = {
   slug: string;
   rating: number;
   heroImage: string;
-  category: string;
+  category: { name: string };
 };
 
 // const quizCards: QuizCard[] = [
@@ -224,7 +224,9 @@ function processQuizCard(
             </h3>
           </div>
           <div className="flex justify-between">
-            <p className="text-[12px] md:text-[13px]">{quizCard.category}</p>
+            <p className="text-[12px] md:text-[13px]">
+              {quizCard.category.name}
+            </p>
             <div className="flex items-end">
               <span className="flex">
                 {[1, 2, 3, 4, 5].map((i) => {
@@ -283,17 +285,17 @@ function PopularQuizzesSection({
   isMobile,
   quizzes,
 }: PopularSectionsProps & HomeQuizzProps) {
-  const quizCards2: QuizCard[] = quizzes.map((quiz) => ({
+  const quizCards: QuizCard[] = quizzes.map((quiz) => ({
     title: quiz.fields.title,
     slug: quiz.fields.slug,
-    heroImage: quiz.fields.heroImage?.fields?.file?.url || "",
-    category: quiz.fields.category,
     rating: quiz.fields.rating,
+    heroImage: quiz.fields.heroImage?.fields?.file?.url || "/default-image.png",
+    category: {
+      name: quiz.fields.category?.fields?.name || "Unknown",
+    },
   }));
 
-  const visibleItems: QuizCard[] = isMobile
-    ? quizCards2.slice(0, 6)
-    : quizCards2;
+  const visibleItems: QuizCard[] = isMobile ? quizCards.slice(0, 6) : quizCards;
   return (
     <section className="mb-10 xl:mb-14 w-full flex flex-col items-center">
       <h2 className="text-center text-2xl md:text-3xl font-bold mb-6 xl:mb-8">

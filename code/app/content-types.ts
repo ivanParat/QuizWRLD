@@ -37,7 +37,7 @@ export interface TypeQuizzFields {
   slug: EntryFieldTypes.Symbol;
   description: EntryFieldTypes.Text;
   heroImage: EntryFieldTypes.AssetLink;
-  category: EntryFieldTypes.Symbol;
+  category: EntryFieldTypes.EntryLink<TypeCategorySkeleton>;
   questions: EntryFieldTypes.Array<
     EntryFieldTypes.EntryLink<TypeQuestionSkeleton>
   >;
@@ -48,7 +48,7 @@ export interface TypeQuizzFieldsHomePage {
   title: EntryFieldTypes.Symbol;
   slug: EntryFieldTypes.Symbol;
   heroImage: EntryFieldTypes.AssetLink;
-  category: EntryFieldTypes.Symbol;
+  category: EntryFieldTypes.EntryLink<TypeCategorySkeleton>;
   rating: EntryFieldTypes.Number;
 }
 
@@ -57,6 +57,21 @@ export type TypeQuizzHomePageSkeleton = EntrySkeletonType<
   TypeQuizzFieldsHomePage,
   "quiz"
 >;
+
+export interface TypeCategoryFields {
+  name: EntryFieldTypes.Symbol;
+  color?: EntryFieldTypes.Symbol;
+  image?: EntryFieldTypes.AssetLink;
+}
+
+export type TypeCategorySkeleton = EntrySkeletonType<
+  TypeCategoryFields,
+  "category"
+>;
+export type TypeCategory<
+  Modifiers extends ChainModifiers,
+  Locales extends LocaleCode = LocaleCode
+> = Entry<TypeCategorySkeleton, Modifiers, Locales>;
 
 export type TypeQuizz<
   Modifiers extends ChainModifiers,

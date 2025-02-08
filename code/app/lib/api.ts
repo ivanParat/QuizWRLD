@@ -42,6 +42,7 @@ export const getQuizzes = unstable_cache(
             "fields.questions",
             "fields.rating",
           ],
+          include: 1,
         });
 
       return data.items;
@@ -68,6 +69,7 @@ export const getQuizzesHomePage = unstable_cache(
               "fields.category",
               "fields.rating",
             ],
+            include: 1,
           }
         );
 
