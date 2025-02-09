@@ -40,7 +40,6 @@ function processPage(page: Page, index: number, pathname: string) {
 
 export function Navigation() {
   const pathname = usePathname();
-  console.log(pathname);
   return (
     <ul className="flex justify-center space-x-4 mt-8">
       {pages.map((page, index) => processPage(page, index, pathname))}

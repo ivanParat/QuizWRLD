@@ -9,7 +9,6 @@ export default async function QuizPage({ params }: QuizParams) {
   const { id } = await params;
   const quiz = await getQuizBySlug(id);
 
-  console.log(id);
   if (!quiz) {
     return <div className="text-center mt-10 text-xl">Quiz not found</div>;
   }
