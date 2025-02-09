@@ -2,6 +2,7 @@
 import Image from "next/image";
 import { useState, useEffect } from "react";
 import { TypeCategory, TypeQuizzHomePage } from "./content-types";
+import { Key, Link } from "lucide-react";
 type HomeQuizzProps = {
   quizzes: TypeQuizzHomePage<"WITHOUT_UNRESOLVABLE_LINKS">[];
 };
@@ -113,45 +114,44 @@ function processQuizCard(
 ) {
   const imageUrl = `https:${quizCard.heroImage}`;
   return (
-    <div
-      key={index}
-      className="rounded-md overflow-hidden relative aspect-[1/1] lg:aspect-[4/3]"
-    >
-      <Image src={imageUrl} alt="Quiz image" fill className="object-cover" />
-      <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black flex flex-col justify-end px-1.5 py-1 text-white">
-        <div className="flex flex-col justify-between">
-          <div>
-            <h3 className="text-[14px] md:text-[15px] font-semibold">
-              {quizCard.title}
-            </h3>
-          </div>
-          <div className="flex justify-between">
-            <p className="text-[12px] md:text-[13px]">
-              {quizCard.category.name}
-            </p>
-            <div className="flex items-end">
-              <span className="flex">
-                {[1, 2, 3, 4, 5].map((i) => {
-                  const isFull =
-                    i <= Math.floor(quizCard.rating) ||
-                    (i === Math.floor(quizCard.rating) + 1 &&
-                      quizCard.rating % 1 >= 0.75);
-                  const isHalf =
-                    i === Math.floor(quizCard.rating) + 1 &&
-                    quizCard.rating % 1 >= 0.25;
-                  const filled = isFull ? "yes" : isHalf ? "half" : "no";
+    <a href={`/quiz/${quizCard.slug}`} key={index}>
+      <div className="rounded-md overflow-hidden relative aspect-[1/1] lg:aspect-[4/3]">
+        <Image src={imageUrl} alt="Quiz image" fill className="object-cover" />
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black flex flex-col justify-end px-1.5 py-1 text-white">
+          <div className="flex flex-col justify-between">
+            <div>
+              <h3 className="text-[14px] md:text-[15px] font-semibold">
+                {quizCard.title}
+              </h3>
+            </div>
+            <div className="flex justify-between">
+              <p className="text-[12px] md:text-[13px]">
+                {quizCard.category.name}
+              </p>
+              <div className="flex items-end">
+                <span className="flex">
+                  {[1, 2, 3, 4, 5].map((i) => {
+                    const isFull =
+                      i <= Math.floor(quizCard.rating) ||
+                      (i === Math.floor(quizCard.rating) + 1 &&
+                        quizCard.rating % 1 >= 0.75);
+                    const isHalf =
+                      i === Math.floor(quizCard.rating) + 1 &&
+                      quizCard.rating % 1 >= 0.25;
+                    const filled = isFull ? "yes" : isHalf ? "half" : "no";
 
-                  return <Star key={i} filled={filled} isMobile={isMobile} />;
-                })}
-              </span>
-              <span className="hidden  md:block text-[11px] md:text-[13px] ml-1.5 font-medium">
-                {quizCard.rating.toFixed(1)}
-              </span>
+                    return <Star key={i} filled={filled} isMobile={isMobile} />;
+                  })}
+                </span>
+                <span className="hidden  md:block text-[11px] md:text-[13px] ml-1.5 font-medium">
+                  {quizCard.rating.toFixed(1)}
+                </span>
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
+    </a>
   );
 }
 

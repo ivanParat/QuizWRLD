@@ -106,3 +106,32 @@ export const getCategories = unstable_cache(
   ["categories"],
   { revalidate: HOUR, tags: ["categories"] }
 );
+
+export const getQuizBySlug = async (slug: string) => {
+  try {
+    const data =
+      await client.withoutUnresolvableLinks.getEntries<TypeQuizzSkeleton>({
+        content_type: "quiz",
+        select: [
+          "fields.title",
+          "fields.slug",
+          "fields.description",
+          "fields.heroImage",
+          "fields.category",
+          "fields.questions",
+          "fields.rating",
+        ],
+        "fields.slug": slug,
+        include: 2,
+      });
+
+    if (!data.items.length) {
+      return null;
+    }
+
+    return data.items[0];
+  } catch (error) {
+    console.error(`Error fetching quiz with slug ${slug}:`, error);
+    return null;
+  }
+};
