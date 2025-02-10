@@ -28,6 +28,31 @@ export default async function QuizPage({ params }: QuizParams) {
       <p className="mt-4">
         {quiz.fields.description || "No description available."}
       </p>
+      {quiz.fields.questions.map((question) => {
+        if (!question) return null;
+        console.log(question);
+        return (
+          <div key={question.sys.id}>
+            <h3>{question.fields.title}</h3>
+            <ul>
+              {question.fields.answers.map((answer) => {
+                if (!answer) return null;
+
+                return (
+                  <li key={answer.sys.id}>
+                    {answer.fields.text}
+                    {answer.fields.isCorrect && " (Correct)"}
+                  </li>
+                );
+              })}
+            </ul>
+            <p>
+              Correct answer:{" "}
+              {question.fields.correctAnswer?.fields.text || "Not available"}
+            </p>
+          </div>
+        );
+      })}
     </main>
   );
 }
