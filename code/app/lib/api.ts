@@ -129,7 +129,23 @@ export const getQuizBySlug = async (slug: string) => {
       return null;
     }
 
-    return data.items[0];
+    const quiz = data.items[0];
+
+    const resolvedQuestions = quiz.fields.questions
+      ? quiz.fields.questions
+          .map((questionRef) => {
+            if (!questionRef || !questionRef.sys?.id) return null;
+            return data.includes?.Entry?.find(
+              (entry) => entry.sys.id === questionRef.sys.id
+            );
+          })
+          .filter(Boolean)
+      : [];
+
+    return {
+      ...quiz,
+      questions: resolvedQuestions,
+    };
   } catch (error) {
     console.error(`Error fetching quiz with slug ${slug}:`, error);
     return null;
