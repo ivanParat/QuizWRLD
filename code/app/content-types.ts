@@ -9,9 +9,11 @@ import type {
 export interface TypeAnswerFields {
   text: EntryFieldTypes.Symbol;
   isCorrect: EntryFieldTypes.Boolean;
+  associatedQuestion: EntryFieldTypes.EntryLink<TypeQuestionSkeleton>;
 }
 
 export type TypeAnswerSkeleton = EntrySkeletonType<TypeAnswerFields, "answer">;
+
 export type TypeAnswer<
   Modifiers extends ChainModifiers,
   Locales extends LocaleCode = LocaleCode
@@ -19,14 +21,15 @@ export type TypeAnswer<
 
 export interface TypeQuestionFields {
   title: EntryFieldTypes.Symbol;
-  description?: EntryFieldTypes.Text;
   answers: EntryFieldTypes.Array<EntryFieldTypes.EntryLink<TypeAnswerSkeleton>>;
+  correctAnswer: EntryFieldTypes.EntryLink<TypeAnswerSkeleton>;
 }
 
 export type TypeQuestionSkeleton = EntrySkeletonType<
   TypeQuestionFields,
   "question"
 >;
+
 export type TypeQuestion<
   Modifiers extends ChainModifiers,
   Locales extends LocaleCode = LocaleCode
@@ -53,6 +56,7 @@ export interface TypeQuizzFieldsHomePage {
 }
 
 export type TypeQuizzSkeleton = EntrySkeletonType<TypeQuizzFields, "quiz">;
+
 export type TypeQuizzHomePageSkeleton = EntrySkeletonType<
   TypeQuizzFieldsHomePage,
   "quiz"
@@ -68,6 +72,7 @@ export type TypeCategorySkeleton = EntrySkeletonType<
   TypeCategoryFields,
   "category"
 >;
+
 export type TypeCategory<
   Modifiers extends ChainModifiers,
   Locales extends LocaleCode = LocaleCode
