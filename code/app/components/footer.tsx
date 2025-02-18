@@ -1,10 +1,13 @@
 import Logo from "./logo";
 import Image from "next/image";
 import emailicon from "../assets/emailIcon.svg";
-import FacebookIcon from "../assets/FacebookIcon.svg";
-import LinkedinIcon from "../assets/LinkedinIcon.svg";
-import InstagramIcon from "../assets/InstagramIcon.svg";
-import YoutubeIcon from "../assets/YoutubeIcon.svg";
+import {
+  FaFacebookSquare,
+  FaLinkedin,
+  FaYoutubeSquare,
+  FaInstagramSquare,
+  FaPhone,
+} from "react-icons/fa";
 import Link from "next/link";
 
 type Page = {
@@ -32,38 +35,26 @@ const pages: Page[] = [
   },
 ];
 
-const socialIcons = [
-  { src: FacebookIcon, alt: "Facebook", href: "https://www.facebook.com" },
-  { src: YoutubeIcon, alt: "YouTube", href: "https://www.youtube.com" },
-  { src: LinkedinIcon, alt: "LinkedIn", href: "https://www.linkedin.com" },
-  { src: InstagramIcon, alt: "Instagram", href: "https://www.instagram.com" },
-];
-
-type SocialMediaIcons = {
-  src: string;
-  alt: string;
-  href: string;
-};
-
-const SocialLinks = ({ socialIcons }: { socialIcons: SocialMediaIcons[] }) => {
+const SocialLinks = () => {
   return (
-    <div className="flex gap-1 md:gap-3 mt-1">
-      {socialIcons.map((icon, index) => (
-        <a
-          href={icon.href}
-          key={index}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            src={icon.src}
-            alt={icon.alt}
-            className="md:w-full md:h-full w-10/12 h-10/12"
-          />
-        </a>
-      ))}
+    <div className="flex gap-1 md:gap-3 mt-1 h-9">
+      <Link href={"https://www.facebook.com"} className="h-full">
+        <FaFacebookSquare className="w-full h-full"/>
+      </Link>
+
+      <Link href={"https://www.youtube.com"} className="h-full">
+        <FaYoutubeSquare className="w-full h-full"/>
+      </Link>
+
+      <Link href={"https://www.linkedin.com"} className="h-full">
+        <FaLinkedin className="w-full h-full"/>
+      </Link>
+
+      <Link href={"https://www.instagram.com"} className="h-full">
+        <FaInstagramSquare className="w-full h-full"/>
+      </Link>
     </div>
-  );
+  )
 };
 
 const UsefulLinks = ({ pages }: { pages: Page[] }) => {
@@ -114,7 +105,7 @@ const Footer = () => {
             </a>
           </div>
           <div className="flex gap-3 mt-1">
-            <SocialLinks socialIcons={socialIcons}></SocialLinks>
+            <SocialLinks></SocialLinks>
           </div>
         </div>
 
