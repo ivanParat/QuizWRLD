@@ -30,6 +30,10 @@ const pages: Page[] = [
     path: "/about",
   },
   {
+    title: "Blog",
+    path: "/blog",
+  }, 
+  {
     title: "Sign in",
     path: "/login",
   },
@@ -38,19 +42,19 @@ const pages: Page[] = [
 const SocialLinks = () => {
   return (
     <div className="flex gap-1 md:gap-3 mt-1 h-9">
-      <Link href={"https://www.facebook.com"} className="h-full">
+      <Link href={"https://www.facebook.com"} className="h-full hover:text-brand-light active:text-brand-light">
         <FaFacebookSquare className="w-full h-full"/>
       </Link>
 
-      <Link href={"https://www.youtube.com"} className="h-full">
+      <Link href={"https://www.youtube.com"} className="h-full hover:text-brand-light active:text-brand-light">
         <FaYoutubeSquare className="w-full h-full"/>
       </Link>
 
-      <Link href={"https://www.linkedin.com"} className="h-full">
+      <Link href={"https://www.linkedin.com"} className="h-full hover:text-brand-light active:text-brand-light">
         <FaLinkedin className="w-full h-full"/>
       </Link>
 
-      <Link href={"https://www.instagram.com"} className="h-full">
+      <Link href={"https://www.instagram.com"} className="h-full hover:text-brand-light active:text-brand-light">
         <FaInstagramSquare className="w-full h-full"/>
       </Link>
     </div>
