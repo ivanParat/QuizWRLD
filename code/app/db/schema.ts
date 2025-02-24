@@ -5,12 +5,17 @@ import {
   boolean,
   timestamp,
   integer,
+  primaryKey,
 } from "drizzle-orm/pg-core";
 
-export const users = pgTable("users", {
+export const user = pgTable("user", {
   id: text("id").primaryKey(),
-  username: text("username").unique().notNull(),
-  createdAt: timestamp("created_at").notNull().defaultNow(),
+  name: text("name").notNull(),
+  email: text("email").notNull().unique(),
+  emailVerified: boolean("email_verified").notNull(),
+  image: text("image"),
+  createdAt: timestamp("created_at").notNull(),
+  updatedAt: timestamp("updated_at").notNull(),
 });
 
 export const categories = pgTable("categories", {
@@ -22,7 +27,7 @@ export const categories = pgTable("categories", {
 
 export const quizzes = pgTable("quizzes", {
   id: text("id").primaryKey(),
-  userId: text("user_id").references(() => users.id),
+  userId: text("user_id").references(() => user.id),
   title: text("title").notNull(),
   slug: text("slug").unique().notNull(),
   description: text("description"),
@@ -50,33 +55,25 @@ export const answers = pgTable("answers", {
   order: integer("order").notNull().default(1),
 });
 
-export const ratings = pgTable("ratings", {
-  userId: text("user_id").references(() => users.id),
-  quizId: text("quiz_id").references(() => quizzes.id),
-  value: integer("value").notNull(),
-  createdAt: timestamp("created_at").notNull().defaultNow(),
-  primaryKey: text("primary_key")
-    .notNull()
-    .default("PRIMARY KEY (user_id, quiz_id)"),
-});
+export const ratings = pgTable(
+  "ratings",
+  {
+    userId: text("user_id").references(() => user.id),
+    quizId: text("quiz_id").references(() => quizzes.id),
+    value: integer("value").notNull(),
+    createdAt: timestamp("created_at").notNull().defaultNow(),
+  },
+  (table) => [primaryKey({ columns: [table.quizId] })]
+);
 
-export const userQuizzes = pgTable("user_quizzes", {
-  userId: text("user_id").references(() => users.id),
-  quizId: text("quiz_id").references(() => quizzes.id),
-  primaryKey: text("primary_key")
-    .notNull()
-    .default("PRIMARY KEY (user_id, quiz_id)"),
-});
-
-export const user = pgTable("user", {
-  id: text("id").primaryKey(),
-  name: text("name").notNull(),
-  email: text("email").notNull().unique(),
-  emailVerified: boolean("email_verified").notNull(),
-  image: text("image"),
-  createdAt: timestamp("created_at").notNull(),
-  updatedAt: timestamp("updated_at").notNull(),
-});
+export const userQuizzes = pgTable(
+  "user_quizzes",
+  {
+    userId: text("user_id").references(() => user.id),
+    quizId: text("quiz_id").references(() => quizzes.id),
+  },
+  (table) => [primaryKey({ columns: [table.quizId] })]
+);
 
 export const session = pgTable("session", {
   id: text("id").primaryKey(),
