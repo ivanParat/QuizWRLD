@@ -91,7 +91,7 @@ export default function QuizzesSection({
 
   const visibleItems: QuizCard[] = isMobile ? quizCards.slice(0, 6) : quizCards;
   return (
-    <section className="mb-10 xl:mb-14 w-full flex flex-col items-center">
+    <section className="mt-6 mb-10 xl:mb-14 w-full flex flex-col items-center">
       <h2 className="text-center text-2xl md:text-3xl font-bold mb-6 xl:mb-8">
         {title}
       </h2>

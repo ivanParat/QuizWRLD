@@ -20,7 +20,6 @@ type SectionsProps = {
 
 function processCategoryCard(categoryCard: CategoryCard, index: number) {
   const imageUrl = `https:${categoryCard.image}`;
-  console.log(categoryCard.color);
   return (
     <div
       key={index}
