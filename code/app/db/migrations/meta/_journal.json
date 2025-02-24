@@ -8,6 +8,13 @@
       "when": 1740230270475,
       "tag": "0000_breezy_ultimatum",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1740404013842,
+      "tag": "0001_charming_silverclaw",
+      "breakpoints": true
     }
   ]
 }
