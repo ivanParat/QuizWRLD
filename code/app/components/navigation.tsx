@@ -3,8 +3,9 @@
 import Link from "next/link";
 import Logo from "./logo";
 import { cn } from "../lib/utils";
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { useClickOutside } from "../hooks/useClickOutside";
+import { useRouter, useSearchParams } from "next/navigation";
 
 type Page = {
   title: string;
@@ -62,14 +63,33 @@ function processPage(page: Page, index: number,  onClick?: () => void) {
 }
 
 function SearchBar(){
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const [input, setInput] = useState(searchParams.get("q") || "");
+  const handleSearch = () => {
+    router.push(input ? `/?q=${encodeURIComponent(input)}` : "/");
+  };
+
+  useEffect(() => {
+    if (!searchParams.get("q")) {
+      setInput("");
+    }
+  }, [searchParams]);
+
   return (
     <div className="hidden md:flex items-center bg-off-white rounded-lg px-2 py-1 md:w-32 lg:w-60 xl:w-80">
       <input
         type="text"
         placeholder="Search..."
         className="w-full px-2 outline-none text-main-text bg-off-white"
+        value={input}
+        onChange={(e) => setInput(e.target.value)}
+        onKeyDown={(e) => e.key === "Enter" && handleSearch()}
       />
-      <button className="ml-2 text-main-text hover:text-brand">
+      <button 
+        className="ml-2 text-main-text hover:text-brand"
+        onClick={handleSearch}
+      >
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="size-5">
           <path fillRule="evenodd" d="M9 3.5a5.5 5.5 0 1 0 0 11 5.5 5.5 0 0 0 0-11ZM2 9a7 7 0 1 1 12.452 4.391l3.328 3.329a.75.75 0 1 1-1.06 1.06l-3.329-3.328A7 7 0 0 1 2 9Z" clipRule="evenodd" />
         </svg>

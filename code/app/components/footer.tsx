@@ -6,7 +6,6 @@ import {
   FaLinkedin,
   FaYoutubeSquare,
   FaInstagramSquare,
-  FaPhone,
 } from "react-icons/fa";
 import Link from "next/link";
 
