@@ -156,21 +156,28 @@ export const getQuizBySlug = async (slug: string) => {
 };
 
 async function getQuizzes() {
-  const data = await db
-    .select({
-      id: quizzes.id,
-      title: quizzes.title,
-      slug: quizzes.slug,
-      heroImageUrl: quizzes.heroImageUrl,
-      category: sql<{ name: string }>`COALESCE(${categories.name}, 'Unknown')`,
-      rating: sql<number>`COALESCE(AVG(${ratings.value}), 0)`,
-    })
-    .from(quizzes)
-    .leftJoin(categories, eq(quizzes.categoryId, categories.id))
-    .leftJoin(ratings, eq(quizzes.id, ratings.quizId))
-    .groupBy(quizzes.id, categories.name);
+  try {
+    const data = await db
+      .select({
+        id: quizzes.id,
+        title: quizzes.title,
+        slug: quizzes.slug,
+        heroImageUrl: quizzes.heroImageUrl,
+        category: sql<{
+          name: string;
+        }>`COALESCE(${categories.name}, 'Unknown')`,
+        rating: sql<number>`COALESCE(AVG(${ratings.value}), 0)`,
+      })
+      .from(quizzes)
+      .leftJoin(categories, eq(quizzes.categoryId, categories.id))
+      .leftJoin(ratings, eq(quizzes.id, ratings.quizId))
+      .groupBy(quizzes.id, categories.name);
 
-  return data;
+    return data;
+  } catch (error) {
+    console.error("Error fetching quizzes:", error);
+    throw new Error("An error occurred while fetching quizzes.");
+  }
 }
 
 export const getAllQuizzes = unstable_cache(getQuizzes, ["quizzes"], {
