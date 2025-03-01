@@ -1,28 +1,33 @@
-"use client"
+"use client";
 
 import Image from "next/image";
-import {TypeQuizzHomePage} from "../content-types";
+import { TypeQuizzHomePage } from "../content-types";
 import Star from "./star";
 import useIsMobile from "../hooks/useIsMobile";
+import { InferSelectModel } from "drizzle-orm";
+import { quizzes } from "../db/schema";
 
-type HomeQuizzProps = {
-  quizzes: TypeQuizzHomePage<"WITHOUT_UNRESOLVABLE_LINKS">[];
-};
-
-type QuizCard = {
-  title: string;
-  slug: string;
+type Quiz = InferSelectModel<typeof quizzes>;
+type QuizCard = Pick<Quiz, "id" | "title" | "slug" | "heroImageUrl"> & {
   rating: number;
-  heroImage: string;
   category: { name: string };
 };
 
+// type QuizCard = {
+//   title: string;
+//   slug: string;
+//   rating: number;
+//   heroImage: string;
+//   category: { name: string };
+// };
+
 type QuizCardProps = {
   isMobile: boolean;
-}
+};
 
 type SectionsProps = {
   title: string;
+  quizzes: QuizCard[];
 };
 
 function processQuizCard(
@@ -30,11 +35,15 @@ function processQuizCard(
   index: number,
   { isMobile }: QuizCardProps
 ) {
-  const imageUrl = `https:${quizCard.heroImage}`;
   return (
     <a href={`/quiz/${quizCard.slug}`} key={index}>
       <div className="rounded-md overflow-hidden relative aspect-[1/1] lg:aspect-[4/3]">
-        <Image src={imageUrl} alt="Quiz image" fill className="object-cover" />
+        <Image
+          src={quizCard.heroImageUrl || "/images/placeholder.png"}
+          alt="Quiz image"
+          fill
+          className="object-cover"
+        />
         <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black flex flex-col justify-end px-1.5 py-1 text-white">
           <div className="flex flex-col justify-between">
             <div>
@@ -62,7 +71,11 @@ function processQuizCard(
                   })}
                 </span>
                 <span className="hidden  md:block text-[11px] md:text-[13px] ml-1.5 font-medium">
-                  {quizCard.rating.toFixed(1)}
+                  {isNaN(Number(quizCard.rating)) ||
+                  quizCard.rating === null ||
+                  quizCard.rating === undefined
+                    ? "0.0"
+                    : (parseFloat(quizCard.rating.toString()) || 0).toFixed(1)}
                 </span>
               </div>
             </div>
@@ -73,23 +86,10 @@ function processQuizCard(
   );
 }
 
-export default function QuizzesSection({
-  title,
-  quizzes,
-}: SectionsProps & HomeQuizzProps) {
+export default function QuizzesSection({ title, quizzes }: SectionsProps) {
   const isMobile = useIsMobile();
 
-  const quizCards: QuizCard[] = quizzes.map((quiz) => ({
-    title: quiz.fields.title,
-    slug: quiz.fields.slug,
-    rating: quiz.fields.rating,
-    heroImage: quiz.fields.heroImage?.fields?.file?.url || "/default-image.png",
-    category: {
-      name: quiz.fields.category?.fields?.name || "Unknown",
-    },
-  }));
-
-  const visibleItems: QuizCard[] = isMobile ? quizCards.slice(0, 6) : quizCards;
+  const visibleItems = isMobile ? quizzes.slice(0, 6) : quizzes;
   return (
     <section className="mt-6 mb-10 xl:mb-14 w-full flex flex-col items-center">
       <h2 className="text-center text-2xl md:text-3xl font-bold mb-6 xl:mb-8">

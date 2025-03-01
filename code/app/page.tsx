@@ -1,4 +1,4 @@
-import { getCategories, getQuizzesHomePage } from "./lib/api";
+import { getAllQuizzes, getCategories } from "./lib/api";
 import Image from "next/image";
 import Link from "next/link";
 import QuizzesSection from "./components/quizzesSection";
@@ -37,36 +37,45 @@ function HeroSection() {
   );
 }
 
-export default async function HomePage(
-  {searchParams,}: { searchParams: Promise<{ [key: string]: string | undefined }> }){
-  const quizzes = await getQuizzesHomePage();
+export default async function HomePage({
+  searchParams,
+}: {
+  searchParams: Promise<{ [key: string]: string | undefined }>;
+}) {
   const categories = await getCategories();
+  const quizzes = await getAllQuizzes();
 
-  const resolvedSearchParams = await searchParams; 
+  const resolvedSearchParams = await searchParams;
   const query = resolvedSearchParams.q || "";
 
   const filteredQuizzes = quizzes.filter((quiz) =>
-    quiz.fields.title.toLowerCase().includes(query.toLowerCase())
+    quiz.title.toLowerCase().includes(query.toLowerCase())
   );
   const filteredCategories = categories.filter((category) =>
     category.fields.name.toLowerCase().includes(query.toLowerCase())
   );
 
   return (
-      <main className="flex min-h-screen flex-col items-center">
-        {query? (
-          <>
-            <QuizzesSection quizzes={filteredQuizzes} title="Quizzes" />
-            <CategoriesSection categories={filteredCategories} title="Categories" />
-          </>
-        ) : (
-          <>
-            <HeroSection />
-            <div className="h-32 w-full bg-gradient-to-b from-off-white to-white"></div>
-            <QuizzesSection quizzes={quizzes} title="Popular Quizzes"/>
-            <CategoriesSection categories={categories} title="Popular Categories"/>
-          </>
-        )}
-      </main>
-    );
+    <main className="flex min-h-screen flex-col items-center">
+      {query ? (
+        <>
+          <QuizzesSection quizzes={filteredQuizzes} title="Quizzes" />
+          <CategoriesSection
+            categories={filteredCategories}
+            title="Categories"
+          />
+        </>
+      ) : (
+        <>
+          <HeroSection />
+          <div className="h-32 w-full bg-gradient-to-b from-off-white to-white"></div>
+          <QuizzesSection quizzes={quizzes} title="Popular Quizzes" />
+          <CategoriesSection
+            categories={categories}
+            title="Popular Categories"
+          />
+        </>
+      )}
+    </main>
+  );
 }
