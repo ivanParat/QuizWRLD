@@ -6,6 +6,9 @@ import {
   TypeQuizzHomePageSkeleton,
   TypeCategorySkeleton,
 } from "../content-types";
+import { db } from "../db/drizzle";
+import { categories, quizzes, ratings } from "../db/schema";
+import { eq, sql } from "drizzle-orm";
 
 const MINUTE = 60;
 const HOUR = 60 * MINUTE;
@@ -31,33 +34,33 @@ export const getMainNavigation = unstable_cache(
   { revalidate: HOUR, tags: ["navigation"] }
 );
 
-export const getQuizzes = unstable_cache(
-  async () => {
-    try {
-      const data =
-        await client.withoutUnresolvableLinks.getEntries<TypeQuizzSkeleton>({
-          content_type: "quiz",
-          select: [
-            "fields.title",
-            "fields.slug",
-            "fields.description",
-            "fields.heroImage",
-            "fields.category",
-            "fields.questions",
-            "fields.rating",
-          ],
-          include: 1,
-        });
+// export const getQuizzes = unstable_cache(
+//   async () => {
+//     try {
+//       const data =
+//         await client.withoutUnresolvableLinks.getEntries<TypeQuizzSkeleton>({
+//           content_type: "quiz",
+//           select: [
+//             "fields.title",
+//             "fields.slug",
+//             "fields.description",
+//             "fields.heroImage",
+//             "fields.category",
+//             "fields.questions",
+//             "fields.rating",
+//           ],
+//           include: 1,
+//         });
 
-      return data.items;
-    } catch (error) {
-      console.error("Error fetching quizzes:", error);
-      return [];
-    }
-  },
-  ["quizzes"],
-  { revalidate: HOUR, tags: ["quizzes"] }
-);
+//       return data.items;
+//     } catch (error) {
+//       console.error("Error fetching quizzes:", error);
+//       return [];
+//     }
+//   },
+//   ["quizzes"],
+//   { revalidate: HOUR, tags: ["quizzes"] }
+// );
 
 export const getQuizzesHomePage = unstable_cache(
   async () => {
@@ -151,3 +154,26 @@ export const getQuizBySlug = async (slug: string) => {
     return null;
   }
 };
+
+async function getQuizzes() {
+  const data = await db
+    .select({
+      id: quizzes.id,
+      title: quizzes.title,
+      slug: quizzes.slug,
+      heroImageUrl: quizzes.heroImageUrl,
+      category: sql<{ name: string }>`COALESCE(${categories.name}, 'Unknown')`,
+      rating: sql<number>`COALESCE(AVG(${ratings.value}), 0)`,
+    })
+    .from(quizzes)
+    .leftJoin(categories, eq(quizzes.categoryId, categories.id))
+    .leftJoin(ratings, eq(quizzes.id, ratings.quizId))
+    .groupBy(quizzes.id, categories.name);
+
+  return data;
+}
+
+export const getAllQuizzes = unstable_cache(getQuizzes, ["quizzes"], {
+  revalidate: HOUR,
+  tags: ["quizzes"],
+});
