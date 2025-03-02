@@ -7,8 +7,8 @@ import {
   TypeCategorySkeleton,
 } from "../content-types";
 import { db } from "../db/drizzle";
-import { categories, quizzes, ratings } from "../db/schema";
-import { eq, sql } from "drizzle-orm";
+import { answers, categories, questions, quizzes, ratings } from "../db/schema";
+import { eq, sql, and } from "drizzle-orm";
 
 const MINUTE = 60;
 const HOUR = 60 * MINUTE;
@@ -110,50 +110,50 @@ export const getCategories = unstable_cache(
   { revalidate: HOUR, tags: ["categories"] }
 );
 
-export const getQuizBySlug = async (slug: string) => {
-  try {
-    const data =
-      await client.withoutUnresolvableLinks.getEntries<TypeQuizzSkeleton>({
-        content_type: "quiz",
-        select: [
-          "fields.title",
-          "fields.slug",
-          "fields.description",
-          "fields.heroImage",
-          "fields.category",
-          "fields.questions",
-          "fields.rating",
-        ],
-        "fields.slug": slug,
-        include: 2,
-      });
+// export const getQuizBySlug = async (slug: string) => {
+//   try {
+//     const data =
+//       await client.withoutUnresolvableLinks.getEntries<TypeQuizzSkeleton>({
+//         content_type: "quiz",
+//         select: [
+//           "fields.title",
+//           "fields.slug",
+//           "fields.description",
+//           "fields.heroImage",
+//           "fields.category",
+//           "fields.questions",
+//           "fields.rating",
+//         ],
+//         "fields.slug": slug,
+//         include: 2,
+//       });
 
-    if (!data.items.length) {
-      return null;
-    }
+//     if (!data.items.length) {
+//       return null;
+//     }
 
-    const quiz = data.items[0];
+//     const quiz = data.items[0];
 
-    const resolvedQuestions = quiz.fields.questions
-      ? quiz.fields.questions
-          .map((questionRef) => {
-            if (!questionRef || !questionRef.sys?.id) return null;
-            return data.includes?.Entry?.find(
-              (entry) => entry.sys.id === questionRef.sys.id
-            );
-          })
-          .filter(Boolean)
-      : [];
+//     const resolvedQuestions = quiz.fields.questions
+//       ? quiz.fields.questions
+//           .map((questionRef) => {
+//             if (!questionRef || !questionRef.sys?.id) return null;
+//             return data.includes?.Entry?.find(
+//               (entry) => entry.sys.id === questionRef.sys.id
+//             );
+//           })
+//           .filter(Boolean)
+//       : [];
 
-    return {
-      ...quiz,
-      questions: resolvedQuestions,
-    };
-  } catch (error) {
-    console.error(`Error fetching quiz with slug ${slug}:`, error);
-    return null;
-  }
-};
+//     return {
+//       ...quiz,
+//       questions: resolvedQuestions,
+//     };
+//   } catch (error) {
+//     console.error(`Error fetching quiz with slug ${slug}:`, error);
+//     return null;
+//   }
+// };
 
 async function getQuizzes() {
   try {
@@ -184,3 +184,64 @@ export const getAllQuizzes = unstable_cache(getQuizzes, ["quizzes"], {
   revalidate: HOUR,
   tags: ["quizzes"],
 });
+
+export async function getQuizBySlug(slug: string) {
+  try {
+    console.log("Fetching quiz with slug:", slug); // Debugging line
+    const data = await db
+      .select({
+        id: quizzes.id,
+        title: quizzes.title,
+        slug: quizzes.slug,
+        description: quizzes.description,
+        heroImageUrl: quizzes.heroImageUrl,
+        category: categories.name,
+        rating: sql<number>`COALESCE(AVG(${ratings.value}), 0)`,
+        questions: sql<
+          {
+            id: string;
+            title: string;
+            order: number;
+            answers: {
+              id: string;
+              text: string;
+              isCorrect: boolean;
+              order: number;
+            }[];
+          }[]
+        >`COALESCE(JSON_AGG(
+          JSON_BUILD_OBJECT(
+            'id', ${questions.id},
+            'title', ${questions.title},
+            'order', ${questions.order},
+            'answers', COALESCE((
+              SELECT JSON_AGG(
+                JSON_BUILD_OBJECT(
+                  'id', ${answers.id},
+                  'text', ${answers.text},
+                  'isCorrect', ${answers.isCorrect},
+                  'order', ${answers.order}
+                )
+              ) FROM ${answers} WHERE ${answers.questionId} = ${questions.id}
+            ), '[]'::json)
+          )
+        ) FILTER (WHERE ${questions.id} IS NOT NULL), '[]'::json)`,
+      })
+      .from(quizzes)
+      .leftJoin(categories, eq(quizzes.categoryId, categories.id))
+      .leftJoin(ratings, eq(quizzes.id, ratings.quizId))
+      .leftJoin(questions, eq(quizzes.id, questions.quizId))
+      .where(and(eq(quizzes.slug, slug), eq(quizzes.published, true)))
+      .groupBy(quizzes.id, categories.name);
+
+    console.log("Query result:", data); // Debugging line
+    if (!data.length) {
+      return null;
+    }
+
+    return data[0];
+  } catch (error) {
+    console.error(`Error fetching quiz with slug ${slug}:`, error);
+    throw new Error("An error occurred while fetching the quiz.");
+  }
+}
