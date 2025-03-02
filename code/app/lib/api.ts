@@ -187,7 +187,6 @@ export const getAllQuizzes = unstable_cache(getQuizzes, ["quizzes"], {
 
 export async function getQuizBySlug(slug: string) {
   try {
-    console.log("Fetching quiz with slug:", slug); // Debugging line
     const data = await db
       .select({
         id: quizzes.id,
@@ -234,7 +233,6 @@ export async function getQuizBySlug(slug: string) {
       .where(and(eq(quizzes.slug, slug), eq(quizzes.published, true)))
       .groupBy(quizzes.id, categories.name);
 
-    console.log("Query result:", data); // Debugging line
     if (!data.length) {
       return null;
     }
