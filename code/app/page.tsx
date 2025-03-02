@@ -1,4 +1,4 @@
-import { getAllQuizzes, getCategories } from "./lib/api";
+import { getAllQuizzes, getAllCategories } from "./lib/api";
 import Image from "next/image";
 import Link from "next/link";
 import QuizzesSection from "./components/quizzesSection";
@@ -42,7 +42,7 @@ export default async function HomePage({
 }: {
   searchParams: Promise<{ [key: string]: string | undefined }>;
 }) {
-  const categories = await getCategories();
+  const categories = await getAllCategories();
   const quizzes = await getAllQuizzes();
 
   const resolvedSearchParams = await searchParams;
@@ -52,7 +52,7 @@ export default async function HomePage({
     quiz.title.toLowerCase().includes(query.toLowerCase())
   );
   const filteredCategories = categories.filter((category) =>
-    category.fields.name.toLowerCase().includes(query.toLowerCase())
+    category.name.toLowerCase().includes(query.toLowerCase())
   );
 
   return (

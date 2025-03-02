@@ -90,25 +90,25 @@ export const getQuizzesHomePage = unstable_cache(
   { revalidate: HOUR, tags: ["quizzes"] }
 );
 
-export const getCategories = unstable_cache(
-  async () => {
-    try {
-      const data =
-        await client.withoutUnresolvableLinks.getEntries<TypeCategorySkeleton>({
-          content_type: "category",
-          select: ["fields.name", "fields.color", "fields.image"],
-          include: 1,
-        });
+// export const getCategories = unstable_cache(
+//   async () => {
+//     try {
+//       const data =
+//         await client.withoutUnresolvableLinks.getEntries<TypeCategorySkeleton>({
+//           content_type: "category",
+//           select: ["fields.name", "fields.color", "fields.image"],
+//           include: 1,
+//         });
 
-      return data.items;
-    } catch (error) {
-      console.error("Error fetching categories:", error);
-      return [];
-    }
-  },
-  ["categories"],
-  { revalidate: HOUR, tags: ["categories"] }
-);
+//       return data.items;
+//     } catch (error) {
+//       console.error("Error fetching categories:", error);
+//       return [];
+//     }
+//   },
+//   ["categories"],
+//   { revalidate: HOUR, tags: ["categories"] }
+// );
 
 // export const getQuizBySlug = async (slug: string) => {
 //   try {
@@ -243,3 +243,26 @@ export async function getQuizBySlug(slug: string) {
     throw new Error("An error occurred while fetching the quiz.");
   }
 }
+
+async function getCategories() {
+  try {
+    const data = await db
+      .select({
+        id: categories.id,
+        name: categories.name,
+        color: categories.color,
+        imageUrl: categories.imageUrl,
+      })
+      .from(categories);
+
+    return data;
+  } catch (error) {
+    console.error("Error fetching categories:", error);
+    throw new Error("An error occurred while fetching categories.");
+  }
+}
+
+export const getAllCategories = unstable_cache(getCategories, ["categories"], {
+  revalidate: HOUR,
+  tags: ["categories"],
+});
