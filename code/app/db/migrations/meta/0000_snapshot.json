@@ -1,5 +1,5 @@
 {
-  "id": "1fb52d7b-48a7-429e-acbb-9f73c41c9756",
+  "id": "0f31502f-184a-4d9d-84e8-d0ecf9ce0545",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
@@ -115,14 +115,13 @@
       "columns": {
         "id": {
           "name": "id",
-          "type": "uuid",
+          "type": "text",
           "primaryKey": true,
-          "notNull": true,
-          "default": "gen_random_uuid()"
+          "notNull": true
         },
         "question_id": {
           "name": "question_id",
-          "type": "uuid",
+          "type": "text",
           "primaryKey": false,
           "notNull": false
         },
@@ -226,14 +225,13 @@
       "columns": {
         "id": {
           "name": "id",
-          "type": "uuid",
+          "type": "text",
           "primaryKey": true,
-          "notNull": true,
-          "default": "gen_random_uuid()"
+          "notNull": true
         },
         "quiz_id": {
           "name": "quiz_id",
-          "type": "uuid",
+          "type": "text",
           "primaryKey": false,
           "notNull": false
         },
@@ -286,14 +284,13 @@
       "columns": {
         "id": {
           "name": "id",
-          "type": "uuid",
+          "type": "text",
           "primaryKey": true,
-          "notNull": true,
-          "default": "gen_random_uuid()"
+          "notNull": true
         },
         "user_id": {
           "name": "user_id",
-          "type": "uuid",
+          "type": "text",
           "primaryKey": false,
           "notNull": false
         },
@@ -351,10 +348,10 @@
       },
       "indexes": {},
       "foreignKeys": {
-        "quizzes_user_id_users_id_fk": {
-          "name": "quizzes_user_id_users_id_fk",
+        "quizzes_user_id_user_id_fk": {
+          "name": "quizzes_user_id_user_id_fk",
           "tableFrom": "quizzes",
-          "tableTo": "users",
+          "tableTo": "user",
           "columnsFrom": [
             "user_id"
           ],
@@ -398,13 +395,13 @@
       "columns": {
         "user_id": {
           "name": "user_id",
-          "type": "uuid",
+          "type": "text",
           "primaryKey": false,
           "notNull": false
         },
         "quiz_id": {
           "name": "quiz_id",
-          "type": "uuid",
+          "type": "text",
           "primaryKey": false,
           "notNull": false
         },
@@ -420,21 +417,14 @@
           "primaryKey": false,
           "notNull": true,
           "default": "now()"
-        },
-        "primary_key": {
-          "name": "primary_key",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": true,
-          "default": "'PRIMARY KEY (user_id, quiz_id)'"
         }
       },
       "indexes": {},
       "foreignKeys": {
-        "ratings_user_id_users_id_fk": {
-          "name": "ratings_user_id_users_id_fk",
+        "ratings_user_id_user_id_fk": {
+          "name": "ratings_user_id_user_id_fk",
           "tableFrom": "ratings",
-          "tableTo": "users",
+          "tableTo": "user",
           "columnsFrom": [
             "user_id"
           ],
@@ -458,7 +448,14 @@
           "onUpdate": "no action"
         }
       },
-      "compositePrimaryKeys": {},
+      "compositePrimaryKeys": {
+        "ratings_quiz_id_pk": {
+          "name": "ratings_quiz_id_pk",
+          "columns": [
+            "quiz_id"
+          ]
+        }
+      },
       "uniqueConstraints": {},
       "policies": {},
       "checkConstraints": {},
@@ -616,30 +613,23 @@
       "columns": {
         "user_id": {
           "name": "user_id",
-          "type": "uuid",
+          "type": "text",
           "primaryKey": false,
           "notNull": false
         },
         "quiz_id": {
           "name": "quiz_id",
-          "type": "uuid",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "primary_key": {
-          "name": "primary_key",
           "type": "text",
           "primaryKey": false,
-          "notNull": true,
-          "default": "'PRIMARY KEY (user_id, quiz_id)'"
+          "notNull": false
         }
       },
       "indexes": {},
       "foreignKeys": {
-        "user_quizzes_user_id_users_id_fk": {
-          "name": "user_quizzes_user_id_users_id_fk",
+        "user_quizzes_user_id_user_id_fk": {
+          "name": "user_quizzes_user_id_user_id_fk",
           "tableFrom": "user_quizzes",
-          "tableTo": "users",
+          "tableTo": "user",
           "columnsFrom": [
             "user_id"
           ],
@@ -663,49 +653,15 @@
           "onUpdate": "no action"
         }
       },
-      "compositePrimaryKeys": {},
-      "uniqueConstraints": {},
-      "policies": {},
-      "checkConstraints": {},
-      "isRLSEnabled": false
-    },
-    "public.users": {
-      "name": "users",
-      "schema": "",
-      "columns": {
-        "id": {
-          "name": "id",
-          "type": "uuid",
-          "primaryKey": true,
-          "notNull": true,
-          "default": "gen_random_uuid()"
-        },
-        "username": {
-          "name": "username",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "created_at": {
-          "name": "created_at",
-          "type": "timestamp",
-          "primaryKey": false,
-          "notNull": true,
-          "default": "now()"
-        }
-      },
-      "indexes": {},
-      "foreignKeys": {},
-      "compositePrimaryKeys": {},
-      "uniqueConstraints": {
-        "users_username_unique": {
-          "name": "users_username_unique",
-          "nullsNotDistinct": false,
+      "compositePrimaryKeys": {
+        "user_quizzes_quiz_id_pk": {
+          "name": "user_quizzes_quiz_id_pk",
           "columns": [
-            "username"
+            "quiz_id"
           ]
         }
       },
+      "uniqueConstraints": {},
       "policies": {},
       "checkConstraints": {},
       "isRLSEnabled": false

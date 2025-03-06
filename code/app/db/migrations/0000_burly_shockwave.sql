@@ -15,8 +15,8 @@ CREATE TABLE "account" (
 );
 --> statement-breakpoint
 CREATE TABLE "answers" (
-	"id" uuid PRIMARY KEY DEFAULT gen_random_uuid() NOT NULL,
-	"question_id" uuid,
+	"id" text PRIMARY KEY NOT NULL,
+	"question_id" text,
 	"text" text NOT NULL,
 	"is_correct" boolean DEFAULT false NOT NULL,
 	"explanation" text,
@@ -32,16 +32,16 @@ CREATE TABLE "categories" (
 );
 --> statement-breakpoint
 CREATE TABLE "questions" (
-	"id" uuid PRIMARY KEY DEFAULT gen_random_uuid() NOT NULL,
-	"quiz_id" uuid,
+	"id" text PRIMARY KEY NOT NULL,
+	"quiz_id" text,
 	"title" text NOT NULL,
 	"order" integer DEFAULT 1 NOT NULL,
 	"created_at" timestamp DEFAULT now() NOT NULL
 );
 --> statement-breakpoint
 CREATE TABLE "quizzes" (
-	"id" uuid PRIMARY KEY DEFAULT gen_random_uuid() NOT NULL,
-	"user_id" uuid,
+	"id" text PRIMARY KEY NOT NULL,
+	"user_id" text,
 	"title" text NOT NULL,
 	"slug" text NOT NULL,
 	"description" text,
@@ -54,11 +54,11 @@ CREATE TABLE "quizzes" (
 );
 --> statement-breakpoint
 CREATE TABLE "ratings" (
-	"user_id" uuid,
-	"quiz_id" uuid,
+	"user_id" text,
+	"quiz_id" text,
 	"value" integer NOT NULL,
 	"created_at" timestamp DEFAULT now() NOT NULL,
-	"primary_key" text DEFAULT 'PRIMARY KEY (user_id, quiz_id)' NOT NULL
+	CONSTRAINT "ratings_quiz_id_pk" PRIMARY KEY("quiz_id")
 );
 --> statement-breakpoint
 CREATE TABLE "session" (
@@ -85,16 +85,9 @@ CREATE TABLE "user" (
 );
 --> statement-breakpoint
 CREATE TABLE "user_quizzes" (
-	"user_id" uuid,
-	"quiz_id" uuid,
-	"primary_key" text DEFAULT 'PRIMARY KEY (user_id, quiz_id)' NOT NULL
-);
---> statement-breakpoint
-CREATE TABLE "users" (
-	"id" uuid PRIMARY KEY DEFAULT gen_random_uuid() NOT NULL,
-	"username" text NOT NULL,
-	"created_at" timestamp DEFAULT now() NOT NULL,
-	CONSTRAINT "users_username_unique" UNIQUE("username")
+	"user_id" text,
+	"quiz_id" text,
+	CONSTRAINT "user_quizzes_quiz_id_pk" PRIMARY KEY("quiz_id")
 );
 --> statement-breakpoint
 CREATE TABLE "verification" (
@@ -109,10 +102,10 @@ CREATE TABLE "verification" (
 ALTER TABLE "account" ADD CONSTRAINT "account_user_id_user_id_fk" FOREIGN KEY ("user_id") REFERENCES "public"."user"("id") ON DELETE cascade ON UPDATE no action;--> statement-breakpoint
 ALTER TABLE "answers" ADD CONSTRAINT "answers_question_id_questions_id_fk" FOREIGN KEY ("question_id") REFERENCES "public"."questions"("id") ON DELETE no action ON UPDATE no action;--> statement-breakpoint
 ALTER TABLE "questions" ADD CONSTRAINT "questions_quiz_id_quizzes_id_fk" FOREIGN KEY ("quiz_id") REFERENCES "public"."quizzes"("id") ON DELETE no action ON UPDATE no action;--> statement-breakpoint
-ALTER TABLE "quizzes" ADD CONSTRAINT "quizzes_user_id_users_id_fk" FOREIGN KEY ("user_id") REFERENCES "public"."users"("id") ON DELETE no action ON UPDATE no action;--> statement-breakpoint
+ALTER TABLE "quizzes" ADD CONSTRAINT "quizzes_user_id_user_id_fk" FOREIGN KEY ("user_id") REFERENCES "public"."user"("id") ON DELETE no action ON UPDATE no action;--> statement-breakpoint
 ALTER TABLE "quizzes" ADD CONSTRAINT "quizzes_category_id_categories_id_fk" FOREIGN KEY ("category_id") REFERENCES "public"."categories"("id") ON DELETE no action ON UPDATE no action;--> statement-breakpoint
-ALTER TABLE "ratings" ADD CONSTRAINT "ratings_user_id_users_id_fk" FOREIGN KEY ("user_id") REFERENCES "public"."users"("id") ON DELETE no action ON UPDATE no action;--> statement-breakpoint
+ALTER TABLE "ratings" ADD CONSTRAINT "ratings_user_id_user_id_fk" FOREIGN KEY ("user_id") REFERENCES "public"."user"("id") ON DELETE no action ON UPDATE no action;--> statement-breakpoint
 ALTER TABLE "ratings" ADD CONSTRAINT "ratings_quiz_id_quizzes_id_fk" FOREIGN KEY ("quiz_id") REFERENCES "public"."quizzes"("id") ON DELETE no action ON UPDATE no action;--> statement-breakpoint
 ALTER TABLE "session" ADD CONSTRAINT "session_user_id_user_id_fk" FOREIGN KEY ("user_id") REFERENCES "public"."user"("id") ON DELETE cascade ON UPDATE no action;--> statement-breakpoint
-ALTER TABLE "user_quizzes" ADD CONSTRAINT "user_quizzes_user_id_users_id_fk" FOREIGN KEY ("user_id") REFERENCES "public"."users"("id") ON DELETE no action ON UPDATE no action;--> statement-breakpoint
+ALTER TABLE "user_quizzes" ADD CONSTRAINT "user_quizzes_user_id_user_id_fk" FOREIGN KEY ("user_id") REFERENCES "public"."user"("id") ON DELETE no action ON UPDATE no action;--> statement-breakpoint
 ALTER TABLE "user_quizzes" ADD CONSTRAINT "user_quizzes_quiz_id_quizzes_id_fk" FOREIGN KEY ("quiz_id") REFERENCES "public"."quizzes"("id") ON DELETE no action ON UPDATE no action;
