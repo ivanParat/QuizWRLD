@@ -3,11 +3,12 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { authClient } from "../lib/auth-client";
+import Link from "next/link";
 
 export default function SignUp() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [name, setName] = useState("");
+  const [username, setUsername] = useState("");
   const [loading, setLoading] = useState(false);
 
   const router = useRouter();
@@ -18,7 +19,7 @@ export default function SignUp() {
 
     try {
       await authClient.signUp.email(
-        { email, password, name },
+        { email, password, name: username },
         {
           onRequest: () => {},
           onSuccess: () => {
@@ -42,40 +43,52 @@ export default function SignUp() {
         <h2 className="text-center text-3xl font-extrabold text-gray-900">
           Create your account
         </h2>
-        <form className="mt-8 space-y-6" onSubmit={signUp}>
-          <div className="space-y-4">
+        <form
+          className="space-y-1 bg-background-form px-10 py-10 rounded-xl"
+          onSubmit={signUp}
+        >
+          <div>Username</div>
+          <div>
             <input
               type="text"
-              placeholder="Name"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              className="w-full px-3 py-2 border rounded-md"
+              placeholder="Username"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              className="w-full px-3 py-2  mb-3 border rounded-md"
               required
             />
+            <div>Email</div>
             <input
               type="email"
               placeholder="Email address"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="w-full px-3 py-2 border rounded-md"
+              className="w-full px-3 py-2 mb-3 border rounded-md"
               required
             />
+            <div>Password</div>
             <input
               type="password"
               placeholder="Password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="w-full px-3 py-2 border rounded-md"
+              className="w-full px-3 py-2  mb-3 border rounded-md"
               required
             />
           </div>
           <button
             type="submit"
             disabled={loading}
-            className="w-full py-2 px-4 bg-indigo-600 text-white rounded-md hover:bg-indigo-700"
+            className="w-28 py-2 px-4 bg-brand text-white rounded-md hover:bg-light"
           >
             {loading ? "Signing Up..." : "Sign Up"}
           </button>
+          <div className="text-secondary-text">
+            Already have an account?{" "}
+            <Link href="/signin" className="text-brand">
+              Sign In
+            </Link>
+          </div>
         </form>
       </div>
     </div>
