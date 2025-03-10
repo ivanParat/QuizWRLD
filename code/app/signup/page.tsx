@@ -85,7 +85,7 @@ export default function SignUp() {
           </button>
           <div className="text-secondary-text">
             Already have an account?{" "}
-            <Link href="/signin" className="text-brand">
+            <Link href="/login" className="text-brand">
               Sign In
             </Link>
           </div>
