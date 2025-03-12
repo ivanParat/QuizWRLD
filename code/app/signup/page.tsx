@@ -10,6 +10,7 @@ export default function SignUp() {
   const [password, setPassword] = useState("");
   const [username, setUsername] = useState("");
   const [loading, setLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
 
   const router = useRouter();
 
@@ -26,7 +27,7 @@ export default function SignUp() {
             router.replace("/");
           },
           onError: (ctx) => {
-            alert(ctx.error.message);
+            setErrorMessage(ctx.error.message);
           },
         }
       );
@@ -76,10 +77,13 @@ export default function SignUp() {
               required
             />
           </div>
+          {errorMessage && (
+            <div className="text-red-500 text-sm">{errorMessage}</div>
+          )}
           <button
             type="submit"
             disabled={loading}
-            className="w-28 sm:py-2 sm:px-4 py-2 px-1 !mb-3 bg-brand text-white rounded-md hover:bg-light"
+            className="w-32 sm:py-2 sm:px-4 py-2 px-1 !mb-3 bg-brand text-white rounded-md hover:bg-light"
           >
             {loading ? "Signing Up..." : "Sign Up"}
           </button>
