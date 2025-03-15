@@ -56,7 +56,7 @@ function Answer({ color, text }: AnswerProps) {
 
 export default function QuestionCard(){
   return(
-    <div className="flex flex-col bg-[#E0E6EC] rounded-md w-19/20 md:w-[644px] px-[30px] pt-[15px] drop-shadow-md">
+    <div className="flex flex-col bg-background-form rounded-md w-19/20 md:w-[644px] px-[30px] pt-[15px] drop-shadow-md">
       <div className="flex justify-between items-center mb-[15px]">
         <span className="text-main-text">
           Question 2 of 10

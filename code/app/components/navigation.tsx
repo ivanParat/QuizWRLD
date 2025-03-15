@@ -31,7 +31,7 @@ const pages: Page[] = [
     path: "/blog",
   }, 
   {
-    title: "Sign in",
+    title: "Log in",
     path: "/login",
   },
 ];
@@ -45,7 +45,7 @@ function processPage(page: Page, index: number,  onClick?: () => void) {
           onClick={onClick}
           className="font-bold md:ml-1 lg:ml-3 xl:ml-5"
         >
-          <button className="bg-brand text-white px-5 py-1 rounded-md hover:bg-brand-hover active:bg-brand-hover">
+          <button className="bg-brand text-white px-6 py-1 rounded-md hover:bg-brand-hover active:bg-brand-hover">
             {page.title}
           </button>
         </Link>

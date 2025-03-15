@@ -33,7 +33,7 @@ const pages: Page[] = [
     path: "/blog",
   }, 
   {
-    title: "Sign in",
+    title: "Log in",
     path: "/login",
   },
 ];
@@ -87,7 +87,7 @@ const Footer = () => {
         </div>
         <Link href="/login">
           <button className="bg-brand-light text-brand-dark w-24 rounded-md p-1 font-bold mt-1 hover:bg-brand-hover active:bg-brand-hover">
-            Sign in
+            Sign up
           </button>
         </Link>
       </div>
