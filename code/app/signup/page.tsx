@@ -39,41 +39,41 @@ export default function SignUp() {
   };
 
   return (
-    <div className="flex flex-1 items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+    <main className="min-h-screen flex flex-1 justify-center bg-off-white py-10 md:py-16 px-4 sm:px-6 lg:px-8">
       <div className="max-w-md w-full space-y-8">
-        <h2 className="text-center sm:text-3xl text-2xl font-extrabold text-gray-900">
+        <h2 className="text-center sm:text-3xl text-2xl font-bold">
           Create your account
         </h2>
         <form
-          className="space-y-1 bg-background-form px-10 py-10 rounded-xl"
+          className="space-y-3 bg-background-form px-4 py-6 md:px-8 md:py-8 rounded-md drop-shadow-md"
           onSubmit={signUp}
         >
-          <div className="sm:text-base text-sm">Username</div>
           <div>
+          <div className="text-lg">Username</div>
             <input
               type="text"
               placeholder="Username"
               value={username}
               onChange={(e) => setUsername(e.target.value)}
-              className="w-full sm:px-3 sm:py-2 px-2 py-1 sm:mb-3 mb-6 border rounded-md"
+              className="w-full px-2 sm:px-3 py-2 mb-3 border rounded-md bg-off-white drop-shadow-sm"
               required
             />
-            <div className="sm:text-base text-sm">Email</div>
+            <div className="text-lg">Email</div>
             <input
               type="email"
               placeholder="Email address"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="w-full sm:px-3 sm:py-2 px-2 py-1 sm:mb-3 mb-6 border rounded-md"
+              className="w-full px-2 sm:px-3 py-2 mb-3 border rounded-md bg-off-white drop-shadow-sm"
               required
             />
-            <div className="sm:text-base text-sm">Password</div>
+            <div className="text-lg">Password</div>
             <input
               type="password"
               placeholder="Password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="w-full sm:px-3 sm:py-2 px-2 py-1 sm:mb-3 mb-6 border rounded-md"
+              className="w-full px-2 sm:px-3 py-2 mb-3 border rounded-md bg-off-white drop-shadow-sm"
               required
             />
           </div>
@@ -83,18 +83,18 @@ export default function SignUp() {
           <button
             type="submit"
             disabled={loading}
-            className="w-32 sm:py-2 sm:px-4 py-2 px-1 !mb-3 bg-brand text-white rounded-md hover:bg-light"
+            className="bg-brand text-white px-7 py-1.5 rounded-md hover:bg-brand-hover active:bg-brand-hover font-bold drop-shadow-sm"
           >
             {loading ? "Signing Up..." : "Sign Up"}
           </button>
-          <div className="text-secondary-text sm:text-base text-sm">
+          <div className="text-secondary-text text-base">
             Already have an account?{" "}
             <Link href="/login" className="text-brand">
-              Sign In
+              Log In
             </Link>
           </div>
         </form>
       </div>
-    </div>
+    </main>
   );
 }
