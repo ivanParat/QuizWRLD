@@ -5,6 +5,7 @@ import {
   TypeQuizzSkeleton,
   TypeQuizzHomePageSkeleton,
   TypeCategorySkeleton,
+  TypeAboutUsSkeleton,
 } from "../content-types";
 import { db } from "../db/drizzle";
 import { answers, categories, questions, quizzes, ratings } from "../db/schema";
@@ -266,3 +267,51 @@ export const getAllCategories = unstable_cache(getCategories, ["categories"], {
   revalidate: HOUR,
   tags: ["categories"],
 });
+export const getAboutUs = unstable_cache(
+  async (): Promise<{
+    title1: string;
+    description1: string;
+    image1: string | null;
+    title2: string;
+    description2: string;
+    image2: string | null;
+  } | null> => {
+    try {
+      const data =
+        await client.withoutUnresolvableLinks.getEntries<TypeAboutUsSkeleton>({
+          content_type: "aboutUs",
+          select: [
+            "fields.title1",
+            "fields.description1",
+            "fields.image1",
+            "fields.title2",
+            "fields.description2",
+            "fields.image2",
+          ],
+          include: 1,
+        });
+
+      if (!data.items.length) return null;
+
+      const aboutUs = data.items[0].fields;
+
+      return {
+        title1: aboutUs.title1,
+        description1: aboutUs.description1,
+        image1: aboutUs.image1?.fields?.file?.url
+          ? `https:${aboutUs.image1.fields.file.url}`
+          : null,
+        title2: aboutUs.title2,
+        description2: aboutUs.description2,
+        image2: aboutUs.image2?.fields?.file?.url
+          ? `https:${aboutUs.image2.fields.file.url}`
+          : null,
+      };
+    } catch (error) {
+      console.error("Error fetching About Us content:", error);
+      return null;
+    }
+  },
+  ["aboutUs"],
+  { revalidate: HOUR, tags: ["aboutUs"] }
+);
