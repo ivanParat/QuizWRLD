@@ -68,6 +68,15 @@ export interface TypeCategoryFields {
   image?: EntryFieldTypes.AssetLink;
 }
 
+export interface TypeAboutUsFields {
+  title1: EntryFieldTypes.Symbol;
+  description1: EntryFieldTypes.Text;
+  image1: EntryFieldTypes.AssetLink;
+  title2: EntryFieldTypes.Symbol;
+  description2: EntryFieldTypes.Text;
+  image2: EntryFieldTypes.AssetLink;
+}
+
 export type TypeCategorySkeleton = EntrySkeletonType<
   TypeCategoryFields,
   "category"
@@ -87,3 +96,13 @@ export type TypeQuizzHomePage<
   Modifiers extends ChainModifiers,
   Locales extends LocaleCode = LocaleCode
 > = Entry<TypeQuizzHomePageSkeleton, Modifiers, Locales>;
+
+export type TypeAboutUsSkeleton = EntrySkeletonType<
+  TypeAboutUsFields,
+  "aboutUs"
+>;
+
+export type TypeAboutUs<
+  Modifiers extends ChainModifiers,
+  Locales extends LocaleCode = LocaleCode
+> = Entry<TypeAboutUsSkeleton, Modifiers, Locales>;
