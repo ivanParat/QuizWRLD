@@ -1,5 +1,7 @@
 import { getQuizBySlug } from "@/app/lib/api";
 import Image from "next/image";
+import Link from "next/link";
+import QuizClient from "../components/quizClient";
 
 type QuizParams = {
   params: Promise<{ id: string }>;
@@ -10,41 +12,25 @@ export default async function QuizPage({ params }: QuizParams) {
   const quiz = await getQuizBySlug(id);
 
   if (!quiz) {
-    return <div className="text-center mt-10 text-xl">Quiz not found</div>;
+    return (
+      <main className="min-h-screen flex flex-col items-center pt-52 px-4 bg-off-white">
+        <div className="space-y-4 flex flex-col">
+          <div className="text-center text-2xl font-medium text-main-text">❌ Oops! This quiz must have disappeared into the trivia abyss.</div>
+          <div className="text-center text-2xl font-medium text-main-text">🔍 Maybe try searching for another quiz!</div>
+        </div>
+        <Link href={"/discover-quizzes"}>
+          <button className="bg-brand text-white px-7 py-1.5 rounded-md hover:bg-brand-hover active:bg-brand-hover font-bold drop-shadow-sm mt-12 text-lg">
+            Try another quiz
+          </button>
+        </Link>
+      </main>
+    );
   }
 
   return (
-    <main className="flex flex-col items-center p-5">
-      <h1 className="text-3xl font-bold mb-4">{quiz.title}</h1>
-      <Image
-        src={`${quiz.heroImageUrl || "/default-image.png"}`}
-        alt={quiz.title}
-        width={600}
-        height={400}
-        className="rounded-md"
-      />
-      <p className="mt-4">{quiz.description || "No description available."}</p>
-      {quiz.questions.map((question) => {
-        if (!question) return null;
-        console.log(question);
-        return (
-          <div key={question.id}>
-            <h3>{question.title}</h3>
-            <ul>
-              {question.answers.map((answer) => {
-                if (!answer) return null;
-
-                return (
-                  <li key={answer.id}>
-                    {answer.text}
-                    {answer.isCorrect && " (Correct)"}
-                  </li>
-                );
-              })}
-            </ul>
-          </div>
-        );
-      })}
+    <main className="min-h-screen flex flex-col items-center pt-10 px-4 bg-off-white">
+      <h1 className="text-2xl font-medium mb-10">{quiz.title}</h1>
+      <QuizClient quiz={quiz}/>
     </main>
   );
 }
