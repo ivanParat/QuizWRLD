@@ -168,12 +168,5 @@ export function FinalBox({score, nOfQuestions}: {score: number, nOfQuestions: nu
           </button>
         </div>
     </div>
-    // <div className="text-center mt-6">
-    //   <h2 className="text-2xl font-bold">Quiz Complete! 🎉</h2>
-    //   <p className="mt-2 text-lg">Your Score: {score} / {nOfQuestions}</p>
-    //   <button className="bg-brand text-white px-6 py-2 rounded-md mt-4" onClick={() => window.location.reload()}>
-    //     Play Again
-    //   </button>
-    // </div>
   );
 }
