@@ -1,6 +1,7 @@
 import { getQuizBySlug } from "@/app/lib/api";
 import Image from "next/image";
 import Link from "next/link";
+import QuizClient from "../components/quizClient";
 
 type QuizParams = {
   params: Promise<{ id: string }>;
@@ -28,39 +29,8 @@ export default async function QuizPage({ params }: QuizParams) {
 
   return (
     <main className="min-h-screen flex flex-col items-center pt-10 px-4 bg-off-white">
-      <h1 className="text-3xl font-bold mb-4">{quiz.title}</h1>
-      <Image
-        src={`${quiz.heroImageUrl || "/default-image.png"}`}
-        alt={quiz.title}
-        width={500}
-        height={400}
-        className="rounded-md"
-      />
-      <p className="mt-4">{quiz.description || "No description available."}</p>
-      {/* {quiz.questions.map((question) => {
-        if (!question) return null;
-        console.log(question);
-        return (
-          <div key={question.id}>
-            <h3>{question.title}</h3>
-            <ul>
-              {question.answers.map((answer) => {
-                if (!answer) return null;
-
-                return (
-                  <li key={answer.id}>
-                    {answer.text}
-                    {answer.isCorrect && " (Correct)"}
-                  </li>
-                );
-              })}
-            </ul>
-          </div>
-        );
-      })} */}
-      <button className="bg-brand text-white px-10 py-1.5 rounded-md hover:bg-brand-hover active:bg-brand-hover font-bold drop-shadow-sm mt-12 text-lg">
-        Begin
-      </button>
+      <h1 className="text-2xl font-medium mb-10">{quiz.title}</h1>
+      <QuizClient quiz={quiz}/>
     </main>
   );
 }
