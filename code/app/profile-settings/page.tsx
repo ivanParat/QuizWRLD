@@ -1,8 +1,8 @@
 "use client";
 import { useRouter } from "next/navigation";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { authClient } from "../lib/auth-client";
-import DeleteAccountModal from "./components/DeleteAccountModal"; // Import the modal
+import DeleteAccountModal from "./components/DeleteAccountModal";
 
 const ProfileUpdateForm = () => {
   const [currentPassword, setCurrentPassword] = useState("");
@@ -13,7 +13,25 @@ const ProfileUpdateForm = () => {
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
   const router = useRouter();
-  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false); // State for modal
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [profileImageUrl, setProfileImageUrl] = useState<string | null>(null);
+
+  useEffect(() => {
+    const fetchProfileImage = async () => {
+      try {
+        const response = await fetch("/api/auth/user/profile-image");
+        const result = await response.json();
+
+        if (response.ok && result.imageUrl) {
+          setProfileImageUrl(result.imageUrl);
+        }
+      } catch (error) {
+        console.error("Error fetching profile image:", error);
+      }
+    };
+
+    fetchProfileImage();
+  }, []);
 
   const handleUsernameChange = async (
     e: React.MouseEvent<HTMLButtonElement>
@@ -185,6 +203,18 @@ const ProfileUpdateForm = () => {
     <div className="max-w-md mx-auto mt-8 p-6 bg-white rounded-xl shadow-md">
       <h2 className="text-2xl font-bold mb-4">Edit Profile</h2>
 
+      <label className="block font-medium">Profile Picture</label>
+      {profileImageUrl ? (
+        <img
+          src={profileImageUrl}
+          alt="Profile"
+          className="w-24 h-24 rounded-full object-cover mb-4"
+        />
+      ) : (
+        <div className="w-24 h-24 rounded-full bg-gray-200 mb-4 flex items-center justify-center">
+          <span className="text-gray-500">No Image</span>
+        </div>
+      )}
       <div className="mb-4">
         <label className="block font-medium">Username</label>
         <input
