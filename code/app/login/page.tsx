@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { authClient } from "../lib/auth-client";
 import Link from "next/link";
 
@@ -12,6 +12,7 @@ export default function Login() {
   const [errorMessage, setErrorMessage] = useState("");
 
   const router = useRouter();
+  const searchParams = useSearchParams();
 
   const login = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -23,7 +24,16 @@ export default function Login() {
         {
           onRequest: () => {},
           onSuccess: () => {
-            router.replace("/");
+            const redirectTo = searchParams.get("redirectTo");
+            const decodedRedirectTo = redirectTo
+              ? decodeURIComponent(redirectTo)
+              : "/";
+
+            if (decodedRedirectTo.includes("/login")) {
+              router.push("/");
+            } else {
+              router.push(decodedRedirectTo);
+            }
           },
           onError: (ctx) => {
             setErrorMessage(ctx.error.message);

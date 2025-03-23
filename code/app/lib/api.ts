@@ -35,34 +35,6 @@ export const getMainNavigation = unstable_cache(
   { revalidate: HOUR, tags: ["navigation"] }
 );
 
-// export const getQuizzes = unstable_cache(
-//   async () => {
-//     try {
-//       const data =
-//         await client.withoutUnresolvableLinks.getEntries<TypeQuizzSkeleton>({
-//           content_type: "quiz",
-//           select: [
-//             "fields.title",
-//             "fields.slug",
-//             "fields.description",
-//             "fields.heroImage",
-//             "fields.category",
-//             "fields.questions",
-//             "fields.rating",
-//           ],
-//           include: 1,
-//         });
-
-//       return data.items;
-//     } catch (error) {
-//       console.error("Error fetching quizzes:", error);
-//       return [];
-//     }
-//   },
-//   ["quizzes"],
-//   { revalidate: HOUR, tags: ["quizzes"] }
-// );
-
 export const getQuizzesHomePage = unstable_cache(
   async () => {
     try {
@@ -90,71 +62,6 @@ export const getQuizzesHomePage = unstable_cache(
   ["quizzes"],
   { revalidate: HOUR, tags: ["quizzes"] }
 );
-
-// export const getCategories = unstable_cache(
-//   async () => {
-//     try {
-//       const data =
-//         await client.withoutUnresolvableLinks.getEntries<TypeCategorySkeleton>({
-//           content_type: "category",
-//           select: ["fields.name", "fields.color", "fields.image"],
-//           include: 1,
-//         });
-
-//       return data.items;
-//     } catch (error) {
-//       console.error("Error fetching categories:", error);
-//       return [];
-//     }
-//   },
-//   ["categories"],
-//   { revalidate: HOUR, tags: ["categories"] }
-// );
-
-// export const getQuizBySlug = async (slug: string) => {
-//   try {
-//     const data =
-//       await client.withoutUnresolvableLinks.getEntries<TypeQuizzSkeleton>({
-//         content_type: "quiz",
-//         select: [
-//           "fields.title",
-//           "fields.slug",
-//           "fields.description",
-//           "fields.heroImage",
-//           "fields.category",
-//           "fields.questions",
-//           "fields.rating",
-//         ],
-//         "fields.slug": slug,
-//         include: 2,
-//       });
-
-//     if (!data.items.length) {
-//       return null;
-//     }
-
-//     const quiz = data.items[0];
-
-//     const resolvedQuestions = quiz.fields.questions
-//       ? quiz.fields.questions
-//           .map((questionRef) => {
-//             if (!questionRef || !questionRef.sys?.id) return null;
-//             return data.includes?.Entry?.find(
-//               (entry) => entry.sys.id === questionRef.sys.id
-//             );
-//           })
-//           .filter(Boolean)
-//       : [];
-
-//     return {
-//       ...quiz,
-//       questions: resolvedQuestions,
-//     };
-//   } catch (error) {
-//     console.error(`Error fetching quiz with slug ${slug}:`, error);
-//     return null;
-//   }
-// };
 
 async function getQuizzes() {
   try {
