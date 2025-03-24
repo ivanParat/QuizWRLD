@@ -171,7 +171,7 @@ const ProfileUpdateForm = () => {
 
   const handleDeleteAccount = async (password: string) => {
     try {
-      const response = await fetch("/api/auth/user/delete-account", {
+      const response = await fetch("/api/auth/user/delete-user", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
