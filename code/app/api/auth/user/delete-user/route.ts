@@ -1,6 +1,7 @@
 import { auth } from "@/app/lib/auth";
 import { headers } from "next/headers";
 import { NextResponse } from "next/server";
+import { authClient } from "@/app/lib/auth-client";
 import supabase from "@/app/lib/supabase";
 
 export async function POST(req: Request) {
@@ -11,152 +12,54 @@ export async function POST(req: Request) {
 
     if (!session) {
       return NextResponse.json(
-        { error: "Unauthorized: You must be logged in to delete your account" },
+        { error: "Unauthorized: No active session" },
         { status: 401 }
       );
     }
 
     const { password } = await req.json();
 
-    const { error: passwordError } = await supabase.auth.signInWithPassword({
-      email: session.user.email,
-      password: password,
+    if (!password) {
+      return NextResponse.json(
+        { error: "Password is required" },
+        { status: 400 }
+      );
+    }
+
+    const { error: signInError } = await authClient.signIn.email({
+      email: session.user.email!,
+      password,
     });
-    const userId = session.user.id;
 
-    const { data: userQuizzes, error: quizzesError } = await supabase
-      .from("quizzes")
-      .select("id")
-      .eq("user_id", userId);
+    if (signInError) {
+      console.error("Password verification failed:", signInError);
+      return NextResponse.json({ error: "Invalid password" }, { status: 401 });
+    }
 
-    if (quizzesError) {
+    // 3. Execute atomic deletion through PostgreSQL RPC call
+    const { error: deletionError } = await supabase.rpc("delete_user_data", {
+      p_user_id: session.user.id, // Make sure you use p_user_id here
+    });
+
+    if (deletionError) {
+      console.error("Database deletion failed:", deletionError);
       return NextResponse.json(
-        { error: "Failed to fetch user quizzes" },
+        { error: deletionError.message || "Account deletion failed" },
         { status: 400 }
       );
     }
 
-    const quizIds = userQuizzes.map((quiz) => quiz.id);
-
-    const { data: userQuestions, error: questionsError } = await supabase
-      .from("questions")
-      .select("id")
-      .in("quiz_id", quizIds);
-
-    if (questionsError) {
-      return NextResponse.json(
-        { error: "Failed to fetch user questions" },
-        { status: 400 }
-      );
-    }
-
-    const questionIds = userQuestions.map((question) => question.id);
-
-    const { error: answersError } = await supabase
-      .from("answers")
-      .delete()
-      .in("question_id", questionIds);
-
-    if (answersError) {
-      return NextResponse.json(
-        { error: "Failed to delete user answers" },
-        { status: 400 }
-      );
-    }
-
-    const { error: questionsDeleteError } = await supabase
-      .from("questions")
-      .delete()
-      .in("quiz_id", quizIds);
-
-    if (questionsDeleteError) {
-      return NextResponse.json(
-        { error: "Failed to delete user questions" },
-        { status: 400 }
-      );
-    }
-
-    const { error: ratingsError } = await supabase
-      .from("ratings")
-      .delete()
-      .eq("user_id", userId);
-
-    if (ratingsError) {
-      return NextResponse.json(
-        { error: "Failed to delete user ratings" },
-        { status: 400 }
-      );
-    }
-
-    const { error: userQuizzesError } = await supabase
-      .from("userQuizzes")
-      .delete()
-      .eq("user_id", userId);
-
-    if (userQuizzesError) {
-      return NextResponse.json(
-        { error: "Failed to delete user quizzes associations" },
-        { status: 400 }
-      );
-    }
-    const { error: quizzesDeleteError } = await supabase
-      .from("quizzes")
-      .delete()
-      .eq("user_id", userId);
-
-    if (quizzesDeleteError) {
-      return NextResponse.json(
-        { error: "Failed to delete user quizzes" },
-        { status: 400 }
-      );
-    }
-
-    const { error: sessionsError } = await supabase
-      .from("session")
-      .delete()
-      .eq("user_id", userId);
-
-    if (sessionsError) {
-      return NextResponse.json(
-        { error: "Failed to delete user sessions" },
-        { status: 400 }
-      );
-    }
-
-    const { error: accountsError } = await supabase
-      .from("account")
-      .delete()
-      .eq("user_id", userId);
-
-    if (accountsError) {
-      return NextResponse.json(
-        { error: "Failed to delete user accounts" },
-        { status: 400 }
-      );
-    }
-
-    const { error: deleteUserError } = await supabase
-      .from("user")
-      .delete()
-      .eq("id", userId);
-
-    if (deleteUserError) {
-      return NextResponse.json(
-        { error: "Failed to delete user account" },
-        { status: 400 }
-      );
-    }
-
+    // 4. Sign out the user after successful deletion
     await auth.api.signOut({
       headers: await headers(),
     });
 
     return NextResponse.json(
-      { success: "Account and all associated data deleted successfully!" },
+      { success: true, message: "Account deleted successfully" },
       { status: 200 }
     );
   } catch (error) {
-    console.error("Error deleting account:", error);
+    console.error("Account deletion error:", error);
     return NextResponse.json(
       { error: "Internal server error" },
       { status: 500 }
