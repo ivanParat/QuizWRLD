@@ -36,9 +36,8 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: "Invalid password" }, { status: 401 });
     }
 
-    // 3. Execute atomic deletion through PostgreSQL RPC call
     const { error: deletionError } = await supabase.rpc("delete_user_data", {
-      p_user_id: session.user.id, // Make sure you use p_user_id here
+      p_user_id: session.user.id,
     });
 
     if (deletionError) {
@@ -49,7 +48,6 @@ export async function POST(req: Request) {
       );
     }
 
-    // 4. Sign out the user after successful deletion
     await auth.api.signOut({
       headers: await headers(),
     });
