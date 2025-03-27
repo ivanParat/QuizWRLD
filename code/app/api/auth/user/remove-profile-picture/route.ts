@@ -3,7 +3,7 @@ import { headers } from "next/headers";
 import { NextResponse } from "next/server";
 import supabase from "@/app/lib/supabase";
 
-export async function POST(req: Request) {
+export async function POST() {
   try {
     const session = await auth.api.getSession({
       headers: await headers(),

@@ -39,8 +39,8 @@ export default function MyQuizzesPage() {
         } else {
           setError("Failed to fetch user quizzes: " + result.error);
         }
-      } catch (error: any) {
-        setError("Failed to fetch user quizzes: " + error.message);
+      } catch (error) {
+        setError("Failed to fetch user quizzes: " + error);
       } finally {
         setLoading(false);
       }
@@ -70,7 +70,7 @@ export default function MyQuizzesPage() {
       {!loading && quizzes.length === 0 ? (
         <div className="text-center py-10">
           <p className="text-xl text-gray-600 mb-4">
-            You haven't created any quizzes yet.
+            You haven&apost created any quizzes yet.
           </p>
           <Link
             href="/quizzes/create"

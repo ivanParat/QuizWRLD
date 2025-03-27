@@ -2,9 +2,7 @@
 import { unstable_cache } from "next/cache";
 import client from "./contentfulClient";
 import {
-  TypeQuizzSkeleton,
   TypeQuizzHomePageSkeleton,
-  TypeCategorySkeleton,
   TypeAboutUsSkeleton,
 } from "../content-types";
 import { db } from "../db/drizzle";
