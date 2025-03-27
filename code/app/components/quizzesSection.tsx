@@ -1,7 +1,6 @@
 "use client";
 
 import Image from "next/image";
-import { TypeQuizzHomePage } from "../content-types";
 import Star from "./star";
 import useIsMobile from "../hooks/useIsMobile";
 import { InferSelectModel } from "drizzle-orm";
@@ -12,14 +11,6 @@ type QuizCard = Pick<Quiz, "id" | "title" | "slug" | "heroImageUrl"> & {
   rating: number;
   category: { name: string };
 };
-
-// type QuizCard = {
-//   title: string;
-//   slug: string;
-//   rating: number;
-//   heroImage: string;
-//   category: { name: string };
-// };
 
 type QuizCardProps = {
   isMobile: boolean;
