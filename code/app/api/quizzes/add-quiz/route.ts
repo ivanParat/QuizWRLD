@@ -75,10 +75,8 @@ export async function POST(request: Request) {
       questions: JSON.parse(formData.get("questions") as string),
       image: formData.get("image"),
     };
-    console.log(rawData);
 
     const validation = quizSchema.safeParse(rawData);
-    console.log(validation.error);
 
     if (!validation.success) {
       return NextResponse.json(
@@ -86,7 +84,6 @@ export async function POST(request: Request) {
         { status: 400 }
       );
     }
-    console.log(validation);
 
     const { title, description, categoryId, questions, published } =
       validation.data;
