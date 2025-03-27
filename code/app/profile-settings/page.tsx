@@ -3,6 +3,7 @@ import { useRouter } from "next/navigation";
 import React, { useState, useEffect } from "react";
 import { authClient } from "../lib/auth-client";
 import DeleteAccountModal from "./components/DeleteAccountModal";
+import Image from "next/image";
 
 const ProfileUpdateForm = () => {
   const [currentPassword, setCurrentPassword] = useState("");
@@ -205,7 +206,7 @@ const ProfileUpdateForm = () => {
 
       <label className="block font-medium">Profile Picture</label>
       {profileImageUrl ? (
-        <img
+        <Image
           src={profileImageUrl}
           alt="Profile"
           className="w-24 h-24 rounded-full object-cover mb-4"
