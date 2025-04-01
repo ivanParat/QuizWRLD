@@ -48,14 +48,14 @@ function QuestionBox({ text }: { text: string }) {
 
 type AnswerProps = {
   text: string;
+  selectedAnswer: string | null;
   isSelected: boolean;
   isCorrect: boolean;
-  shouldShowCheckmark: boolean;
   onClick: () => void;
   color: string;
 }
 
-function Answer({text, isSelected, isCorrect, shouldShowCheckmark, onClick, color }: AnswerProps) {
+function Answer({text, selectedAnswer, isSelected, isCorrect, onClick, color }: AnswerProps) {
   const [isTruncated, setIsTruncated] = useState(false);
   const textRef = useRef<HTMLButtonElement>(null);
 
@@ -75,29 +75,26 @@ function Answer({text, isSelected, isCorrect, shouldShowCheckmark, onClick, colo
       hover:opacity-85 active:opacity-85"
       title={isTruncated ? text : ""}
       onClick={onClick}
-      disabled={isSelected} // Disable button after selecting an answer
+      disabled={selectedAnswer ? true : false} // Disable button after selecting an answer
     >
       {text}
-      {isSelected && (
-        <span className="ml-4">
-          {isCorrect ? (
+
+      <span className="ml-4">
+        {selectedAnswer && isCorrect ? 
+          (
             <div className="bg-white rounded-full">
               <IoIosCheckmarkCircle className="text-correct w-8 h-8" />
             </div>
-          ) : (
+          ) 
+        : isSelected ? 
+          (
             <div className="bg-white rounded-full">
               <IoIosCloseCircle className="text-incorrect w-8 h-8" />
             </div>
-          )}
-        </span>
-      )}
-      {shouldShowCheckmark && 
-      <span className="ml-4">
-        <div className="bg-white rounded-full">
-          <IoIosCheckmarkCircle className="text-correct w-8 h-8" />
-        </div>
+          )
+        : null
+        }
       </span>
-      }
     </button>
   );
 }
@@ -134,9 +131,9 @@ export default function QuestionCard({
           <Answer
             key={answer.id}
             text={answer.text}
+            selectedAnswer={selectedAnswer}
             isSelected={selectedAnswer === answer.id}
             isCorrect={answer.isCorrect}
-            shouldShowCheckmark={Boolean(answer.isCorrect && selectedAnswer && selectedAnswer !== answer.id)}
             onClick={() => onAnswerClick(answer.id, answer.isCorrect)}
             color={answerColors[index % answerColors.length]} 
           />
