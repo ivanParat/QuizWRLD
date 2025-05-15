@@ -6,6 +6,7 @@ import { cn } from "../lib/utils";
 import { useState, useRef, useEffect } from "react";
 import { useClickOutside } from "../hooks/useClickOutside";
 import { useRouter, useSearchParams } from "next/navigation";
+import Image from "next/image";
 
 type Page = {
   title: string;
@@ -257,8 +258,10 @@ export function Navigation({ user }: { user: User }) {
         </ul>
         {user && (
           <div className="flex items-center space-x-2 ml-4">
-            <img
-              src={user.profilePicture ?? "/default-avatar.png"}
+            <Image
+              src={user.profilePicture ?? "/images/default-profile-picture.jpg"}
+              width={300}
+              height={300}
               alt={user.name ?? "User"}
               className="w-8 h-8 rounded-full object-cover"
             />
