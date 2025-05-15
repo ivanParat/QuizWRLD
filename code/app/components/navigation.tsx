@@ -287,9 +287,11 @@ export function Navigation({ user }: { user: User }) {
         {visiblePages.map((page, index) => processPage(page, index, closeMenu))}
         {user && (
           <li className="flex items-center gap-2">
-            <img
-              src={user.profilePicture ?? "/default-avatar.png"}
+            <Image
+              src={user.profilePicture ?? "/images/default-profile-picture.jpg"}
               alt={user.name ?? "User"}
+              width={300}
+              height={300}
               className="w-8 h-8 rounded-full object-cover"
             />
             {user.name && (
