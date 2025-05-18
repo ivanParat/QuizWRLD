@@ -8,6 +8,7 @@ import {
 import { db } from "../db/drizzle";
 import { answers, categories, questions, quizzes, ratings } from "../db/schema";
 import { eq, sql, and } from "drizzle-orm";
+import CategoriesSection from "../components/categoriesSection";
 
 const MINUTE = 60;
 const HOUR = 60 * MINUTE;
@@ -168,10 +169,50 @@ async function getCategories() {
   }
 }
 
+export async function getCategoryIdFromName(categoryName: string) {
+  try {
+    const data = await db
+      .select({ id: categories.id })
+      .from(categories)
+      .where(eq(categories.name, categoryName));
+
+    return data[0];
+  } catch (error) {
+    console.error("Error while fetching category id: ", error);
+    throw new Error("An error occured while fetching category id.");
+  }
+}
+export async function getQuizzesInCategory(categoryId: number) {
+  try {
+    const data = await db
+      .select({
+        id: quizzes.id,
+        title: quizzes.title,
+        slug: quizzes.slug,
+        heroImageUrl: quizzes.heroImageUrl,
+        category: sql<{
+          name: string;
+        }>`COALESCE(${categories.name}, 'Unknown')`,
+        rating: sql<number>`COALESCE(AVG("ratings"."value"), 0)`,
+      })
+      .from(quizzes)
+      .leftJoin(categories, eq(quizzes.categoryId, categories.id))
+      .leftJoin(ratings, eq(quizzes.id, ratings.quizId))
+      .where(eq(quizzes.categoryId, categoryId))
+      .groupBy(quizzes.id, categories.name);
+
+    return data;
+  } catch (error) {
+    console.error("Error while fetching quizzes from category: ", error);
+    throw new Error("An error occured while fetching quizzes from category.");
+  }
+}
+
 export const getAllCategories = unstable_cache(getCategories, ["categories"], {
   revalidate: HOUR,
   tags: ["categories"],
 });
+
 export const getAboutUs = unstable_cache(
   async (): Promise<{
     title1: string;
