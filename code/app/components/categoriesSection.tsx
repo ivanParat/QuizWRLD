@@ -4,6 +4,7 @@ import Image from "next/image";
 import useIsMobile from "../hooks/useIsMobile";
 import { categories } from "../db/schema";
 import { InferSelectModel } from "drizzle-orm";
+import Link from "next/link";
 
 type Category = InferSelectModel<typeof categories>;
 
@@ -16,29 +17,31 @@ type SectionsProps = {
 
 function processCategoryCard(categoryCard: CategoryCard, index: number) {
   return (
-    <div
-      key={index}
-      className={`rounded-md overflow-hidden relative bg-gradient-to-tr aspect-[1/1] lg:aspect-[4/3]`}
-    >
-      <Image
-        src={categoryCard.imageUrl || "/images/placeholder.png"}
-        alt="Quiz image"
-        fill
-        className="object-cover"
-      />
+    <Link href={`/category/${categoryCard.name}`} key={index}>
       <div
-        className="absolute inset-0 bg-gradient-to-b flex flex-col justify-end px-1.5 py-1 text-white"
-        style={{
-          backgroundImage: `linear-gradient(to bottom, transparent, ${categoryCard.color})`,
-        }}
+        key={index}
+        className={`rounded-md overflow-hidden relative bg-gradient-to-tr aspect-[1/1] lg:aspect-[4/3]`}
       >
-        <div className="flex flex-row justify-between">
-          <h3 className="text-[15px] md:text-[17px] font-semibold">
-            {categoryCard.name}
-          </h3>
+        <Image
+          src={categoryCard.imageUrl || "/images/placeholder.png"}
+          alt="Quiz image"
+          fill
+          className="object-cover"
+        />
+        <div
+          className="absolute inset-0 bg-gradient-to-b flex flex-col justify-end px-1.5 py-1 text-white"
+          style={{
+            backgroundImage: `linear-gradient(to bottom, transparent, ${categoryCard.color})`,
+          }}
+        >
+          <div className="flex flex-row justify-between">
+            <h3 className="text-[15px] md:text-[17px] font-semibold">
+              {categoryCard.name}
+            </h3>
+          </div>
         </div>
       </div>
-    </div>
+    </Link>
   );
 }
 
