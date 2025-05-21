@@ -206,11 +206,14 @@ const ProfileUpdateForm = () => {
 
       <label className="block font-medium">Profile Picture</label>
       {profileImageUrl ? (
-        <Image
-          src={profileImageUrl}
-          alt="Profile"
-          className="w-24 h-24 rounded-full object-cover mb-4"
-        />
+        <div className="relative w-24 h-24 ">
+          <Image
+            src={profileImageUrl}
+            alt="Profile"
+            fill={true}
+            className="w-24 h-24 rounded-full object-cover mb-4"
+          />
+        </div>
       ) : (
         <div className="w-24 h-24 rounded-full bg-gray-200 mb-4 flex items-center justify-center">
           <span className="text-gray-500">No Image</span>
