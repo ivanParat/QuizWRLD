@@ -78,6 +78,7 @@ async function getQuizzes() {
       .from(quizzes)
       .leftJoin(categories, eq(quizzes.categoryId, categories.id))
       .leftJoin(ratings, eq(quizzes.id, ratings.quizId))
+      .where(eq(quizzes.published, true))
       .groupBy(quizzes.id, categories.name);
 
     return data;

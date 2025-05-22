@@ -16,6 +16,7 @@ const ProfileUpdateForm = () => {
   const router = useRouter();
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [profileImageUrl, setProfileImageUrl] = useState<string | null>(null);
+  const [isProfilePictureReady, setIsProfilePictureReady] = useState(false);
 
   useEffect(() => {
     const fetchProfileImage = async () => {
@@ -26,6 +27,7 @@ const ProfileUpdateForm = () => {
         if (response.ok && result.imageUrl) {
           setProfileImageUrl(result.imageUrl);
         }
+        setIsProfilePictureReady(true);
       } catch (error) {
         console.error("Error fetching profile image:", error);
       }
@@ -161,8 +163,7 @@ const ProfileUpdateForm = () => {
       setSuccess("Logged out successfully!");
       setError("");
 
-      // Redirect to the login page or home page
-      router.push("/login"); // Replace "/login" with your desired route
+      router.push("/login");
     } catch (error) {
       console.error("Error logging out:", error);
       setError("An unexpected error occurred. Please try again.");
@@ -205,16 +206,23 @@ const ProfileUpdateForm = () => {
       <h2 className="text-2xl font-bold mb-4">Edit Profile</h2>
 
       <label className="block font-medium">Profile Picture</label>
-      {profileImageUrl ? (
-        <Image
-          src={profileImageUrl}
-          alt="Profile"
-          className="w-24 h-24 rounded-full object-cover mb-4"
-        />
+      {isProfilePictureReady ? (
+        profileImageUrl ? (
+          <div className="relative w-24 h-24 ">
+            <Image
+              src={profileImageUrl}
+              alt="Profile"
+              fill={true}
+              className="w-24 h-24 rounded-full object-cover mb-4"
+            />
+          </div>
+        ) : (
+          <div className="w-24 h-24 rounded-full bg-gray-200 mb-4 flex items-center justify-center">
+            <span className="text-gray-500">No Image</span>
+          </div>
+        )
       ) : (
-        <div className="w-24 h-24 rounded-full bg-gray-200 mb-4 flex items-center justify-center">
-          <span className="text-gray-500">No Image</span>
-        </div>
+        <div className="w-24 h-24">Loading...</div>
       )}
       <div className="mb-4">
         <label className="block font-medium">Username</label>

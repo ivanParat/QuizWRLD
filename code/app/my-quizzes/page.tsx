@@ -9,16 +9,11 @@ import Image from "next/image";
 type Quiz = InferSelectModel<typeof quizzes>;
 type QuizCard = Pick<
   Quiz,
-  | "id"
-  | "title"
-  | "slug"
-  | "heroImageUrl"
-  | "published"
-  | "description"
-  | "createdAt"
+  "id" | "title" | "slug" | "heroImageUrl" | "published" | "description"
 > & {
   rating: number;
   category: { name: string };
+  created_at: Date;
 };
 
 export default function MyQuizzesPage() {
@@ -117,7 +112,7 @@ export default function MyQuizzesPage() {
                 </p>
 
                 <div className="flex justify-between items-center text-sm text-gray-500">
-                  <span>{new Date(quiz.createdAt).toLocaleDateString()}</span>
+                  <span>{new Date(quiz.created_at).toLocaleDateString()}</span>
                 </div>
               </div>
             </div>
