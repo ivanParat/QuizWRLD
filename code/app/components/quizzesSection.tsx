@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import Star from "./star";
 import useIsMobile from "../hooks/useIsMobile";
 import { InferSelectModel } from "drizzle-orm";
@@ -27,7 +28,7 @@ function processQuizCard(
   { isMobile }: QuizCardProps
 ) {
   return (
-    <a href={`/quiz/${quizCard.slug}`} key={index}>
+    <Link href={`/quiz/${quizCard.slug}`} key={index} className="transition duration-200 hover:brightness-110 active:brightness-120">
       <div className="rounded-md overflow-hidden relative aspect-[1/1] lg:aspect-[4/3]">
         <Image
           src={quizCard.heroImageUrl || "/images/placeholder.png"}
@@ -73,7 +74,7 @@ function processQuizCard(
           </div>
         </div>
       </div>
-    </a>
+    </Link>
   );
 }
 

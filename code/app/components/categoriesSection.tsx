@@ -17,7 +17,7 @@ type SectionsProps = {
 
 function processCategoryCard(categoryCard: CategoryCard, index: number) {
   return (
-    <Link href={`/category/${categoryCard.name}`} key={index}>
+    <Link href={`/category/${categoryCard.name}`} key={index} className="transition duration-200 hover:brightness-110 active:brightness-120">
       <div
         key={index}
         className={`rounded-md overflow-hidden relative bg-gradient-to-tr aspect-[1/1] lg:aspect-[4/3]`}
