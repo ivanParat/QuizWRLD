@@ -80,6 +80,17 @@ function processQuizCard(
 export default function QuizzesSection({ title, quizzes }: SectionsProps) {
   const isMobile = useIsMobile();
 
+  if(quizzes.length === 0) return (
+    <section className="mt-6 mb-10 xl:mb-14 w-full flex flex-col items-center">
+      <h2 className="text-center text-2xl md:text-3xl font-bold mb-6 xl:mb-8">
+        {title}
+      </h2>
+      <div className="flex justify-center items-center px-3 w-full lg:w-[1024px] xl:w-[1200px]">
+        <p className="text-xl text-secondary-text font-regular flex items-center">No quizzes found</p>
+      </div>
+    </section>
+  );
+
   const visibleItems = isMobile ? quizzes.slice(0, 6) : quizzes;
   return (
     <section className="mt-6 mb-10 xl:mb-14 w-full flex flex-col items-center">
