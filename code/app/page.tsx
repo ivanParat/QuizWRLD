@@ -37,45 +37,19 @@ function HeroSection() {
   );
 }
 
-export default async function HomePage({
-  searchParams,
-}: {
-  searchParams: Promise<{ [key: string]: string | undefined }>;
-}) {
+export default async function HomePage() {
   const categories = await getAllCategories();
   const quizzes = await getAllQuizzes();
 
-  const resolvedSearchParams = await searchParams;
-  const query = resolvedSearchParams.q || "";
-
-  const filteredQuizzes = quizzes.filter((quiz) =>
-    quiz.title.toLowerCase().includes(query.toLowerCase())
-  );
-  const filteredCategories = categories.filter((category) =>
-    category.name.toLowerCase().includes(query.toLowerCase())
-  );
-
   return (
     <main className="flex min-h-screen flex-col items-center">
-      {query ? (
-        <>
-          <QuizzesSection quizzes={filteredQuizzes} title="Quizzes" />
-          <CategoriesSection
-            categories={filteredCategories}
-            title="Categories"
-          />
-        </>
-      ) : (
-        <>
-          <HeroSection />
-          <div className="h-32 w-full bg-gradient-to-b from-off-white to-white"></div>
-          <QuizzesSection quizzes={quizzes} title="Popular Quizzes" />
-          <CategoriesSection
-            categories={categories}
-            title="Popular Categories"
-          />
-        </>
-      )}
+      <HeroSection />
+      <div className="h-32 w-full bg-gradient-to-b from-off-white to-white"></div>
+      <QuizzesSection quizzes={quizzes} title="Popular Quizzes" />
+      <CategoriesSection
+        categories={categories}
+        title="Popular Categories"
+      />
     </main>
   );
 }

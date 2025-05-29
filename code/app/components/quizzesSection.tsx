@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import Star from "./star";
 import useIsMobile from "../hooks/useIsMobile";
 import { InferSelectModel } from "drizzle-orm";
@@ -27,7 +28,7 @@ function processQuizCard(
   { isMobile }: QuizCardProps
 ) {
   return (
-    <a href={`/quiz/${quizCard.slug}`} key={index}>
+    <Link href={`/quiz/${quizCard.slug}`} key={index} className="transition duration-200 hover:brightness-110 active:brightness-120">
       <div className="rounded-md overflow-hidden relative aspect-[1/1] lg:aspect-[4/3]">
         <Image
           src={quizCard.heroImageUrl || "/images/placeholder.png"}
@@ -73,12 +74,23 @@ function processQuizCard(
           </div>
         </div>
       </div>
-    </a>
+    </Link>
   );
 }
 
 export default function QuizzesSection({ title, quizzes }: SectionsProps) {
   const isMobile = useIsMobile();
+
+  if(quizzes.length === 0) return (
+    <section className="mt-6 mb-10 xl:mb-14 w-full flex flex-col items-center">
+      <h2 className="text-center text-2xl md:text-3xl font-bold mb-6 xl:mb-8">
+        {title}
+      </h2>
+      <div className="flex justify-center items-center px-3 w-full lg:w-[1024px] xl:w-[1200px]">
+        <p className="text-xl text-secondary-text font-regular flex items-center">No quizzes found</p>
+      </div>
+    </section>
+  );
 
   const visibleItems = isMobile ? quizzes.slice(0, 6) : quizzes;
   return (

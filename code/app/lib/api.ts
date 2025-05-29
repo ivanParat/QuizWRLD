@@ -7,7 +7,7 @@ import {
 } from "../content-types";
 import { db } from "../db/drizzle";
 import { answers, categories, questions, quizzes, ratings } from "../db/schema";
-import { eq, sql, and } from "drizzle-orm";
+import { eq, sql, and, like } from "drizzle-orm";
 import CategoriesSection from "../components/categoriesSection";
 
 const MINUTE = 60;
@@ -262,3 +262,48 @@ export const getAboutUs = unstable_cache(
   ["aboutUs"],
   { revalidate: HOUR, tags: ["aboutUs"] }
 );
+
+export async function getQuizzesByQuery(query: string) {
+  try {
+    const data = await db
+      .select({
+        id: quizzes.id,
+        title: quizzes.title,
+        slug: quizzes.slug,
+        heroImageUrl: quizzes.heroImageUrl,
+        category: sql<{
+          name: string;
+        }>`COALESCE(${categories.name}, 'Unknown')`,
+        rating: sql<number>`COALESCE(AVG(${ratings.value}), 0)`,
+      })
+      .from(quizzes)
+      .leftJoin(categories, eq(quizzes.categoryId, categories.id))
+      .leftJoin(ratings, eq(quizzes.id, ratings.quizId))
+      .where(sql`LOWER(${quizzes.title}) ILIKE LOWER('%' || ${query}::text || '%')`)
+      .groupBy(quizzes.id, categories.name);
+
+    return data;
+  } catch (error) {
+    console.error(`Error fetching quizzes with query "${query}":`, error);
+    throw new Error("An error occurred while fetching quizzes.");
+  }
+}
+
+export async function getCategoriesByQuery(query: string) {
+  try {
+    const data = await db
+      .select({
+        id: categories.id,
+        name: categories.name,
+        color: categories.color,
+        imageUrl: categories.imageUrl,
+      })
+      .from(categories)
+      .where(sql`LOWER(${categories.name}) ILIKE LOWER('%' || ${query}::text || '%')`);
+
+    return data;
+  } catch (error) {
+    console.error(`Error fetching categories with query "${query}":`, error);
+    throw new Error("An error occurred while fetching categories.");
+  }
+}
