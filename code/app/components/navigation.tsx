@@ -78,7 +78,7 @@ function SearchBar({ closeMenu }: SearchBarProps) {
   const [input, setInput] = useState(searchParams.get("q") || "");
   const handleSearch = () => {
     if (!input.trim()) return;
-    router.push(`/?q=${encodeURIComponent(input)}`);
+    router.push(`/search?q=${encodeURIComponent(input)}`);
   };
 
   useEffect(() => {
