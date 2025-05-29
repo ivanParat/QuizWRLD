@@ -251,8 +251,10 @@ export function Navigation({ user }: { user: User }) {
       </Link>
 
       {/* Hidden on mobile */}
-      <div className="hidden md:flex items-center space-x-4">
+      <div className="hidden md:flex items-center">
         <SearchBar closeMenu={closeMenu} />
+      </div>
+      <div className="hidden md:flex items-center space-x-4">
         <ul className="flex justify-center items-center">
           {visiblePages.map((page, index) => processPage(page, index))}
         </ul>
