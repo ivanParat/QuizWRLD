@@ -16,5 +16,5 @@ export default async function LoginLayout({
     redirect("/");
   }
 
-  return <>{children}</>;
+  return <main className="bg-off-white py-10 px-3">{children}</main>;
 }

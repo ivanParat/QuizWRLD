@@ -202,116 +202,129 @@ const ProfileUpdateForm = () => {
   };
 
   return (
-    <div className="max-w-md mx-auto mt-8 p-6 bg-white rounded-xl shadow-md">
-      <h2 className="text-2xl font-bold mb-4">Edit Profile</h2>
+    <div className="max-w-lg mx-auto p-6 bg-background-form text-main-text rounded-xl shadow-md space-y-8">
+      <div>
+        <div className="flex justify-center w-full">
+          {isProfilePictureReady ? (
+            profileImageUrl ? (
+              <div className="relative w-48 h-48 drop-shadow-md">
+                <Image
+                  src={profileImageUrl}
+                  alt="Profile"
+                  fill={true}
+                  className="w-48 h-48 rounded-full object-cover mb-4"
+                />
+              </div>
+            ) : (
+              <div className="w-48 h-48 rounded-full bg-gray-300 mb-4 flex items-center justify-center">
+                <span className="text-gray-600">No profile picture</span>
+              </div>
+            )
+          ) : (
+            <div className="w-48 h-48 flex flex-col justify-center items-center">Loading...</div>
+          )}
+        </div>
 
-      <label className="block font-medium">Profile Picture</label>
-      {isProfilePictureReady ? (
-        profileImageUrl ? (
-          <div className="relative w-24 h-24 ">
-            <Image
-              src={profileImageUrl}
-              alt="Profile"
-              fill={true}
-              className="w-24 h-24 rounded-full object-cover mb-4"
+        <div className="mb-4">
+          <h3 className="block font-semibold text-lg">Profile Picture</h3>
+          <label className="inline-flex items-center px-4 py-2 bg-brand text-white cursor-pointer hover:bg-brand-hover active:bg-brand-hover rounded-md font-semibold drop-shadow-sm mb-2 mt-2">
+            Find Image
+            <input
+              type="file"
+              onChange={(e) => setImage(e.target.files?.[0] || null)}
+              className="hidden"
             />
+          </label>
+          <div className="flex flex-col space-y-4 items-start md:space-y-0 md:flex-row md:space-x-3 mt-2">
+            <button
+              className="px-4 py-2 bg-brand hover:bg-brand-hover active:bg-brand-hover text-white rounded-md font-semibold drop-shadow-sm"
+              onClick={handleUploadProfilePicture}
+            >
+              Upload the Image
+            </button>
+            <button
+              className="px-4 py-2 bg-gray-500 hover:bg-gray-400 active:bg-gray-400 text-white rounded-md font-semibold drop-shadow-sm"
+              onClick={handleRemoveProfilePicture}
+            >
+              Remove Profile Picture
+            </button>
           </div>
-        ) : (
-          <div className="w-24 h-24 rounded-full bg-gray-200 mb-4 flex items-center justify-center">
-            <span className="text-gray-500">No Image</span>
-          </div>
-        )
-      ) : (
-        <div className="w-24 h-24">Loading...</div>
-      )}
-      <div className="mb-4">
-        <label className="block font-medium">Username</label>
-        <input
-          type="text"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-          className="w-full p-2 border rounded-md"
-        />
+        </div>
       </div>
-      <button
-        className="mt-2 px-4 py-2 bg-blue-500 text-white rounded-md"
-        onClick={handleUsernameChange}
-      >
-        Save Changes
-      </button>
 
-      <div className="mb-4">
-        <label className="block font-medium">Profile Picture</label>
-        <input
-          type="file"
-          onChange={(e) => setImage(e.target.files?.[0] || null)}
-          className="w-full"
-        />
+      <div>
+        <div className="mb-4">
+          <label className="block font-semibold text-lg">Username</label>
+          <input
+            type="text"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+            className="w-full p-2 border rounded-md bg-off-white drop-shadow-sm"
+          />
+        </div>
         <button
-          className="mt-2 px-4 py-2 bg-blue-500 text-white rounded-md"
-          onClick={handleUploadProfilePicture}
+          className="mb-3 px-4 py-2 bg-brand hover:bg-brand-hover active:bg-brand-hover text-white rounded-md font-semibold drop-shadow-sm"
+          onClick={handleUsernameChange}
         >
-          Upload Profile Picture
-        </button>
-        <button
-          className="mt-2 px-4 py-2 bg-red-500 text-white rounded-md"
-          onClick={handleRemoveProfilePicture}
-        >
-          Remove Profile Picture
+          Save Changes
         </button>
       </div>
 
-      <h3 className="text-xl font-bold mb-2">Change Password</h3>
+      <div>
+        <h3 className="text-lg font-semibold mb-2">Password</h3>
 
-      <div className="mb-4">
-        <label className="block font-medium">Current Password</label>
-        <input
-          type="password"
-          value={currentPassword}
-          onChange={(e) => setCurrentPassword(e.target.value)}
-          className="w-full p-2 border rounded-md"
-        />
-      </div>
-      <div className="mb-4">
-        <label className="block font-medium">New Password</label>
-        <input
-          type="password"
-          value={newPassword}
-          onChange={(e) => setNewPassword(e.target.value)}
-          className="w-full p-2 border rounded-md"
-        />
-      </div>
-      <div className="mb-4">
-        <label className="block font-medium">Confirm New Password</label>
-        <input
-          type="password"
-          value={confirmNewPassword}
-          onChange={(e) => setConfirmNewPassword(e.target.value)}
-          className="w-full p-2 border rounded-md"
-        />
+        <div className="mb-4">
+          <label className="block font-medium">Current Password</label>
+          <input
+            type="password"
+            value={currentPassword}
+            onChange={(e) => setCurrentPassword(e.target.value)}
+            className="w-full p-2 border rounded-md bg-off-white drop-shadow-sm"
+          />
+        </div>
+        <div className="mb-4">
+          <label className="block font-medium">New Password</label>
+          <input
+            type="password"
+            value={newPassword}
+            onChange={(e) => setNewPassword(e.target.value)}
+            className="w-full p-2 border rounded-md bg-off-white drop-shadow-sm"
+          />
+        </div>
+        <div className="mb-4">
+          <label className="block font-medium">Confirm New Password</label>
+          <input
+            type="password"
+            value={confirmNewPassword}
+            onChange={(e) => setConfirmNewPassword(e.target.value)}
+            className="w-full p-2 border rounded-md bg-off-white drop-shadow-sm"
+          />
+        </div>
+
+        <button
+          className="mb-4 px-4 py-2 bg-brand hover:bg-brand-hover active:bg-brand-hover text-white rounded-md font-semibold drop-shadow-sm"
+          onClick={handlePasswordChange}
+        >
+          Save Changes
+        </button>
       </div>
 
-      <button
-        className="mb-4 px-4 py-2 bg-green-500 text-white rounded-md"
-        onClick={handlePasswordChange}
-      >
-        Save Password Changes
-      </button>
-
-      <button
-        className="mb-4 px-4 py-2 bg-red-500 text-white rounded-md"
-        onClick={() => setIsDeleteModalOpen(true)}
-      >
-        Delete Account
-      </button>
-      <button
-        className="px-4 py-2 bg-gray-500 text-white rounded-md"
-        onClick={handleLogout}
-      >
-        Log Out
-      </button>
-      {success && <p className="text-green-500 mt-4">{success}</p>}
-      {error && <p className="text-red-500 mt-4">{error}</p>}
+      <div className="flex space-x-3">
+        <button
+          className="px-4 py-2 bg-incorrect hover:bg-incorrect-hover active:bg-incorrect-hover text-white rounded-md font-semibold drop-shadow-sm"
+          onClick={() => setIsDeleteModalOpen(true)}
+        >
+          Delete Account
+        </button>
+        <button
+          className="px-4 py-2 bg-gray-500 hover:bg-gray-400 active:bg-gray-400 text-white rounded-md font-semibold drop-shadow-sm"
+          onClick={handleLogout}
+        >
+          Log Out
+        </button>
+      </div>
+      {success && <p className="text-correct mt-4">{success}</p>}
+      {error && <p className="text-incorrect mt-4">{error}</p>}
       <DeleteAccountModal
         isOpen={isDeleteModalOpen}
         onClose={() => setIsDeleteModalOpen(false)}

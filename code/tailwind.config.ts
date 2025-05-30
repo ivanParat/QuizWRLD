@@ -23,8 +23,14 @@ export default {
         "off-white": "#F8F9FA",
         "main-text": "#343A40",
         "secondary-text": "#6C757D",
-        correct: "#28A745",
-        incorrect: "#DC3545",
+        correct: {
+          DEFAULT: "#28A745",
+          hover: "#66d17f",
+        },
+        incorrect: {
+          DEFAULT: "#DC3545",
+          hover: "#ed7782",
+        },
       },
       fontFamily: {
         sans: ["var(--font-roboto)", "sans-serif"],
