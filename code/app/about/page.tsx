@@ -3,20 +3,24 @@ import { getAboutUs } from "../lib/api";
 
 export default async function AboutUsPage() {
   const aboutUs = await getAboutUs();
-  if (!aboutUs) return <p>Failed to load About Us content.</p>;
+  if (!aboutUs) return 
+  <div className="flex justify-center items-center min-h-screen bg-off-white">
+    <p className="text-xl text-main-text flex items-center">Failed to load About Us content.</p>
+  </div>;
+  
   return (
-    <div>
-      <div className="flex flex-col sm:gap-8 lg:gap-16 sm:mt-10 items-center lg:items-start mb-20 px-2 lg:flex-row lg:min-w-80 lg:place-content-around lg:min-h-80 lg:max-h-96  ">
+    <main>
+      <div className="flex flex-col sm:gap-8 lg:gap-16 pt-10 items-center lg:items-start pb-10 px-4 lg:flex-row lg:min-w-80 lg:place-content-around lg:min-h-80  bg-off-white">
         <div className="flex flex-col mb-4 max-w-[550px]">
           <h1 className="font-bold text-3xl text-center mb-6">
             {aboutUs.title1}
           </h1>
-          <p>{aboutUs.description1}</p>
+          <p className="font-medium text-main-text">{aboutUs.description1}</p>
         </div>
         <div className="flex items-center max-w-[550px]">
           {aboutUs.image1 && (
             <Image
-              className=""
+              className="rounded-md"
               src={aboutUs.image1}
               alt={aboutUs.title1}
               width={600}
@@ -26,17 +30,17 @@ export default async function AboutUsPage() {
           )}
         </div>
       </div>
-      <div className="flex flex-col sm:gap-8 lg:gap-16 sm:mt-10 items-center lg:items-start  px-2 mb-14 lg:flex-row-reverse lg:min-w-80 lg:place-content-around lg:min-h-80 lg:max-h-96  ">
+      <div className="flex flex-col sm:gap-8 lg:gap-16 pt-10 items-center lg:items-start pb-10 px-4 lg:flex-row-reverse lg:min-w-80 lg:place-content-around lg:min-h-80 ">
         <div className="flex flex-col mb-4 max-w-[550px]">
           <h1 className="font-bold text-3xl text-center mb-6">
             {aboutUs.title2}
           </h1>
-          <p>{aboutUs.description2}</p>
+          <p className="font-medium text-main-text">{aboutUs.description2}</p>
         </div>
         <div className="flex items-center max-w-[550px]">
           {aboutUs.image2 && (
             <Image
-              className=""
+              className="rounded-md"
               src={aboutUs.image2}
               alt={aboutUs.title2}
               width={600}
@@ -46,6 +50,6 @@ export default async function AboutUsPage() {
           )}
         </div>
       </div>
-    </div>
+    </main>
   );
 }
