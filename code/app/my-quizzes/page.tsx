@@ -69,7 +69,7 @@ export default function MyQuizzesPage() {
           </p>
           <Link
             href="/my-quizzes/create-a-quiz"
-            className="inline-block bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded transition"
+            className="inline-block bg-brand hover:bg-brand-hover text-white font-bold py-2 px-4 rounded"
           >
             Create Your First Quiz
           </Link>
