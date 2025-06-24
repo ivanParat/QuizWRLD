@@ -65,7 +65,7 @@ export default function MyQuizzesPage() {
       {!loading && quizzes.length === 0 ? (
         <div className="text-center py-10">
           <p className="text-xl text-gray-600 mb-4">
-            You haven&apost created any quizzes yet.
+            You haven&apos;t created any quizzes yet.
           </p>
           <Link
             href="/quizzes/create"

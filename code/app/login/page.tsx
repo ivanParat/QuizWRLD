@@ -88,7 +88,7 @@ export default function Login() {
             {loading ? "Logging In..." : "Log In"}
           </button>
           <div className="text-secondary-text text-base">
-            Don&apost have an account?{" "}
+            Don&apos;t have an account?{" "}
             <Link href="/signup" className="text-brand">
               Sign up
             </Link>
