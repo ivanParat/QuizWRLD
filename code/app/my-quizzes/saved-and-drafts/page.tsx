@@ -69,8 +69,8 @@ export default function MyQuizzesPage() {
             You don't have any drafts.
           </p>
           <Link
-            href="/quizzes/create"
-            className="inline-block bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded transition"
+            href="/my-quizzes/create-a-quiz"
+            className="inline-block bg-brand hover:bg-brand-hover text-white font-bold py-2 px-4 rounded"
           >
             Create Your Quizzes
           </Link>
