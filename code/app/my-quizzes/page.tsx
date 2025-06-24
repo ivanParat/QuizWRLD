@@ -68,7 +68,7 @@ export default function MyQuizzesPage() {
             You haven&apos;t created any quizzes yet.
           </p>
           <Link
-            href="/quizzes/create"
+            href="/my-quizzes/create-a-quiz"
             className="inline-block bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded transition"
           >
             Create Your First Quiz
