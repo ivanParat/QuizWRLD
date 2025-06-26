@@ -97,7 +97,8 @@ export async function POST(request: Request) {
     if (imageFile && imageFile.size > 0) {
       const fileExt = imageFile.name.split(".").pop();
       const fileName = `${session.user.id}-${Date.now()}.${fileExt}`;
-      const { data: uploadData, error: uploadError } = await supabase.storage
+
+      const { error: uploadError } = await supabase.storage
         .from("quiz-images")
         .upload(fileName, imageFile);
 
@@ -109,7 +110,18 @@ export async function POST(request: Request) {
         );
       }
 
-      imageUrl = uploadData.path;
+      const { data: publicUrlData } = supabase.storage
+        .from("quiz-images")
+        .getPublicUrl(fileName);
+
+      imageUrl = publicUrlData?.publicUrl ?? null;
+
+      if (!imageUrl) {
+        return NextResponse.json(
+          { error: "Failed to generate public image URL" },
+          { status: 500 }
+        );
+      }
     }
 
     const { data: quiz, error: quizError } = await supabase
