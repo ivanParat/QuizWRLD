@@ -16,7 +16,7 @@ function HeroSection() {
           new, expand your horizons, and explore a world of trivia!
         </p>
         <div className="flex justify-center">
-          <Link href="/discover-quizzes">
+          <Link href="/discover-quizzes/quizzes">
             <button className="font-semibold md:text-lg bg-brand text-white px-8 md:px-10 py-[7px] mt-4 rounded-md hover:bg-brand-hover active:bg-brand-hover">
               Solve Quiz
             </button>

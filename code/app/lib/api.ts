@@ -7,8 +7,7 @@ import {
 } from "../content-types";
 import { db } from "../db/drizzle";
 import { answers, categories, questions, quizzes, ratings } from "../db/schema";
-import { eq, sql, and, like } from "drizzle-orm";
-import CategoriesSection from "../components/categoriesSection";
+import { eq, sql, and } from "drizzle-orm";
 
 const MINUTE = 60;
 const HOUR = 60 * MINUTE;
@@ -305,5 +304,56 @@ export async function getCategoriesByQuery(query: string) {
   } catch (error) {
     console.error(`Error fetching categories with query "${query}":`, error);
     throw new Error("An error occurred while fetching categories.");
+  }
+}
+
+export async function getQuizzesByRating() {
+  try {
+    const data = await db
+      .select({
+        id: quizzes.id,
+        title: quizzes.title,
+        slug: quizzes.slug,
+        heroImageUrl: quizzes.heroImageUrl,
+        category: sql<{ name: string }>`COALESCE(${categories.name}, 'Unknown')`,
+        rating: sql<number>`COALESCE(AVG(${ratings.value}), 0)`,
+      })
+      .from(quizzes)
+      .leftJoin(categories, eq(quizzes.categoryId, categories.id))
+      .leftJoin(ratings, eq(quizzes.id, ratings.quizId))
+      .where(eq(quizzes.published, true))
+      .groupBy(quizzes.id, categories.name)
+      .orderBy(sql`COALESCE(AVG(${ratings.value}), 0) DESC`);
+
+    return data;
+  } catch (error) {
+    console.error("Error fetching quizzes by rating:", error);
+    throw new Error("An error occurred while fetching quizzes by rating.");
+  }
+}
+
+export async function getQuizzesByNewest() {
+  try {
+    const data = await db
+      .select({
+        id: quizzes.id,
+        title: quizzes.title,
+        slug: quizzes.slug,
+        heroImageUrl: quizzes.heroImageUrl,
+        category: sql<{ name: string }>`COALESCE(${categories.name}, 'Unknown')`,
+        rating: sql<number>`COALESCE(AVG(${ratings.value}), 0)`,
+        createdAt: quizzes.createdAt,
+      })
+      .from(quizzes)
+      .leftJoin(categories, eq(quizzes.categoryId, categories.id))
+      .leftJoin(ratings, eq(quizzes.id, ratings.quizId))
+      .where(eq(quizzes.published, true))
+      .groupBy(quizzes.id, categories.name)
+      .orderBy(sql`${quizzes.createdAt} DESC`);
+
+    return data;
+  } catch (error) {
+    console.error("Error fetching quizzes by newest:", error);
+    throw new Error("An error occurred while fetching quizzes by newest.");
   }
 }

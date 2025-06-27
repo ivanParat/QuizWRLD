@@ -18,7 +18,7 @@ const pages: Page[] = [
   { title: "Home", path: "/" },
   {
     title: "Discover Quizzes",
-    path: "/discover-quizzes",
+    path: "/discover-quizzes/quizzes",
   },
   {
     title: "My Quizzes",
