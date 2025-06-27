@@ -77,9 +77,10 @@ export default function MyQuizzesPage() {
       ) : (
         <div className="w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {quizzes.map((quiz) => (
-            <div
+            <Link 
+              href={`/quiz/${quiz.slug}`}
               key={quiz.id}
-              className="border rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-shadow"
+              className="border rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-shadow cursor-pointer"
             >
               {quiz.heroImageUrl && (
                 <div className="relative h-48 w-full">
@@ -115,7 +116,7 @@ export default function MyQuizzesPage() {
                   <span>{new Date(quiz.created_at).toLocaleDateString()}</span>
                 </div>
               </div>
-            </div>
+            </Link>
           ))}
         </div>
       )}
