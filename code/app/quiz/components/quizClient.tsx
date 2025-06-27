@@ -43,7 +43,7 @@ export default function QuizClient({ quiz }: { quiz: Quiz }){
         height={400}
         className="rounded-md"
       />
-      <p className="mt-4 text-lg">{quiz.description || "No description available."}</p>
+      <p className="mt-4 text-lg max-w-[600px]">{quiz.description || "No description available."}</p>
       <button 
         className="bg-brand text-white px-10 py-1.5 rounded-md hover:bg-brand-hover active:bg-brand-hover font-bold drop-shadow-sm mt-8 text-lg"
         onClick={() => setHasBegun(true)}
