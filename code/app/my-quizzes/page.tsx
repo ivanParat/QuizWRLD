@@ -46,7 +46,7 @@ export default function MyQuizzesPage() {
 
   return (
     <main className="flex min-h-screen flex-col items-center p-4 md:p-10">
-      <h1 className="text-4xl md:text-6xl font-extrabold tracking-tight mb-8">
+      <h1 className="text-4xl md:text-5xl font-bold tracking-tight mb-8">
         My Quizzes
       </h1>
 
@@ -80,7 +80,7 @@ export default function MyQuizzesPage() {
             <Link 
               href={`/quiz/${quiz.slug}`}
               key={quiz.id}
-              className="border rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-shadow cursor-pointer"
+              className="border rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-shadow cursor-pointer bg-white"
             >
               {quiz.heroImageUrl && (
                 <div className="relative h-48 w-full">

@@ -11,7 +11,7 @@ export default function DiscoverQuizzesLayout({
   children: React.ReactNode;
 }) {
   return (
-    <section className="mt-4">
+    <section className="min-h-screen pt-8 bg-off-white pb-12">
       <Navigation />
       {children}
     </section>

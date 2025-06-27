@@ -16,7 +16,7 @@ type QuizCard = Pick<
   created_at: Date;
 };
 
-export default function MyQuizzesPage() {
+export default function SavedAndDraftsPage() {
   const [quizzes, setQuizzes] = useState<QuizCard[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
@@ -47,8 +47,8 @@ export default function MyQuizzesPage() {
 
   return (
     <main className="flex min-h-screen flex-col items-center p-4 md:p-10">
-      <h1 className="text-4xl md:text-6xl font-extrabold tracking-tight mb-8">
-        My Quizzes
+      <h1 className="text-4xl md:text-5xl font-bold tracking-tight mb-8">
+        Saved and Drafts
       </h1>
 
       {loading && (
@@ -80,7 +80,7 @@ export default function MyQuizzesPage() {
           {quizzes.map((quiz) => (
             <div
               key={quiz.id}
-              className="border rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-shadow"
+              className="border rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-shadow bg-white"
             >
               {quiz.heroImageUrl && (
                 <div className="relative h-48 w-full">
