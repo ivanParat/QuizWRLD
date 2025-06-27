@@ -6,6 +6,8 @@ import Star from "./star";
 import useIsMobile from "../hooks/useIsMobile";
 import { InferSelectModel } from "drizzle-orm";
 import { quizzes } from "../db/schema";
+import { useState, useEffect } from "react";
+import { ChevronDown } from 'lucide-react';
 
 type Quiz = InferSelectModel<typeof quizzes>;
 type QuizCard = Pick<Quiz, "id" | "title" | "slug" | "heroImageUrl"> & {
@@ -80,6 +82,30 @@ function processQuizCard(
 
 export default function QuizzesSection({ title, quizzes }: SectionsProps) {
   const isMobile = useIsMobile();
+  const [n, setn] = useState<number>(isMobile ? 6 : 8)
+  const visibleItems = quizzes.slice(0, n);
+
+  useEffect(() => {
+    if(n === 6 || n === 8){
+      setn(isMobile ? 6 : 8)
+    }
+  }, [isMobile])
+
+  function handleClickMore(){
+    const m = isMobile? 6 : 8;
+    let i = m;
+    while(true){
+      if(i > quizzes.length){
+        setn(quizzes.length);
+        return;
+      }
+      if(i > n){
+        setn(i);
+        return;
+      }
+      i += m;
+    }
+  }
 
   if(quizzes.length === 0) return (
     <section className="mt-6 mb-10 xl:mb-14 w-full flex flex-col items-center">
@@ -92,7 +118,6 @@ export default function QuizzesSection({ title, quizzes }: SectionsProps) {
     </section>
   );
 
-  const visibleItems = isMobile ? quizzes.slice(0, 6) : quizzes;
   return (
     <section className="mt-6 mb-10 xl:mb-14 w-full flex flex-col items-center">
       <h2 className="text-center text-2xl md:text-3xl font-bold mb-6 xl:mb-8">
@@ -103,6 +128,13 @@ export default function QuizzesSection({ title, quizzes }: SectionsProps) {
           processQuizCard(quizCard, index, { isMobile })
         )}
       </div>
+      {
+        n < quizzes.length &&
+        <button onClick={()=>{handleClickMore()}} className="flex mt-6 text-lg font-medium text-main-text hover:text-brand active:text-brand">
+          <span>More</span>
+          <ChevronDown size={28}/>
+        </button>
+      }
     </section>
   );
 }
