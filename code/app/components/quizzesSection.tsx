@@ -12,7 +12,7 @@ import { ChevronDown } from 'lucide-react';
 type Quiz = InferSelectModel<typeof quizzes>;
 type QuizCard = Pick<Quiz, "id" | "title" | "slug" | "heroImageUrl"> & {
   rating: number;
-  category: { name: string };
+  category: string ;
 };
 
 type QuizCardProps = {
@@ -47,7 +47,7 @@ function processQuizCard(
             </div>
             <div className="flex justify-between">
               <p className="text-[12px] md:text-[13px]">
-                {quizCard.category.name}
+                {quizCard.category}
               </p>
               <div className="flex items-end">
                 <span className="flex">
