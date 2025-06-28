@@ -30,7 +30,7 @@ function processQuizCard(
   { isMobile }: QuizCardProps
 ) {
   return (
-    <Link href={`/quiz/${quizCard.slug}`} key={index} className="transition duration-200 hover:brightness-110 active:brightness-120">
+    <Link href={`/quiz/${quizCard.slug}`} key={index} className="transition duration-200 hover:brightness-110 active:brightness-125">
       <div className="rounded-md overflow-hidden relative aspect-[1/1] lg:aspect-[4/3]">
         <Image
           src={quizCard.heroImageUrl || "/images/placeholder.png"}
