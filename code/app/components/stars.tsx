@@ -1,13 +1,19 @@
 "use client"
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Star from "./star";
 import { authClient } from "@/app/lib/auth-client";
+import { saveRatingToCookies, deleteRatingFromCookies, readRatingFromCookies } from "../lib/cookies";
 
-export default function Stars({ avgRating, isMobile }: { avgRating: number, isMobile: boolean }) {
+export default function Stars({ avgRating, isMobile, quizId }: { avgRating: number, isMobile: boolean, quizId: string }) {
   const { data: session } = authClient.useSession();
   const [hovered, setHovered] = useState<number | null>(null);
   const [clicked, setClicked] = useState<number | null>(null);
+
+  useEffect(() => {
+    const rating = readRatingFromCookies(quizId);
+    setClicked(rating);
+  }, [quizId]);
 
   function handleMouseEnter(i: number){
     if(session){
@@ -25,9 +31,11 @@ export default function Stars({ avgRating, isMobile }: { avgRating: number, isMo
     if(session){
       if(clicked === i){ 
         setClicked(null);
+        deleteRatingFromCookies(quizId);
       }
       else {
         setClicked(i);
+        saveRatingToCookies(session.user.id, quizId, i);
       }
     }
   }

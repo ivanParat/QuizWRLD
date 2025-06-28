@@ -49,7 +49,7 @@ function processQuizCard(
               <p className="text-[12px] md:text-[13px]">
                 {quizCard.category}
               </p>
-              <Stars avgRating={quizCard.rating} isMobile={isMobile} />
+              <Stars avgRating={quizCard.rating} isMobile={isMobile} quizId={quizCard.id}/>
             </div>
           </div>
         </div>
