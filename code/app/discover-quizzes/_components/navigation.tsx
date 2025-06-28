@@ -10,8 +10,8 @@ type Page = {
 
 const pages: Page[] = [
   {
-    title: "Quiz Recommendations",
-    path: "/discover-quizzes/quiz-recommendations",
+    title: "Quizzes",
+    path: "/discover-quizzes/quizzes",
   },
   {
     title: "Categories",
@@ -24,9 +24,10 @@ function processPage(page: Page, index: number, pathname: string) {
     <li key={index}>
       <Link
         href={page.path}
-        className={
-          pathname === page.path ? "font-extrabold text-slate-600" : ""
-        }
+        className={`
+          text-lg
+          ${pathname === page.path ? "font-semibold" : "hover:font-semibold active:font-semibold"}
+        `}
       >
         {page.title}
       </Link>
@@ -37,7 +38,7 @@ function processPage(page: Page, index: number, pathname: string) {
 export function Navigation() {
   const pathname = usePathname();
   return (
-    <ul className="flex justify-center space-x-4 mt-8">
+    <ul className="flex justify-center space-x-4">
       {pages.map((page, index) => processPage(page, index, pathname))}
     </ul>
   );

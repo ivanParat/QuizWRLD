@@ -46,7 +46,7 @@ export default function MyQuizzesPage() {
 
   return (
     <main className="flex min-h-screen flex-col items-center p-4 md:p-10">
-      <h1 className="text-4xl md:text-6xl font-extrabold tracking-tight mb-8">
+      <h1 className="text-4xl md:text-5xl font-bold tracking-tight mb-8">
         My Quizzes
       </h1>
 
@@ -77,9 +77,10 @@ export default function MyQuizzesPage() {
       ) : (
         <div className="w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {quizzes.map((quiz) => (
-            <div
+            <Link 
+              href={`/quiz/${quiz.slug}`}
               key={quiz.id}
-              className="border rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-shadow"
+              className="border rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-shadow cursor-pointer bg-white"
             >
               {quiz.heroImageUrl && (
                 <div className="relative h-48 w-full">
@@ -115,7 +116,7 @@ export default function MyQuizzesPage() {
                   <span>{new Date(quiz.created_at).toLocaleDateString()}</span>
                 </div>
               </div>
-            </div>
+            </Link>
           ))}
         </div>
       )}

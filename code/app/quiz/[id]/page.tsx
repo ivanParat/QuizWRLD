@@ -21,7 +21,7 @@ export default async function QuizPage({ params }: QuizParams) {
             🔍 Maybe try searching for another quiz!
           </div>
         </div>
-        <Link href={"/discover-quizzes"}>
+        <Link href={"/discover-quizzes/quizzes"}>
           <button className="bg-brand text-white px-7 py-1.5 rounded-md hover:bg-brand-hover active:bg-brand-hover font-bold drop-shadow-sm mt-12 text-lg">
             Try another quiz
           </button>

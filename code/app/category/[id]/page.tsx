@@ -16,16 +16,16 @@ export default async function Category({
       slug: quiz.slug,
       heroImageUrl: quiz.heroImageUrl,
       rating: quiz.rating,
-      category: { name: quiz.category.name },
+      category: typeof quiz.category === "string" ? quiz.category : quiz.category?.name ?? "Unknown",
     };
   });
 
   return (
-    <div>
+    <main className="min-h-screen bg-off-white pt-4">
       <QuizzesSection
         quizzes={quizzes}
-        title={`Quizzes in category ${categoryName}`}
+        title={`${categoryName} Quizzes`}
       />
-    </div>
+    </main>
   );
 }

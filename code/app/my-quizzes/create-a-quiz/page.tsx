@@ -135,18 +135,18 @@ export default function QuizForm() {
   };
 
   return (
-    <div className="max-w-4xl mx-auto p-6 bg-white rounded-lg shadow-md">
+    <div className="max-w-4xl mx-auto p-6 bg-background-form rounded-lg shadow-md mt-8">
       <h1 className="text-2xl font-bold mb-6">Create New Quiz</h1>
 
       <form onSubmit={handleSubmit(onSubmit)}>
-        <div className="mb-8 p-4 border rounded-lg">
+        <div className="mb-8 p-4 border border-gray-400 rounded-lg">
           <h2 className="text-xl font-semibold mb-4">Quiz Details</h2>
 
           <div className="mb-4">
             <label className="block text-sm font-medium mb-1">Title*</label>
             <input
               {...register("title", { required: "Title is required" })}
-              className="w-full p-2 border rounded"
+              className="w-full p-2 border rounded bg-off-white"
             />
             {errors.title && (
               <p className="text-red-500 text-sm">{errors.title.message}</p>
@@ -159,7 +159,7 @@ export default function QuizForm() {
             </label>
             <textarea
               {...register("description")}
-              className="w-full p-2 border rounded"
+              className="w-full p-2 border rounded bg-off-white"
               rows={3}
             />
           </div>
@@ -168,7 +168,7 @@ export default function QuizForm() {
             <label className="block text-sm font-medium mb-1">Category*</label>
             <select
               {...register("category.id", { required: "Category is required" })}
-              className="w-full p-2 border rounded"
+              className="w-full p-2 border rounded bg-off-white"
             >
               <option value="">Select a category</option>
               {categories.map((cat) => (
@@ -193,13 +193,13 @@ export default function QuizForm() {
           </div>
         </div>
 
-        <div className="mb-8 p-4 border rounded-lg">
+        <div className="mb-8 p-4 border border-gray-400 rounded-lg">
           <div className="flex justify-between items-center mb-4">
             <h2 className="text-xl font-semibold">Questions</h2>
             <button
               type="button"
               onClick={addQuestion}
-              className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+              className="bg-brand text-white px-4 py-2 rounded hover:bg-brand-hover font-medium"
             >
               Add Question
             </button>
@@ -214,8 +214,8 @@ export default function QuizForm() {
                   onClick={() => setCurrentQuestionIndex(index)}
                   className={`px-3 py-1 rounded ${
                     currentQuestionIndex === index
-                      ? "bg-blue-500 text-white"
-                      : "bg-gray-200"
+                      ? "bg-brand text-white"
+                      : "bg-gray-500 text-white hover:bg-brand active:bg-brand"
                   }`}
                 >
                   Q{index + 1}
@@ -226,7 +226,7 @@ export default function QuizForm() {
 
           {currentQuestionIndex >= 0 &&
             currentQuestionIndex < questions.length && (
-              <div className="p-4 border rounded-lg bg-gray-50">
+              <div className="p-4 border border-gray-400 rounded-lg">
                 <div className="flex justify-between items-center mb-3">
                   <h3 className="font-medium">
                     Question {currentQuestionIndex + 1}
@@ -252,7 +252,7 @@ export default function QuizForm() {
                         e.target.value;
                       setQuestions(updatedQuestions);
                     }}
-                    className="w-full p-2 border rounded"
+                    className="w-full p-2 border rounded bg-off-white"
                     required
                   />
                 </div>
@@ -289,7 +289,7 @@ export default function QuizForm() {
                               e.target.value
                             )
                           }
-                          className="flex-1 p-2 border rounded mr-2"
+                          className="flex-1 p-2 border rounded mr-2 bg-off-white"
                           placeholder="Answer text"
                           required
                         />
@@ -323,8 +323,8 @@ export default function QuizForm() {
                     }
                     className={`px-3 py-1 rounded ${
                       currentQuestionIndex === 0
-                        ? "bg-gray-200 text-gray-500"
-                        : "bg-gray-200 hover:bg-gray-300"
+                        ? "bg-gray-300 text-gray-500"
+                        : "bg-gray-500 hover:bg-gray-400 text-white"
                     }`}
                   >
                     Previous Question
@@ -337,8 +337,8 @@ export default function QuizForm() {
                     }
                     className={`px-3 py-1 rounded ${
                       currentQuestionIndex === questions.length - 1
-                        ? "bg-gray-200 text-gray-500"
-                        : "bg-gray-200 hover:bg-gray-300"
+                        ? "bg-gray-300 text-gray-500"
+                        : "bg-gray-500 hover:bg-gray-400 text-white"
                     }`}
                   >
                     Next Question
@@ -355,7 +355,7 @@ export default function QuizForm() {
               if (confirm("Are you sure you want to exit without saving?")) {
               }
             }}
-            className="px-4 py-2 border rounded text-gray-700 hover:bg-gray-100"
+            className="px-4 py-2 bg-incorrect text-white rounded hover:bg-incorrect-hover font-medium"
           >
             Exit Without Saving
           </button>
@@ -363,14 +363,14 @@ export default function QuizForm() {
             <button
               type="submit"
               onClick={() => setPublished(false)}
-              className="px-4 py-2 bg-gray-500 text-white rounded hover:bg-gray-600"
+              className="px-4 py-2 bg-gray-500 text-white rounded hover:bg-gray-400 font-medium"
             >
               Save to Drafts
             </button>
             <button
               type="submit"
               onClick={() => setPublished(true)}
-              className="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600"
+              className="px-4 py-2 bg-correct text-white rounded hover:bg-correct-hover font-medium"
             >
               Publish Quiz
             </button>
