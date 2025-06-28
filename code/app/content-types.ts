@@ -82,6 +82,19 @@ export type TypeCategorySkeleton = EntrySkeletonType<
   "category"
 >;
 
+export interface TypeBlogFields {
+  title: EntryFieldTypes.Symbol;
+  text: EntryFieldTypes.Text;
+  image: EntryFieldTypes.AssetLink;
+}
+
+export type TypeBlogSkeleton = EntrySkeletonType<TypeBlogFields, "blog">;
+
+export type TypeBlog<
+  Modifiers extends ChainModifiers,
+  Locales extends LocaleCode = LocaleCode
+> = Entry<TypeBlogSkeleton, Modifiers, Locales>;
+
 export type TypeCategory<
   Modifiers extends ChainModifiers,
   Locales extends LocaleCode = LocaleCode

@@ -4,10 +4,12 @@ import client from "./contentfulClient";
 import {
   TypeQuizzHomePageSkeleton,
   TypeAboutUsSkeleton,
+  TypeBlogSkeleton,
 } from "../content-types";
 import { db } from "../db/drizzle";
 import { answers, categories, questions, quizzes, ratings } from "../db/schema";
-import { eq, sql, and } from "drizzle-orm";
+import { eq, sql, and, like } from "drizzle-orm";
+import { Entry } from "contentful";
 
 const MINUTE = 60;
 const HOUR = 60 * MINUTE;
@@ -278,7 +280,9 @@ export async function getQuizzesByQuery(query: string) {
       .from(quizzes)
       .leftJoin(categories, eq(quizzes.categoryId, categories.id))
       .leftJoin(ratings, eq(quizzes.id, ratings.quizId))
-      .where(sql`LOWER(${quizzes.title}) ILIKE LOWER('%' || ${query}::text || '%')`)
+      .where(
+        sql`LOWER(${quizzes.title}) ILIKE LOWER('%' || ${query}::text || '%')`
+      )
       .groupBy(quizzes.id, categories.name);
 
     return data;
@@ -298,37 +302,14 @@ export async function getCategoriesByQuery(query: string) {
         imageUrl: categories.imageUrl,
       })
       .from(categories)
-      .where(sql`LOWER(${categories.name}) ILIKE LOWER('%' || ${query}::text || '%')`);
+      .where(
+        sql`LOWER(${categories.name}) ILIKE LOWER('%' || ${query}::text || '%')`
+      );
 
     return data;
   } catch (error) {
     console.error(`Error fetching categories with query "${query}":`, error);
     throw new Error("An error occurred while fetching categories.");
-  }
-}
-
-export async function getQuizzesByRating() {
-  try {
-    const data = await db
-      .select({
-        id: quizzes.id,
-        title: quizzes.title,
-        slug: quizzes.slug,
-        heroImageUrl: quizzes.heroImageUrl,
-        category: sql<{ name: string }>`COALESCE(${categories.name}, 'Unknown')`,
-        rating: sql<number>`COALESCE(AVG(${ratings.value}), 0)`,
-      })
-      .from(quizzes)
-      .leftJoin(categories, eq(quizzes.categoryId, categories.id))
-      .leftJoin(ratings, eq(quizzes.id, ratings.quizId))
-      .where(eq(quizzes.published, true))
-      .groupBy(quizzes.id, categories.name)
-      .orderBy(sql`COALESCE(AVG(${ratings.value}), 0) DESC`);
-
-    return data;
-  } catch (error) {
-    console.error("Error fetching quizzes by rating:", error);
-    throw new Error("An error occurred while fetching quizzes by rating.");
   }
 }
 
@@ -340,7 +321,9 @@ export async function getQuizzesByNewest() {
         title: quizzes.title,
         slug: quizzes.slug,
         heroImageUrl: quizzes.heroImageUrl,
-        category: sql<{ name: string }>`COALESCE(${categories.name}, 'Unknown')`,
+        category: sql<{
+          name: string;
+        }>`COALESCE(${categories.name}, 'Unknown')`,
         rating: sql<number>`COALESCE(AVG(${ratings.value}), 0)`,
         createdAt: quizzes.createdAt,
       })
@@ -355,5 +338,80 @@ export async function getQuizzesByNewest() {
   } catch (error) {
     console.error("Error fetching quizzes by newest:", error);
     throw new Error("An error occurred while fetching quizzes by newest.");
+  }
+}
+
+export const getBlogPosts = async (
+  limit = 5,
+  skip = 0
+): Promise<{
+  posts: Entry<TypeBlogSkeleton, "WITHOUT_UNRESOLVABLE_LINKS", string>[];
+  total: number;
+}> => {
+  try {
+    const data =
+      await client.withoutUnresolvableLinks.getEntries<TypeBlogSkeleton>({
+        content_type: "blog",
+        limit,
+        skip,
+        order: ["-sys.createdAt"],
+        include: 1,
+      });
+
+    return {
+      posts: data.items,
+      total: data.total,
+    };
+  } catch (error) {
+    console.error("Error fetching blog posts:", error);
+    return {
+      posts: [],
+      total: 0,
+    };
+  }
+};
+
+export async function getBlogById(
+  id: string
+): Promise<Entry<
+  TypeBlogSkeleton,
+  "WITHOUT_UNRESOLVABLE_LINKS",
+  string
+> | null> {
+  try {
+    const entry =
+      await client.withoutUnresolvableLinks.getEntry<TypeBlogSkeleton>(id, {
+        include: 1,
+      });
+    return entry ?? null;
+  } catch (error) {
+    console.error("Error fetching post by ID:", error);
+    return null;
+  }
+}
+export async function getQuizzesByRating() {
+  try {
+    const data = await db
+      .select({
+        id: quizzes.id,
+        title: quizzes.title,
+        slug: quizzes.slug,
+        heroImageUrl: quizzes.heroImageUrl,
+        category: sql<{
+          name: string;
+        }>`COALESCE(${categories.name}, 'Unknown')`,
+        rating: sql<number>`COALESCE(AVG(${ratings.value}), 0)`,
+      })
+      .from(quizzes)
+      .leftJoin(categories, eq(quizzes.categoryId, categories.id))
+      .leftJoin(ratings, eq(quizzes.id, ratings.quizId))
+      .where(eq(quizzes.published, true))
+      .groupBy(quizzes.id, categories.name)
+      .orderBy(sql`COALESCE(AVG(${ratings.value}), 0) DESC`);
+
+    return data;
+  } catch (error) {
+    console.error("Error fetching quizzes by rating:", error);
+    throw new Error("An error occurred while fetching quizzes by rating.");
   }
 }
