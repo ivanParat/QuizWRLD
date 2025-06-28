@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import Star from "./star";
+import Stars from "./stars";
 import useIsMobile from "../hooks/useIsMobile";
 import { InferSelectModel } from "drizzle-orm";
 import { quizzes } from "../db/schema";
@@ -49,29 +49,7 @@ function processQuizCard(
               <p className="text-[12px] md:text-[13px]">
                 {quizCard.category}
               </p>
-              <div className="flex items-end">
-                <span className="flex">
-                  {[1, 2, 3, 4, 5].map((i) => {
-                    const isFull =
-                      i <= Math.floor(quizCard.rating) ||
-                      (i === Math.floor(quizCard.rating) + 1 &&
-                        quizCard.rating % 1 >= 0.75);
-                    const isHalf =
-                      i === Math.floor(quizCard.rating) + 1 &&
-                      quizCard.rating % 1 >= 0.25;
-                    const filled = isFull ? "yes" : isHalf ? "half" : "no";
-
-                    return <Star key={i} filled={filled} isMobile={isMobile} />;
-                  })}
-                </span>
-                <span className="hidden  md:block text-[11px] md:text-[13px] ml-1.5 font-medium">
-                  {isNaN(Number(quizCard.rating)) ||
-                  quizCard.rating === null ||
-                  quizCard.rating === undefined
-                    ? "0.0"
-                    : (parseFloat(quizCard.rating.toString()) || 0).toFixed(1)}
-                </span>
-              </div>
+              <Stars avgRating={quizCard.rating} isMobile={isMobile} />
             </div>
           </div>
         </div>
