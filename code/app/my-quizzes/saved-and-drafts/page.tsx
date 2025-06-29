@@ -5,6 +5,7 @@ import { InferSelectModel } from "drizzle-orm";
 import { quizzes } from "../../db/schema";
 import Link from "next/link";
 import Image from "next/image";
+import DeleteQuizModal from "../_components/DeleteQuizModal";
 
 type Quiz = InferSelectModel<typeof quizzes>;
 type QuizCard = Pick<
@@ -20,6 +21,7 @@ export default function SavedAndDraftsPage() {
   const [quizzes, setQuizzes] = useState<QuizCard[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
+  const [quizToDelete, setQuizToDelete] = useState<QuizCard | null>(null);
 
   useEffect(() => {
     const fetchQuizzes = async () => {
@@ -44,6 +46,27 @@ export default function SavedAndDraftsPage() {
 
     fetchQuizzes();
   }, []);
+
+  const handleDelete = async () => {
+    if (!quizToDelete) return;
+
+    try {
+      const res = await fetch(
+        `/api/quizzes/delete-user-quiz?id=${quizToDelete.id}`,
+        {
+          method: "DELETE",
+        }
+      );
+
+      if (!res.ok) throw new Error("Failed to delete");
+
+      setQuizzes((prev) => prev.filter((q) => q.id !== quizToDelete.id));
+      setQuizToDelete(null);
+    } catch (err) {
+      console.error(err);
+      alert("Failed to delete quiz.");
+    }
+  };
 
   return (
     <main className="flex min-h-screen flex-col items-center p-4 md:p-10">
@@ -114,12 +137,24 @@ export default function SavedAndDraftsPage() {
 
                 <div className="flex justify-between items-center text-sm text-gray-500">
                   <span>{new Date(quiz.created_at).toLocaleDateString()}</span>
+                  <button
+                    onClick={() => setQuizToDelete(quiz)}
+                    className="text-red-600 hover:underline"
+                  >
+                    Delete
+                  </button>
                 </div>
               </div>
             </div>
           ))}
         </div>
       )}
+      <DeleteQuizModal
+        quizTitle={quizToDelete?.title || ""}
+        onConfirm={handleDelete}
+        onCancel={() => setQuizToDelete(null)}
+        open={!!quizToDelete}
+      />
     </main>
   );
 }
