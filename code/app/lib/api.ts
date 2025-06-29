@@ -200,7 +200,9 @@ export async function getQuizzesInCategory(categoryId: number) {
       .from(quizzes)
       .leftJoin(categories, eq(quizzes.categoryId, categories.id))
       .leftJoin(ratings, eq(quizzes.id, ratings.quizId))
-      .where(eq(quizzes.categoryId, categoryId))
+      .where(
+        and(eq(quizzes.categoryId, categoryId), eq(quizzes.published, true))
+      )
       .groupBy(quizzes.id, categories.name);
 
     return data;
