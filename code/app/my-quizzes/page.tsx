@@ -5,6 +5,7 @@ import { InferSelectModel } from "drizzle-orm";
 import { quizzes } from "../db/schema";
 import Link from "next/link";
 import Image from "next/image";
+import DeleteQuizModal from "./_components/DeleteQuizModal";
 
 type Quiz = InferSelectModel<typeof quizzes>;
 type QuizCard = Pick<
@@ -19,7 +20,8 @@ type QuizCard = Pick<
 export default function MyQuizzesPage() {
   const [quizzes, setQuizzes] = useState<QuizCard[]>([]);
   const [error, setError] = useState<string | null>(null);
-  const [loading, setLoading] = useState<boolean>(true); // Loading state
+  const [loading, setLoading] = useState<boolean>(true);
+  const [quizToDelete, setQuizToDelete] = useState<QuizCard | null>(null);
 
   useEffect(() => {
     const fetchQuizzes = async () => {
@@ -43,6 +45,27 @@ export default function MyQuizzesPage() {
 
     fetchQuizzes();
   }, []);
+
+  const handleDelete = async () => {
+    if (!quizToDelete) return;
+
+    try {
+      const res = await fetch(
+        `/api/quizzes/delete-user-quiz?id=${quizToDelete.id}`,
+        {
+          method: "DELETE",
+        }
+      );
+
+      if (!res.ok) throw new Error("Failed to delete");
+
+      setQuizzes((prev) => prev.filter((q) => q.id !== quizToDelete.id));
+      setQuizToDelete(null);
+    } catch (err) {
+      console.error(err);
+      alert("Failed to delete quiz.");
+    }
+  };
 
   return (
     <main className="flex min-h-screen flex-col items-center p-4 md:p-10">
@@ -77,10 +100,9 @@ export default function MyQuizzesPage() {
       ) : (
         <div className="w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {quizzes.map((quiz) => (
-            <Link 
-              href={`/quiz/${quiz.slug}`}
+            <div
               key={quiz.id}
-              className="border rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-shadow cursor-pointer bg-white"
+              className="border rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-shadow bg-white relative"
             >
               {quiz.heroImageUrl && (
                 <div className="relative h-48 w-full">
@@ -114,12 +136,25 @@ export default function MyQuizzesPage() {
 
                 <div className="flex justify-between items-center text-sm text-gray-500">
                   <span>{new Date(quiz.created_at).toLocaleDateString()}</span>
+                  <button
+                    onClick={() => setQuizToDelete(quiz)}
+                    className="text-red-600 hover:underline"
+                  >
+                    Delete
+                  </button>
                 </div>
               </div>
-            </Link>
+            </div>
           ))}
         </div>
       )}
+
+      <DeleteQuizModal
+        quizTitle={quizToDelete?.title || ""}
+        onConfirm={handleDelete}
+        onCancel={() => setQuizToDelete(null)}
+        open={!!quizToDelete}
+      />
     </main>
   );
 }
