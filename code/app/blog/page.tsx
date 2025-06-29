@@ -24,11 +24,23 @@ export default function BlogPage() {
   }, []);
 
   const loadMore = async () => {
+    if (loading) return;
+
     setLoading(true);
-    const { posts: newPosts, total } = await getBlogPosts(PAGE_SIZE, skip);
-    setPosts((prev) => [...prev, ...newPosts]);
-    setSkip(skip + PAGE_SIZE);
-    setTotal(total);
+
+    const { posts: newPosts, total: newTotal } = await getBlogPosts(
+      PAGE_SIZE,
+      skip
+    );
+
+    setPosts((prev) => {
+      const existingIds = new Set(prev.map((p) => p.sys.id));
+      const uniqueNewPosts = newPosts.filter((p) => !existingIds.has(p.sys.id));
+      return [...prev, ...uniqueNewPosts];
+    });
+
+    setSkip((prev) => prev + PAGE_SIZE);
+    setTotal(newTotal);
     setLoading(false);
   };
 

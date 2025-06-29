@@ -14,7 +14,6 @@ type BlogPostProps = {
 export default async function BlogPost({ params }: BlogPostProps) {
   const { id } = await params;
   const post = await getBlogById(id);
-  console.log(post?.fields.image?.fields?.file?.url);
 
   if (!post) {
     return (
