@@ -5,7 +5,6 @@ import { useEffect, useRef } from "react";
 import Cookies from "js-cookie";
 
 type RatingsCookie = {
-  userId: string;
   ratings: Record<string, number>;
 };
 
@@ -31,7 +30,7 @@ export default function ReviewSyncTracker(){
       return;
     }
 
-    //const userId = session.user.id;
+    const userId = session.user.id;
 
     const init = () => {
       const cookieRaw = Cookies.get("quizRatings");
@@ -40,10 +39,10 @@ export default function ReviewSyncTracker(){
     };
 
     const syncReviewsIfNeeded = () => {
-      if (!lastSyncedRef.current) return;
       const cookieRaw = Cookies.get("quizRatings");
       const cookieRatings: RatingsCookie | null = cookieRaw ? JSON.parse(cookieRaw) : null;
       if (!areRatingsEqual(lastSyncedRef.current, cookieRatings)) {
+        console.log(userId)
         // They are different, do your sync logic here
         //lastSyncedRef.current = cookieRatings;
 
