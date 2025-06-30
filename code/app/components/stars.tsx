@@ -35,7 +35,7 @@ export default function Stars({ avgRating, isMobile, quizId }: { avgRating: numb
       }
       else {
         setClicked(i);
-        saveRatingToCookies(session.user.id, quizId, i);
+        saveRatingToCookies(quizId, i);
       }
     }
   }

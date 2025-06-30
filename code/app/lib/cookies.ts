@@ -1,12 +1,11 @@
 import Cookies from "js-cookie"; 
 
-export function saveRatingToCookies(userId: string, quizId: string, value: number){
+export function saveRatingToCookies(quizId: string, value: number){
   // Get existing ratings from cookie
   const existing = Cookies.get("quizRatings");
-  let data = existing ? JSON.parse(existing) : { userId: userId, ratings: {} };
+  let data = existing ? JSON.parse(existing) : { ratings: {} };
 
   // Update rating for this quiz
-  data.userId = userId; 
   data.ratings[quizId] = value; 
 
   // Save back to cookie
