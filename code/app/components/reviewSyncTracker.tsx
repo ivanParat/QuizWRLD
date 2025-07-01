@@ -42,13 +42,9 @@ export default function ReviewSyncTracker(){
       const cookieRaw = Cookies.get("quizRatings");
       const cookieRatings: RatingsCookie | null = cookieRaw ? JSON.parse(cookieRaw) : null;
       if (!areRatingsEqual(lastSyncedRef.current, cookieRatings)) {
-        console.log(userId)
-        // They are different, do your sync logic here
-        //lastSyncedRef.current = cookieRatings;
-
-        // const data = { userId };
-        // const blob = new Blob([JSON.stringify(data)], { type: "application/json" });
-        // navigator.sendBeacon("/api/sync-favorites/beacon", blob);
+        const data = { userId, ratings: cookieRatings?.ratings || {} };
+        const blob = new Blob([JSON.stringify(data)], { type: "application/json" });
+        navigator.sendBeacon("/api/ratings/toDb", blob);
         lastSyncedRef.current = cookieRatings;
       }
     };

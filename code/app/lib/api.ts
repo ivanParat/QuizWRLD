@@ -357,3 +357,20 @@ export async function getQuizzesByNewest() {
     throw new Error("An error occurred while fetching quizzes by newest.");
   }
 }
+
+export async function getRatingsByUserId(userId: string) {
+  try {
+    const data = await db
+      .select({
+        quizId: ratings.quizId,
+        value: ratings.value,
+      })
+      .from(ratings)
+      .where(eq(ratings.userId, userId));
+
+    return data; 
+  } catch (error) {
+    console.error("Error fetching ratings for user:", error);
+    throw new Error("An error occurred while fetching user ratings.");
+  }
+}

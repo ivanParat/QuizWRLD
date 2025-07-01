@@ -63,7 +63,7 @@ export const ratings = pgTable(
     value: integer("value").notNull(),
     createdAt: timestamp("created_at").notNull().defaultNow(),
   },
-  (table) => [primaryKey({ columns: [table.quizId] })]
+  (table) => [primaryKey({ columns: [table.userId, table.quizId] })]
 );
 
 export const userQuizzes = pgTable(

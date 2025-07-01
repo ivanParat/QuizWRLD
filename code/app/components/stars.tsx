@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import Star from "./star";
 import { authClient } from "@/app/lib/auth-client";
-import { saveRatingToCookies, deleteRatingFromCookies, readRatingFromCookies } from "../lib/cookies";
+import { saveRatingToCookies, deleteRatingFromCookies, readRatingFromCookies } from "../lib/cookiesClient";
 
 export default function Stars({ avgRating, isMobile, quizId }: { avgRating: number, isMobile: boolean, quizId: string }) {
   const { data: session } = authClient.useSession();
