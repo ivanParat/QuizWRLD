@@ -2,11 +2,12 @@ type StarProps = {
   isActive: boolean;
   filled: "yes" | "no" | "half";
   isMobile: boolean;
+  endOfQuiz?: boolean
 };
 
-export default function Star({ isActive, filled, isMobile }: StarProps) {
+export default function Star({ isActive, filled, isMobile, endOfQuiz=false }: StarProps) {
   const color = isActive? "#63aeff" : "#FFC107";
-  const size = isMobile ? "16px" : "19px";
+  const size = endOfQuiz && isMobile? "28px" : endOfQuiz? "30px" : isMobile ? "16px" : "19px";
   const viewBox = "0 -850 800 800";
   if (isActive){
     return (

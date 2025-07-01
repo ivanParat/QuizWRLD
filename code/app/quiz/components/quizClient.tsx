@@ -45,7 +45,7 @@ export default function QuizClient({ quiz }: { quiz: Quiz }){
       />
       <p className="mt-4 text-lg max-w-[600px]">{quiz.description || "No description available."}</p>
       <button 
-        className="bg-brand text-white px-10 py-1.5 rounded-md hover:bg-brand-hover active:bg-brand-hover font-bold drop-shadow-sm mt-8 text-lg"
+        className="bg-brand text-white px-10 py-1.5 rounded-md hover:bg-brand-hover active:bg-brand-hover font-bold drop-shadow-sm mt-8 text-lg mb-8"
         onClick={() => setHasBegun(true)}
       >
         Begin
@@ -74,7 +74,7 @@ export default function QuizClient({ quiz }: { quiz: Quiz }){
 
   if (isFinished) {
     return (
-      <FinalBox score={score} nOfQuestions={quiz.questions.length} />
+      <FinalBox score={score} nOfQuestions={quiz.questions.length} quizId={quiz.id}/>
     );
   }
 

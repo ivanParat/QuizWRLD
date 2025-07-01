@@ -3,6 +3,8 @@
 import { useState, useEffect, useRef } from "react";
 import { IoIosCheckmarkCircle, IoIosCloseCircle } from "react-icons/io";
 import { useRouter } from "next/navigation";
+import { authClient } from "@/app/lib/auth-client";
+import StarsEndOfQuiz from "@/app/components/starsEndOfQuiz";
 
 type Question = {
   id: string;
@@ -143,13 +145,21 @@ export default function QuestionCard({
   );
 }
 
-export function FinalBox({score, nOfQuestions}: {score: number, nOfQuestions: number}){
+export function FinalBox({score, nOfQuestions, quizId}: {score: number, nOfQuestions: number, quizId: string}){
   const router = useRouter();
+  const { data: session } = authClient.useSession();
   return(
     <div className="flex flex-col bg-background-form rounded-md w-4/5 sm:w-[438px] px-[15px] py-[15px] drop-shadow-md">
         <div className="flex justify-center items-center bg-off-white font-medium text-[20px] text-main-text h-[100px] rounded-md drop-shadow-md mb-[15px]">
           <QuestionBox text={`Your score: ${score}/${nOfQuestions}`}/>
         </div>
+        {
+          session &&
+          <div className="flex flex-col sm:flex-row sm:space-x-2 mt-2 sm:mt-4 mb-4 sm:justify-center">
+            <p className="font-medium text-lg text-main-text ml-2 sm:ml-0">Rate the Quiz!</p>
+            <StarsEndOfQuiz quizId={quizId}/>
+          </div>
+        }
         <div className="flex justify-between sm:justify-evenly w-full space-x-2">
           <button 
             className="w-full sm:w-[88px] font-bold bg-accent text-main-text py-2 sm:py-1.5 rounded-md hover:bg-[#ffd145] active:bg-[#ffd145]"
