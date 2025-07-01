@@ -69,9 +69,7 @@ async function getQuizzes() {
         title: quizzes.title,
         slug: quizzes.slug,
         heroImageUrl: quizzes.heroImageUrl,
-        category: sql<{
-          name: string;
-        }>`COALESCE(${categories.name}, 'Unknown')`,
+        category: sql<string>`COALESCE(${categories.name}, 'Unknown')`,
         rating: sql<number>`COALESCE(AVG(${ratings.value}), 0)`,
       })
       .from(quizzes)
@@ -190,9 +188,7 @@ export async function getQuizzesInCategory(categoryId: number) {
         title: quizzes.title,
         slug: quizzes.slug,
         heroImageUrl: quizzes.heroImageUrl,
-        category: sql<{
-          name: string;
-        }>`COALESCE(${categories.name}, 'Unknown')`,
+        category: sql<string>`COALESCE(${categories.name}, 'Unknown')`,
         rating: sql<number>`COALESCE(AVG("ratings"."value"), 0)`,
       })
       .from(quizzes)
@@ -270,9 +266,7 @@ export async function getQuizzesByQuery(query: string) {
         title: quizzes.title,
         slug: quizzes.slug,
         heroImageUrl: quizzes.heroImageUrl,
-        category: sql<{
-          name: string;
-        }>`COALESCE(${categories.name}, 'Unknown')`,
+        category: sql<string>`COALESCE(${categories.name}, 'Unknown')`,
         rating: sql<number>`COALESCE(AVG(${ratings.value}), 0)`,
       })
       .from(quizzes)
@@ -315,7 +309,7 @@ export async function getQuizzesByRating() {
         title: quizzes.title,
         slug: quizzes.slug,
         heroImageUrl: quizzes.heroImageUrl,
-        category: sql<{ name: string }>`COALESCE(${categories.name}, 'Unknown')`,
+        category: sql<string>`COALESCE(${categories.name}, 'Unknown')`,
         rating: sql<number>`COALESCE(AVG(${ratings.value}), 0)`,
       })
       .from(quizzes)
@@ -340,7 +334,7 @@ export async function getQuizzesByNewest() {
         title: quizzes.title,
         slug: quizzes.slug,
         heroImageUrl: quizzes.heroImageUrl,
-        category: sql<{ name: string }>`COALESCE(${categories.name}, 'Unknown')`,
+        category: sql<string>`COALESCE(${categories.name}, 'Unknown')`,
         rating: sql<number>`COALESCE(AVG(${ratings.value}), 0)`,
         createdAt: quizzes.createdAt,
       })

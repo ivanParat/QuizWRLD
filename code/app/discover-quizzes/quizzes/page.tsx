@@ -1,8 +1,8 @@
 import QuizzesSection from "@/app/components/quizzesSection";
-import { getAllQuizzes, getQuizzesByRating, getQuizzesByNewest } from "@/app/lib/api";
+import { getQuizzesByRating, getQuizzesByNewest } from "@/app/lib/api";
 
 export default async function DiscoverQuizzesPage() {
-  const recommendedQuizzes = await getAllQuizzes();
+  const recommendedQuizzes = await getQuizzesByRating();
   const popularQuizzes = await getQuizzesByRating();
   const newestQuizzes = await getQuizzesByNewest();
   return (

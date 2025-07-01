@@ -12,7 +12,7 @@ type QuizCard = Pick<
   "id" | "title" | "slug" | "heroImageUrl" | "published" | "description"
 > & {
   rating: number;
-  category: { name: string };
+  category: string;
   created_at: Date;
 };
 

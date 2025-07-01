@@ -14,7 +14,7 @@ import { getQuizzesByQuery, getCategoriesByQuery } from "../lib/api";
 type Quiz = InferSelectModel<typeof quizzes>;
 type QuizCard = Pick<Quiz, "id" | "title" | "slug" | "heroImageUrl"> & {
   rating: number;
-  category: { name: string };
+  category: string;
 };
 type Category = InferSelectModel<typeof categories>;
 type CategoryCard = Pick<Category, "id" | "name" | "imageUrl" | "color">;
@@ -62,7 +62,7 @@ export default function SearchPage() {
   if (loading) return <Loading/>;
 
   return (
-    <main className="flex min-h-screen flex-col items-center">
+    <main className="flex min-h-screen flex-col items-center bg-off-white">
       <QuizzesSection title="Quizzes" quizzes={quizzesResult}/>
       <CategoriesSection title="Categories" categories={categoriesResult}/>
     </main>
