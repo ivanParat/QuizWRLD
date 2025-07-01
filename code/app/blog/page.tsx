@@ -1,131 +1,80 @@
-import type { Metadata } from "next";
+"use client";
+import { useEffect, useState } from "react";
 import Link from "next/link";
-import { BASE_API_URL } from "./config";
+import type { TypeBlogSkeleton } from "../content-types";
+import { Entry } from "contentful";
+import { getBlogPosts } from "../lib/api";
 
-export type Post = {
-  userId: number;
-  id: number;
-  title: string;
-  body: string;
-};
+const PAGE_SIZE = 5;
 
-type BlogPageProps = {
-  searchParams: Promise<{ page: string }>;
-  //searchParams: { page: string };
-};
+export default function BlogPage() {
+  type BlogEntry = Entry<
+    TypeBlogSkeleton,
+    "WITHOUT_UNRESOLVABLE_LINKS",
+    string
+  >;
 
-type PagingInfo = {
-  _start?: number;
-  _limit?: number;
-};
+  const [skip, setSkip] = useState(0);
+  const [total, setTotal] = useState(0);
+  const [loading, setLoading] = useState(false);
+  const [posts, setPosts] = useState<BlogEntry[]>([]);
 
-type PaginationProps = {
-  currentPage: number;
-  pagesCount: number;
-};
+  useEffect(() => {
+    loadMore();
+  }, []);
 
-export const metadata: Metadata = {
-  title: "Blog",
-};
+  const loadMore = async () => {
+    if (loading) return;
 
-const PAGE_SIZE = 6;
+    setLoading(true);
 
-async function getPosts({
-  _start = 0,
-  _limit = PAGE_SIZE,
-}: PagingInfo): Promise<Post[]> {
-  const data = await fetch(
-    `${BASE_API_URL}/posts/?_start=${_start}&_limit=${_limit}`
-  );
-  return data.json();
-}
+    const { posts: newPosts, total: newTotal } = await getBlogPosts(
+      PAGE_SIZE,
+      skip
+    );
 
-async function getPostsCount(): Promise<number> {
-  // https://jsonplaceholder.typicode.com/posts/?_start=5&_limit=8
-  const data = await fetch(`${BASE_API_URL}/posts/?_limit=1`, {
-    method: "HEAD",
-  });
-  let count: string | number = data.headers.get("x-total-count") || "1";
-  count = parseInt(count, 10);
-  return count;
-}
+    setPosts((prev) => {
+      const existingIds = new Set(prev.map((p) => p.sys.id));
+      const uniqueNewPosts = newPosts.filter((p) => !existingIds.has(p.sys.id));
+      return [...prev, ...uniqueNewPosts];
+    });
 
-function processPost(post: Post) {
-  const { id, title } = post;
-  return (
-    <li key={id} className="mb-4">
-      <Link
-        href={`/blog/${id}`}
-        className="block p-6 bg-white rounded-lg border border-gray-200 shadow-md hover:bg-gray-100 transition-colors duration-200"
-      >
-        <h2 className="mb-2 text-2xl font-bold tracking-tight text-gray-900">
-          Post {id} : {title}
-        </h2>
-        <p className="font-normal text-gray-700">
-          Click to read more about this fascinating topic...
-        </p>
-      </Link>
-    </li>
-  );
-}
+    setSkip((prev) => prev + PAGE_SIZE);
+    setTotal(newTotal);
+    setLoading(false);
+  };
 
-function Pagination(pagination: PaginationProps) {
-  const { currentPage, pagesCount } = pagination;
-  const isFirstPage = currentPage === 1;
-  const isLastPage = currentPage === pagesCount;
-  return (
-    <div className="w-full max-w-2xl mb-6">
-      <div className="bg-white rounded-lg border border-gray-200 shadow-sm p-4 flex justify-between items-center">
-        <Link
-          href={`/blog?page=${currentPage - 1}`}
-          className={`px-4 py-2 rounded-md transition-colors duration-200 ${
-            isFirstPage
-              ? "bg-gray-100 text-gray-400 cursor-not-allowed"
-              : "bg-gray-200 text-gray-700 hover:bg-gray-300"
-          }`}
-          aria-disabled={isFirstPage}
-        >
-          Previous
-        </Link>
-        <p className="text-gray-700">
-          Page{" "}
-          <span className="font-semibold text-gray-900">{currentPage}</span> of{" "}
-          <span className="font-semibold text-gray-900">{pagesCount}</span>
-        </p>
-        <Link
-          href={`/blog?page=${currentPage + 1}`}
-          className={`px-4 py-2 rounded-md transition-colors duration-200 ${
-            isLastPage
-              ? "bg-gray-100 text-gray-400 cursor-not-allowed"
-              : "bg-gray-200 text-gray-700 hover:bg-gray-300"
-          }`}
-          aria-disabled={isLastPage}
-        >
-          Next
-        </Link>
-      </div>
-    </div>
-  );
-}
+  const hasMore = skip < total;
 
-export default async function BlogPage({ searchParams }: BlogPageProps) {
-  const postsCount = await getPostsCount();
-  const pagesCount = Math.ceil(postsCount / PAGE_SIZE);
-  const { page: searchParamPage } = await searchParams;
-  // Ensure the page number is a positive integer.
-  const currentPage = Math.min(
-    /^[1-9][0-9]*$/.test(searchParamPage) ? Number(searchParamPage) : 1,
-    pagesCount
-  );
-  const _start = (currentPage - 1) * PAGE_SIZE;
-  const _limit = PAGE_SIZE;
-
-  const posts = await getPosts({ _start, _limit });
   return (
     <main className="flex min-h-screen flex-col items-center p-10">
       <h1 className="text-6xl font-extrabold tracking-tight mb-10">Blog</h1>
-      <Pagination currentPage={currentPage} pagesCount={pagesCount} />
-      <ul className="w-full max-w-2xl space-y-4">{posts.map(processPost)}</ul>
+
+      <ul className="w-full max-w-2xl space-y-4 mb-6">
+        {posts.map((post) => (
+          <li key={post.sys.id} className="mb-4">
+            <Link
+              href={`/blog/${post.sys.id}`}
+              className="block p-6 bg-white rounded-lg border border-gray-200 shadow-md hover:bg-gray-100 transition-colors duration-200"
+            >
+              <h2 className="mb-2 text-2xl font-bold tracking-tight text-gray-900">
+                {post.fields.title}
+              </h2>
+              <p className="font-normal text-gray-700">Click to read more...</p>
+            </Link>
+          </li>
+        ))}
+      </ul>
+
+      {hasMore && (
+        <button
+          onClick={loadMore}
+          disabled={loading}
+          className="px-6 py-2 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition-colors"
+        >
+          {loading ? "Loading..." : "Show More"}
+        </button>
+      )}
     </main>
   );
 }
