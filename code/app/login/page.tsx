@@ -23,7 +23,17 @@ export default function Login() {
         { email, password },
         {
           onRequest: () => {},
-          onSuccess: () => {
+          onSuccess: async () => {
+            const session = await authClient.getSession();
+            const userId = session?.data?.user?.id;
+            if (userId) {
+              await fetch("/api/ratings/fromDb", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ userId }),
+              });
+            }
+
             const redirectTo = searchParams.get("redirectTo");
             const decodedRedirectTo = redirectTo
               ? decodeURIComponent(redirectTo)

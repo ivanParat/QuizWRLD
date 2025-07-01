@@ -1,4 +1,4 @@
-import { getAllQuizzes, getAllCategories } from "./lib/api";
+import { getQuizzesByRating, getAllCategories } from "./lib/api";
 import Image from "next/image";
 import Link from "next/link";
 import QuizzesSection from "./components/quizzesSection";
@@ -39,7 +39,7 @@ function HeroSection() {
 
 export default async function HomePage() {
   const categories = await getAllCategories();
-  const quizzes = await getAllQuizzes();
+  const quizzes = await getQuizzesByRating();
 
   return (
     <main className="flex min-h-screen flex-col items-center">

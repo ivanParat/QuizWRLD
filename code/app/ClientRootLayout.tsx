@@ -3,6 +3,8 @@
 import { authClient } from "@/app/lib/auth-client";
 import { Navigation } from "./components/navigation";
 import { Suspense } from "react";
+import ReviewSyncTracker from "./components/reviewSyncTracker";
+
 export default function ClientRootLayout({
   children,
 }: {
@@ -16,6 +18,7 @@ export default function ClientRootLayout({
 
   return (
     <>
+      <ReviewSyncTracker/>
       <Suspense fallback={<div>Loading...</div>}>
         <Navigation user={user} />
       </Suspense>

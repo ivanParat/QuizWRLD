@@ -71,9 +71,7 @@ async function getQuizzes() {
         title: quizzes.title,
         slug: quizzes.slug,
         heroImageUrl: quizzes.heroImageUrl,
-        category: sql<{
-          name: string;
-        }>`COALESCE(${categories.name}, 'Unknown')`,
+        category: sql<string>`COALESCE(${categories.name}, 'Unknown')`,
         rating: sql<number>`COALESCE(AVG(${ratings.value}), 0)`,
       })
       .from(quizzes)
@@ -192,9 +190,7 @@ export async function getQuizzesInCategory(categoryId: number) {
         title: quizzes.title,
         slug: quizzes.slug,
         heroImageUrl: quizzes.heroImageUrl,
-        category: sql<{
-          name: string;
-        }>`COALESCE(${categories.name}, 'Unknown')`,
+        category: sql<string>`COALESCE(${categories.name}, 'Unknown')`,
         rating: sql<number>`COALESCE(AVG("ratings"."value"), 0)`,
       })
       .from(quizzes)
@@ -274,9 +270,7 @@ export async function getQuizzesByQuery(query: string) {
         title: quizzes.title,
         slug: quizzes.slug,
         heroImageUrl: quizzes.heroImageUrl,
-        category: sql<{
-          name: string;
-        }>`COALESCE(${categories.name}, 'Unknown')`,
+        category: sql<string>`COALESCE(${categories.name}, 'Unknown')`,
         rating: sql<number>`COALESCE(AVG(${ratings.value}), 0)`,
       })
       .from(quizzes)
@@ -315,6 +309,31 @@ export async function getCategoriesByQuery(query: string) {
   }
 }
 
+export async function getQuizzesByRating() {
+  try {
+    const data = await db
+      .select({
+        id: quizzes.id,
+        title: quizzes.title,
+        slug: quizzes.slug,
+        heroImageUrl: quizzes.heroImageUrl,
+        category: sql<string>`COALESCE(${categories.name}, 'Unknown')`,
+        rating: sql<number>`COALESCE(AVG(${ratings.value}), 0)`,
+      })
+      .from(quizzes)
+      .leftJoin(categories, eq(quizzes.categoryId, categories.id))
+      .leftJoin(ratings, eq(quizzes.id, ratings.quizId))
+      .where(eq(quizzes.published, true))
+      .groupBy(quizzes.id, categories.name)
+      .orderBy(sql`COALESCE(AVG(${ratings.value}), 0) DESC`);
+
+    return data;
+  } catch (error) {
+    console.error("Error fetching quizzes by rating:", error);
+    throw new Error("An error occurred while fetching quizzes by rating.");
+  }
+}
+
 export async function getQuizzesByNewest() {
   try {
     const data = await db
@@ -323,9 +342,7 @@ export async function getQuizzesByNewest() {
         title: quizzes.title,
         slug: quizzes.slug,
         heroImageUrl: quizzes.heroImageUrl,
-        category: sql<{
-          name: string;
-        }>`COALESCE(${categories.name}, 'Unknown')`,
+        category: sql<string>`COALESCE(${categories.name}, 'Unknown')`,
         rating: sql<number>`COALESCE(AVG(${ratings.value}), 0)`,
         createdAt: quizzes.createdAt,
       })
@@ -343,6 +360,22 @@ export async function getQuizzesByNewest() {
   }
 }
 
+export async function getRatingsByUserId(userId: string) {
+  try {
+    const data = await db
+      .select({
+        quizId: ratings.quizId,
+        value: ratings.value,
+      })
+      .from(ratings)
+      .where(eq(ratings.userId, userId));
+
+    return data; 
+  } catch (error) {
+    console.error("Error fetching ratings for user:", error);
+    throw new Error("An error occurred while fetching user ratings.");
+  }
+}
 export const getBlogPosts = async (
   limit = 5,
   skip = 0
@@ -389,31 +422,5 @@ export async function getBlogById(
   } catch (error) {
     console.error("Error fetching post by ID:", error);
     return null;
-  }
-}
-export async function getQuizzesByRating() {
-  try {
-    const data = await db
-      .select({
-        id: quizzes.id,
-        title: quizzes.title,
-        slug: quizzes.slug,
-        heroImageUrl: quizzes.heroImageUrl,
-        category: sql<{
-          name: string;
-        }>`COALESCE(${categories.name}, 'Unknown')`,
-        rating: sql<number>`COALESCE(AVG(${ratings.value}), 0)`,
-      })
-      .from(quizzes)
-      .leftJoin(categories, eq(quizzes.categoryId, categories.id))
-      .leftJoin(ratings, eq(quizzes.id, ratings.quizId))
-      .where(eq(quizzes.published, true))
-      .groupBy(quizzes.id, categories.name)
-      .orderBy(sql`COALESCE(AVG(${ratings.value}), 0) DESC`);
-
-    return data;
-  } catch (error) {
-    console.error("Error fetching quizzes by rating:", error);
-    throw new Error("An error occurred while fetching quizzes by rating.");
   }
 }

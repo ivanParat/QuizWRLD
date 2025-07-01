@@ -8,6 +8,13 @@
       "when": 1740427513506,
       "tag": "0000_burly_shockwave",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1751376495470,
+      "tag": "0001_futuristic_warbound",
+      "breakpoints": true
     }
   ]
 }

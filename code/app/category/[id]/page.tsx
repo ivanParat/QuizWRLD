@@ -16,7 +16,7 @@ export default async function Category({
       slug: quiz.slug,
       heroImageUrl: quiz.heroImageUrl,
       rating: quiz.rating,
-      category: typeof quiz.category === "string" ? quiz.category : quiz.category?.name ?? "Unknown",
+      category: quiz.category,
     };
   });
 

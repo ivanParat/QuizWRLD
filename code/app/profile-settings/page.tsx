@@ -4,6 +4,7 @@ import React, { useState, useEffect } from "react";
 import { authClient } from "../lib/auth-client";
 import DeleteAccountModal from "./components/DeleteAccountModal";
 import Image from "next/image";
+import Cookies from "js-cookie";
 
 const ProfileUpdateForm = () => {
   const [currentPassword, setCurrentPassword] = useState("");
@@ -17,6 +18,7 @@ const ProfileUpdateForm = () => {
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [profileImageUrl, setProfileImageUrl] = useState<string | null>(null);
   const [isProfilePictureReady, setIsProfilePictureReady] = useState(false);
+  const { data: session } = authClient.useSession();
 
   useEffect(() => {
     const fetchProfileImage = async () => {
@@ -158,6 +160,19 @@ const ProfileUpdateForm = () => {
 
   const handleLogout = async () => {
     try {
+      const userId = session?.user?.id;
+      type RatingsCookie = {
+        ratings: Record<string, number>;
+      };
+      const cookieRaw = Cookies.get("quizRatings");
+      const cookieRatings: RatingsCookie | null = cookieRaw ? JSON.parse(cookieRaw) : null;
+      if(userId && cookieRatings && Object.keys(cookieRatings.ratings).length > 0)
+      await fetch("/api/ratings/toDb", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ userId: userId, ratings: cookieRatings.ratings }),
+      });
+
       await authClient.signOut();
 
       setSuccess("Logged out successfully!");
