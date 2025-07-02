@@ -70,7 +70,7 @@ export default function BlogPage() {
         <button
           onClick={loadMore}
           disabled={loading}
-          className="px-6 py-2 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition-colors"
+          className="px-6 py-2 bg-brand text-white font-semibold rounded-lg hover:bg-brand-hover transition-colors drop-shadow-sm"
         >
           {loading ? "Loading..." : "Show More"}
         </button>

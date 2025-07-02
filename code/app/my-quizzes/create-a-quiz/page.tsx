@@ -217,7 +217,7 @@ export default function QuizForm() {
             <button
               type="button"
               onClick={addQuestion}
-              className="bg-brand text-white px-4 py-2 rounded hover:bg-brand-hover font-medium drop-shadow-sm"
+              className="bg-brand text-white px-4 py-2 rounded-md hover:bg-brand-hover font-medium drop-shadow-sm"
             >
               Add Question
             </button>
@@ -373,7 +373,7 @@ export default function QuizForm() {
               if (confirm("Are you sure you want to exit without saving?")) {
               }
             }}
-            className="px-4 py-2 bg-incorrect text-white rounded hover:bg-incorrect-hover font-medium drop-shadow-sm"
+            className="px-4 py-2 bg-incorrect text-white rounded-md hover:bg-incorrect-hover font-medium drop-shadow-sm"
           >
             Exit Without Saving
           </button>
@@ -381,14 +381,14 @@ export default function QuizForm() {
             <button
               type="submit"
               onClick={() => setPublished(false)}
-              className="px-4 py-2 bg-gray-500 text-white rounded hover:bg-gray-400 font-medium drop-shadow-sm"
+              className="px-4 py-2 bg-gray-500 text-white rounded-md hover:bg-gray-400 font-medium drop-shadow-sm"
             >
               Save to Drafts
             </button>
             <button
               type="submit"
               onClick={() => setPublished(true)}
-              className="px-4 py-2 bg-correct text-white rounded hover:bg-correct-hover font-medium drop-shadow-sm"
+              className="px-4 py-2 bg-correct text-white rounded-md hover:bg-correct-hover font-medium drop-shadow-sm"
             >
               Publish Quiz
             </button>
