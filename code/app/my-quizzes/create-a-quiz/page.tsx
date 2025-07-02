@@ -2,6 +2,7 @@
 import { useEffect, useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import supabase from "@/app/lib/supabase";
+import Loading from "@/app/loading";
 interface Answer {
   text: string;
   isCorrect: boolean;
@@ -33,7 +34,7 @@ export default function QuizForm() {
   const [questions, setQuestions] = useState<Question[]>([]);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState<number>(-1);
   const [published, setPublished] = useState(false);
-
+  const [loading, setLoading] = useState(false);
   const [categories, setCategories] = useState<Category[]>([]);
 
   useEffect(() => {
@@ -99,6 +100,8 @@ export default function QuizForm() {
   };
 
   const onSubmit: SubmitHandler<FormData> = async (data: FormData) => {
+    setLoading(true);
+
     const formData = new FormData();
 
     formData.append("title", data.title);
@@ -124,6 +127,7 @@ export default function QuizForm() {
       if (response.ok) {
         console.log("Quiz created successfully:", result);
         alert("Quiz saved successfully!");
+        window.location.reload();
       } else {
         console.error("Error creating quiz:", result.error);
         alert("Failed to create quiz: " + result.error);
@@ -132,8 +136,11 @@ export default function QuizForm() {
       console.error("Unexpected error:", error);
       alert("An unexpected error occurred. Please try again.");
     }
+
+    setLoading(false);
   };
 
+  if(loading) return <Loading/>;
   return (
     <div className="max-w-4xl mx-auto p-6 bg-background-form rounded-lg shadow-md mt-8">
       <h1 className="text-2xl font-bold mb-6">Create New Quiz</h1>
