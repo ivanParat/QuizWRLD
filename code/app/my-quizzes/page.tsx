@@ -67,9 +67,32 @@ export default function MyQuizzesPage() {
     }
   };
 
+  const handleTogglePublish = async (
+    quizId: string,
+    currentStatus: boolean
+  ) => {
+    try {
+      const res = await fetch(`/api/quizzes/publish-user-quiz?id=${quizId}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        // Send new published status as JSON in body to toggle on backend
+        body: JSON.stringify({ published: !currentStatus }),
+      });
+
+      if (!res.ok) throw new Error("Failed to toggle publish status");
+
+      setQuizzes((prev) =>
+        prev.map((quiz) =>
+          quiz.id === quizId ? { ...quiz, published: !currentStatus } : quiz
+        )
+      );
+    } catch (err) {
+      console.error(err);
+      alert("Failed to toggle publish status.");
+    }
+  };
   return (
     <main className="flex min-h-screen flex-col items-center p-4 md:p-10">
-
       {loading && (
         <div className="text-center py-10">
           <p className="text-xl text-gray-600">Loading...</p>
@@ -100,7 +123,11 @@ export default function MyQuizzesPage() {
             <Link
               key={quiz.id}
               href={quiz.published ? `/quiz/${quiz.slug}` : `#`}
-              className={`border rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-shadow bg-white relative ${quiz.published ? "cursor-pointer" : "cursor-default"}`}
+              className={`border rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-shadow ${
+                quiz.published
+                  ? "bg-green-50 border-green-200"
+                  : "bg-yellow-50 border-yellow-200"
+              }`}
             >
               {quiz.heroImageUrl && (
                 <div className="relative h-48 w-full">
@@ -117,33 +144,37 @@ export default function MyQuizzesPage() {
               <div className="p-4">
                 <div className="flex justify-between items-start mb-2">
                   <h2 className="text-xl font-bold truncate">{quiz.title}</h2>
-                  <span
-                    className={`px-2 py-1 text-xs rounded-full ${
-                      quiz.published
-                        ? "bg-green-100 text-green-800"
-                        : "bg-yellow-100 text-yellow-800"
-                    }`}
-                  >
-                    {quiz.published ? "Published" : "Draft"}
-                  </span>
-                </div>
 
+                  <div className="flex justify-between items-center mb-2">
+                    <button
+                      onClick={() =>
+                        handleTogglePublish(quiz.id, !!quiz.published)
+                      }
+                      className={`px-2 py-1 text-xs rounded-full ${
+                        quiz.published
+                          ? "bg-red-100 text-red-800"
+                          : "bg-green-100 text-green-800"
+                      }`}
+                    >
+                      {quiz.published ? "Unpublish" : "Publish"}
+                    </button>
+                  </div>
+                </div>
                 <p className="text-gray-600 mb-4 line-clamp-2">
                   {quiz.description || "No description"}
                 </p>
 
                 <div className="flex justify-between items-center text-sm text-gray-500">
                   <span>{new Date(quiz.created_at).toLocaleDateString()}</span>
-                  <button
-                    onClick={(e) => {
-                      e.preventDefault(); 
-                      e.stopPropagation(); 
-                      setQuizToDelete(quiz);
-                    }}
-                    className="text-red-600 hover:underline"
-                  >
-                    Delete
-                  </button>
+
+                  <div className="flex space-x-4">
+                    <button
+                      onClick={() => setQuizToDelete(quiz)}
+                      className="text-red-600 hover:underline"
+                    >
+                      Delete
+                    </button>
+                  </div>
                 </div>
               </div>
             </Link>
