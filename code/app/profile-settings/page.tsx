@@ -243,15 +243,20 @@ const ProfileUpdateForm = () => {
 
         <div className="mb-4">
           <h3 className="block font-semibold text-lg">Profile Picture</h3>
-          <label className="inline-flex items-center px-4 py-2 bg-brand text-white cursor-pointer hover:bg-brand-hover active:bg-brand-hover rounded-md font-semibold drop-shadow-sm mb-2 mt-2">
-            Find Image
-            <input
-              type="file"
-              onChange={(e) => setImage(e.target.files?.[0] || null)}
-              className="hidden"
-            />
-          </label>
-          <div className="flex flex-col space-y-4 items-start md:space-y-0 md:flex-row md:space-x-3 mt-2">
+          <div className="flex flex-col items-start md:items-center md:space-y-0 md:flex-row md:space-x-3">
+            <label className="inline-flex items-center px-4 py-2 bg-brand text-white cursor-pointer hover:bg-brand-hover active:bg-brand-hover rounded-md font-semibold drop-shadow-sm mb-2 mt-2">
+              Find Image
+              <input
+                type="file"
+                onChange={(e) => setImage(e.target.files?.[0] || null)}
+                className="hidden"
+              />
+            </label>
+            {image && (
+              <span className="text-sm text-main-text mb-5 md:mb-0">{image.name}</span>
+            )}
+          </div>
+          <div className="flex flex-col space-y-4 items-start md:space-y-0 md:flex-row md:space-x-3 md:mt-2">
             <button
               className="px-4 py-2 bg-brand hover:bg-brand-hover active:bg-brand-hover text-white rounded-md font-semibold drop-shadow-sm"
               onClick={handleUploadProfilePicture}

@@ -31,6 +31,7 @@ export default function QuizForm() {
     register,
     handleSubmit,
     formState: { errors },
+    watch,
   } = useForm<FormData>();
   const [questions, setQuestions] = useState<Question[]>([]);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState<number>(-1);
@@ -202,12 +203,25 @@ export default function QuizForm() {
 
           <div className="mb-4">
             <label className="block text-sm font-medium mb-1">Quiz Image</label>
-            <input
-              type="file"
-              accept="image/*"
-              {...register("image")}
-              className="w-full p-2 border rounded"
-            />
+            <div className="flex flex-col sm:flex-row items-start sm:items-center space-y-2 sm:space-y-0 sm:space-x-3">
+              <label
+                htmlFor="quiz-image"
+                className="inline-block px-4 py-2 bg-brand text-white cursor-pointer hover:bg-brand-hover active:bg-brand-hover rounded-md font-semibold drop-shadow-sm"
+              >
+                Choose Image
+              </label>
+              <input
+                id="quiz-image"
+                type="file"
+                accept="image/*"
+                {...register("image")}
+                className="hidden"
+              />
+              {/* Show selected file name */}
+              {watch("image") && watch("image").length > 0 && (
+                <span className="text-sm text-main-text">{watch("image")[0].name}</span>
+              )}
+            </div>
           </div>
         </div>
 
@@ -217,7 +231,7 @@ export default function QuizForm() {
             <button
               type="button"
               onClick={addQuestion}
-              className="bg-brand text-white px-4 py-2 rounded-md hover:bg-brand-hover font-medium drop-shadow-sm"
+              className="bg-brand text-white px-4 py-2 rounded-md hover:bg-brand-hover font-semibold drop-shadow-sm"
             >
               Add Question
             </button>
@@ -373,7 +387,7 @@ export default function QuizForm() {
               if (confirm("Are you sure you want to exit without saving?")) {
               }
             }}
-            className="px-4 py-2 bg-incorrect text-white rounded-md hover:bg-incorrect-hover font-medium drop-shadow-sm"
+            className="px-4 py-2 bg-incorrect text-white rounded-md hover:bg-incorrect-hover font-semibold drop-shadow-sm"
           >
             Exit Without Saving
           </button>
@@ -381,14 +395,14 @@ export default function QuizForm() {
             <button
               type="submit"
               onClick={() => setPublished(false)}
-              className="px-4 py-2 bg-gray-500 text-white rounded-md hover:bg-gray-400 font-medium drop-shadow-sm"
+              className="px-4 py-2 bg-gray-500 text-white rounded-md hover:bg-gray-400 font-semibold drop-shadow-sm"
             >
               Save to Drafts
             </button>
             <button
               type="submit"
               onClick={() => setPublished(true)}
-              className="px-4 py-2 bg-correct text-white rounded-md hover:bg-correct-hover font-medium drop-shadow-sm"
+              className="px-4 py-2 bg-correct text-white rounded-md hover:bg-correct-hover font-semibold drop-shadow-sm"
             >
               Publish Quiz
             </button>
