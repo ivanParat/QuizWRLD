@@ -69,9 +69,6 @@ export default function MyQuizzesPage() {
 
   return (
     <main className="flex min-h-screen flex-col items-center p-4 md:p-10">
-      <h1 className="text-4xl md:text-5xl font-bold tracking-tight mb-8">
-        My Quizzes
-      </h1>
 
       {loading && (
         <div className="text-center py-10">

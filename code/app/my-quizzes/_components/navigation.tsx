@@ -10,16 +10,16 @@ type Page = {
 
 const pages: Page[] = [
   {
+    title: "My Quizzes",
+    path: "/my-quizzes",
+  },
+  {
+    title: "Drafts",
+    path: "/my-quizzes/saved-and-drafts",
+  },
+    {
     title: "Create a Quiz",
     path: "/my-quizzes/create-a-quiz",
-  },
-  {
-    title: "Analytics and Feedback",
-    path: "/my-quizzes/analytics",
-  },
-  {
-    title: "Saved and Draft Quizzes",
-    path: "/my-quizzes/saved-and-drafts",
   },
 ];
 
