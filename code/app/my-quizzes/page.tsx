@@ -97,9 +97,10 @@ export default function MyQuizzesPage() {
       ) : (
         <div className="w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {quizzes.map((quiz) => (
-            <div
+            <Link
               key={quiz.id}
-              className="border rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-shadow bg-white relative"
+              href={quiz.published ? `/quiz/${quiz.slug}` : `#`}
+              className={`border rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-shadow bg-white relative ${quiz.published ? "cursor-pointer" : "cursor-default"}`}
             >
               {quiz.heroImageUrl && (
                 <div className="relative h-48 w-full">
@@ -134,14 +135,18 @@ export default function MyQuizzesPage() {
                 <div className="flex justify-between items-center text-sm text-gray-500">
                   <span>{new Date(quiz.created_at).toLocaleDateString()}</span>
                   <button
-                    onClick={() => setQuizToDelete(quiz)}
+                    onClick={(e) => {
+                      e.preventDefault(); 
+                      e.stopPropagation(); 
+                      setQuizToDelete(quiz);
+                    }}
                     className="text-red-600 hover:underline"
                   >
                     Delete
                   </button>
                 </div>
               </div>
-            </div>
+            </Link>
           ))}
         </div>
       )}

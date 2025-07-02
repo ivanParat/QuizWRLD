@@ -100,7 +100,7 @@ export default function SavedAndDraftsPage() {
           {quizzes.map((quiz) => (
             <div
               key={quiz.id}
-              className="border rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-shadow bg-white"
+              className="border rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-shadow bg-white cursor-default"
             >
               {quiz.heroImageUrl && (
                 <div className="relative h-48 w-full">
