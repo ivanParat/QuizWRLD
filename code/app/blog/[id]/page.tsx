@@ -36,8 +36,8 @@ export default async function BlogPost({ params }: BlogPostProps) {
     : null;
 
   return (
-    <main className="flex min-h-screen flex-col items-center p-10">
-      <article className="w-full max-w-2xl bg-white shadow-lg rounded-lg overflow-hidden p-6">
+    <main className="flex min-h-screen flex-col items-center p-10 pb-20 bg-off-white">
+      <article className="w-full max-w-4xl bg-white shadow-lg rounded-lg overflow-hidden p-6">
         <Link
           href="/blog"
           className="inline-flex items-center text-gray-600 hover:text-gray-900 transition-colors duration-200 mb-6"
@@ -45,7 +45,7 @@ export default async function BlogPost({ params }: BlogPostProps) {
           <ArrowLeft className="mr-2 h-4 w-4" /> Back to all posts
         </Link>
 
-        <h1 className="text-3xl md:text-4xl font-extrabold tracking-tight text-gray-900 mb-4">
+        <h1 className="text-3xl md:text-4xl font-bold tracking-tight text-gray-900 mb-4">
           {title}
         </h1>
 
@@ -53,11 +53,11 @@ export default async function BlogPost({ params }: BlogPostProps) {
           <img
             src={imageUrl}
             alt={title}
-            className="mb-6 max-h-96 w-full object-cover rounded"
+            className="mb-7 mt-5 max-h-96 w-full object-cover rounded"
           />
         )}
 
-        <p className="whitespace-pre-line font-normal text-gray-700">{text}</p>
+        <p className="whitespace-pre-line font-normal md:text-[17px] text-main-text">{text}</p>
       </article>
     </main>
   );

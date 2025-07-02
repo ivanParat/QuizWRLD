@@ -47,8 +47,8 @@ export default function BlogPage() {
   const hasMore = skip < total;
 
   return (
-    <main className="flex min-h-screen flex-col items-center p-10">
-      <h1 className="text-6xl font-extrabold tracking-tight mb-10">Blog</h1>
+    <main className="flex min-h-screen flex-col items-center p-10 bg-off-white">
+      <h1 className="text-4xl md:text-5xl font-bold tracking-tight mb-8">Blog</h1>
 
       <ul className="w-full max-w-2xl space-y-4 mb-6">
         {posts.map((post) => (
