@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import supabase from "@/app/lib/supabase";
 import Loading from "@/app/loading";
+import CreateAQuizModal from "../_components/CreateAQuizModal";
 interface Answer {
   text: string;
   isCorrect: boolean;
@@ -36,6 +37,7 @@ export default function QuizForm() {
   const [published, setPublished] = useState(false);
   const [loading, setLoading] = useState(false);
   const [categories, setCategories] = useState<Category[]>([]);
+  const [modalMessage, setModalMessage] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchCategories = async () => {
@@ -99,6 +101,15 @@ export default function QuizForm() {
     setQuestions(updatedQuestions);
   };
 
+  function onModalConfirm(){
+    if(modalMessage === "Quiz created successfully"){
+      window.location.reload();
+    }
+    else {
+      setModalMessage(null);
+    }
+  }
+
   const onSubmit: SubmitHandler<FormData> = async (data: FormData) => {
     setLoading(true);
 
@@ -126,15 +137,14 @@ export default function QuizForm() {
 
       if (response.ok) {
         console.log("Quiz created successfully:", result);
-        alert("Quiz saved successfully!");
-        window.location.reload();
+        setModalMessage("Quiz created successfully");
       } else {
         console.error("Error creating quiz:", result.error);
-        alert("Failed to create quiz: " + result.error);
+        setModalMessage("Error creating quiz");
       }
     } catch (error) {
       console.error("Unexpected error:", error);
-      alert("An unexpected error occurred. Please try again.");
+      setModalMessage("An unexpected error occurred. Please try again.");
     }
 
     setLoading(false);
@@ -142,6 +152,7 @@ export default function QuizForm() {
 
   if(loading) return <Loading/>;
   return (
+    <>
     <div className="max-w-4xl mx-auto p-6 bg-background-form rounded-lg shadow-md mt-8">
       <h1 className="text-2xl font-bold mb-6">Create New Quiz</h1>
 
@@ -385,5 +396,10 @@ export default function QuizForm() {
         </div>
       </form>
     </div>
+    { 
+      modalMessage &&
+      <CreateAQuizModal message={modalMessage} onConfirm={onModalConfirm}/>
+    }
+    </>
   );
 }

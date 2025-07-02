@@ -217,6 +217,7 @@ const ProfileUpdateForm = () => {
   };
 
   return (
+    <>
     <div className="max-w-lg mx-auto p-6 bg-background-form text-main-text rounded-xl shadow-md space-y-8">
       <div>
         <div className="flex justify-center w-full">
@@ -340,12 +341,13 @@ const ProfileUpdateForm = () => {
       </div>
       {success && <p className="text-correct mt-4">{success}</p>}
       {error && <p className="text-incorrect mt-4">{error}</p>}
-      <DeleteAccountModal
-        isOpen={isDeleteModalOpen}
-        onClose={() => setIsDeleteModalOpen(false)}
-        onConfirm={handleDeleteAccount}
-      />
     </div>
+    <DeleteAccountModal
+      isOpen={isDeleteModalOpen}
+      onClose={() => setIsDeleteModalOpen(false)}
+      onConfirm={handleDeleteAccount}
+    />
+    </>
   );
 };
 
