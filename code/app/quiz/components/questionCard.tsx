@@ -81,7 +81,7 @@ function Answer({text, selectedAnswer, isSelected, isCorrect, onClick, color }: 
     >
       {text}
 
-      <span className="ml-4">
+      <span className="absolute right-[10px] top-1/2 -translate-y-1/2">
         {selectedAnswer && isCorrect ? 
           (
             <div className="bg-white rounded-full">
