@@ -125,8 +125,8 @@ export default function MyQuizzesPage() {
               href={quiz.published ? `/quiz/${quiz.slug}` : `#`}
               className={`border rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-shadow ${
                 quiz.published
-                  ? "bg-green-50 border-green-200"
-                  : "bg-yellow-50 border-yellow-200"
+                  ? "bg-white hover:bg-green-100"
+                  : "bg-white hover:bg-yellow-100 cursor-defaultd"
               }`}
             >
               {quiz.heroImageUrl && (
@@ -147,8 +147,11 @@ export default function MyQuizzesPage() {
 
                   <div className="flex justify-between items-center mb-2">
                     <button
-                      onClick={() =>
-                        handleTogglePublish(quiz.id, !!quiz.published)
+                      onClick={(e) => {
+                          e.preventDefault(); 
+                          e.stopPropagation(); 
+                          handleTogglePublish(quiz.id, !!quiz.published)
+                        }
                       }
                       className={`px-2 py-1 text-xs rounded-full ${
                         quiz.published
@@ -169,7 +172,11 @@ export default function MyQuizzesPage() {
 
                   <div className="flex space-x-4">
                     <button
-                      onClick={() => setQuizToDelete(quiz)}
+                      onClick={(e) => {
+                        e.preventDefault(); 
+                        e.stopPropagation(); 
+                        setQuizToDelete(quiz);
+                    }}
                       className="text-red-600 hover:underline"
                     >
                       Delete

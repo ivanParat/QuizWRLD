@@ -121,8 +121,8 @@ export default function SavedAndDraftsPage() {
               key={quiz.id}
               className={`border rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-shadow ${
                 quiz.published
-                  ? "bg-green-50 border-green-200"
-                  : "bg-yellow-50 border-yellow-200"
+                  ? "bg-white hover:bg-green-100"
+                  : "bg-white hover:bg-yellow-100 cursor-default"
               }`}
             >
               {quiz.heroImageUrl && (
