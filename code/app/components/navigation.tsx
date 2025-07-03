@@ -328,7 +328,7 @@ export function Navigation({ user, isPending }: { user: User, isPending: boolean
       </div>
       <div className="hidden md:flex items-center space-x-4">
         <ul className="flex justify-center items-center">
-          {visiblePages.map((page, index) => processPage(page, index))}
+          {visiblePages.map((page, index) => processPage(page, index, closeProfileDropdown))}
         </ul>
         {isPending && (
             <div className="w-8 h-8 border-[3px] border-secondary-text border-t-transparent rounded-full animate-spin" />
