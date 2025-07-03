@@ -5,6 +5,8 @@ import { authClient } from "../lib/auth-client";
 import DeleteAccountModal from "./components/DeleteAccountModal";
 import Image from "next/image";
 import Cookies from "js-cookie";
+import SuccessOrErrorModal from "./components/SuccessOrErrorModal";
+import Loading from "../loading";
 
 const ProfileUpdateForm = () => {
   const [currentPassword, setCurrentPassword] = useState("");
@@ -19,6 +21,7 @@ const ProfileUpdateForm = () => {
   const [profileImageUrl, setProfileImageUrl] = useState<string | null>(null);
   const [isProfilePictureReady, setIsProfilePictureReady] = useState(false);
   const { data: session } = authClient.useSession();
+  const [loading, setLoading] = useState<boolean>(false);
 
   useEffect(() => {
     const fetchProfileImage = async () => {
@@ -43,6 +46,8 @@ const ProfileUpdateForm = () => {
   ) => {
     e.preventDefault();
 
+    setLoading(true);
+
     try {
       const response = await fetch("/api/auth/user/update-username", {
         method: "POST",
@@ -64,11 +69,14 @@ const ProfileUpdateForm = () => {
       setError("An unexpected error occurred. Please try again.");
       setSuccess("");
     }
+    setLoading(false);
   };
   const handlePasswordChange = async (
     e: React.MouseEvent<HTMLButtonElement>
   ) => {
     e.preventDefault();
+
+    setLoading(true);
 
     try {
       const response = await fetch("/api/auth/user/update-password", {
@@ -95,12 +103,15 @@ const ProfileUpdateForm = () => {
       setError("An unexpected error occurred. Please try again.");
       setSuccess("");
     }
+    setLoading(false);
   };
 
   const handleUploadProfilePicture = async (
     e: React.MouseEvent<HTMLButtonElement>
   ) => {
     e.preventDefault();
+
+    setLoading(true);
 
     if (!image) {
       setError("Please select a file to upload.");
@@ -130,12 +141,15 @@ const ProfileUpdateForm = () => {
       setError("An unexpected error occurred. Please try again.");
       setSuccess("");
     }
+    setLoading(false);
   };
 
   const handleRemoveProfilePicture = async (
     e: React.MouseEvent<HTMLButtonElement>
   ) => {
     e.preventDefault();
+
+    setLoading(true);
 
     try {
       const response = await fetch("/api/auth/user/remove-profile-picture", {
@@ -156,9 +170,11 @@ const ProfileUpdateForm = () => {
       setError("An unexpected error occurred. Please try again.");
       setSuccess("");
     }
+    setLoading(false);
   };
 
   const handleLogout = async () => {
+    setLoading(true);
     try {
       const userId = session?.user?.id;
       type RatingsCookie = {
@@ -177,16 +193,16 @@ const ProfileUpdateForm = () => {
 
       setSuccess("Logged out successfully!");
       setError("");
-
-      router.push("/login");
     } catch (error) {
       console.error("Error logging out:", error);
       setError("An unexpected error occurred. Please try again.");
       setSuccess("");
     }
+    setLoading(false);
   };
 
   const handleDeleteAccount = async (password: string) => {
+    setLoading(true);
     try {
       const response = await fetch("/api/auth/user/delete-user", {
         method: "POST",
@@ -201,8 +217,6 @@ const ProfileUpdateForm = () => {
       if (response.ok) {
         setSuccess("Account deleted successfully!");
         setError("");
-
-        router.push("/");
       } else {
         setError(result.error || "Failed to delete account");
         setSuccess("");
@@ -214,8 +228,10 @@ const ProfileUpdateForm = () => {
     } finally {
       setIsDeleteModalOpen(false);
     }
+    setLoading(false);
   };
 
+  if(loading) return <Loading/>;
   return (
     <>
     <div className="max-w-lg mx-auto p-6 bg-background-form text-main-text rounded-xl shadow-md space-y-8">
@@ -344,9 +360,30 @@ const ProfileUpdateForm = () => {
           Log Out
         </button>
       </div>
-      {success && <p className="text-correct mt-4">{success}</p>}
-      {error && <p className="text-incorrect mt-4">{error}</p>}
     </div>
+    
+    {success && 
+    <SuccessOrErrorModal 
+      message={success}
+      onConfirm={()=>{
+        if(success === "Logged out successfully!"){
+          router.push("/login");
+        }
+        else if(success === "Account deleted successfully!"){
+          router.push("/");
+        }
+        else{
+          window.location.reload();
+        }
+      }}/>
+    }
+
+    {error && 
+    <SuccessOrErrorModal 
+      message={error} 
+      onConfirm={()=>{setError("")}}/>
+    }
+
     <DeleteAccountModal
       isOpen={isDeleteModalOpen}
       onClose={() => setIsDeleteModalOpen(false)}
