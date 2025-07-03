@@ -84,7 +84,7 @@ export type TypeCategorySkeleton = EntrySkeletonType<
 
 export interface TypeBlogFields {
   title: EntryFieldTypes.Symbol;
-  text: EntryFieldTypes.Text;
+  text: Document;
   image: EntryFieldTypes.AssetLink;
 }
 

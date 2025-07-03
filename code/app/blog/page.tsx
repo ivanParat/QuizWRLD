@@ -20,8 +20,25 @@ export default function BlogPage() {
   const [posts, setPosts] = useState<BlogEntry[]>([]);
 
   useEffect(() => {
-    loadMore();
+    const savedPosts = sessionStorage.getItem("blogPosts");
+    const savedSkip = sessionStorage.getItem("blogSkip");
+    const savedTotal = sessionStorage.getItem("blogTotal");
+
+    if (savedPosts && savedSkip && savedTotal) {
+      setPosts(JSON.parse(savedPosts));
+      setSkip(Number(savedSkip));
+      setTotal(Number(savedTotal));
+    } else {
+      loadMore();
+    }
   }, []);
+  useEffect(() => {
+    if (posts.length > 0) {
+      sessionStorage.setItem("blogPosts", JSON.stringify(posts));
+      sessionStorage.setItem("blogSkip", skip.toString());
+      sessionStorage.setItem("blogTotal", total.toString());
+    }
+  }, [posts, skip, total]);
 
   const loadMore = async () => {
     if (loading) return;
@@ -48,7 +65,9 @@ export default function BlogPage() {
 
   return (
     <main className="flex min-h-screen flex-col items-center p-10 bg-off-white">
-      <h1 className="text-4xl md:text-5xl font-bold tracking-tight mb-8">Blog</h1>
+      <h1 className="text-4xl md:text-5xl font-bold tracking-tight mb-8">
+        Blog
+      </h1>
 
       <ul className="w-full max-w-2xl space-y-4 mb-6">
         {posts.map((post) => (

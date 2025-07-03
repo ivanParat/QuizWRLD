@@ -2,6 +2,7 @@ import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
 import type { Metadata } from "next";
 import { getBlogById } from "@/app/lib/api";
+import { documentToReactComponents } from "@contentful/rich-text-react-renderer";
 
 export const metadata: Metadata = {
   title: "Blog Post",
@@ -29,8 +30,11 @@ export default async function BlogPost({ params }: BlogPostProps) {
     );
   }
 
+  const options = {
+    preserveWhitespace: true,
+  };
   const { title, text } = post.fields;
-
+  console.log(text);
   const imageUrl = post.fields.image?.fields?.file?.url
     ? `https:${post.fields.image.fields.file.url}`
     : null;
@@ -44,11 +48,9 @@ export default async function BlogPost({ params }: BlogPostProps) {
         >
           <ArrowLeft className="mr-2 h-4 w-4" /> Back to all posts
         </Link>
-
         <h1 className="text-3xl md:text-4xl font-bold tracking-tight text-gray-900 mb-4">
           {title}
         </h1>
-
         {imageUrl && (
           <img
             src={imageUrl}
@@ -56,8 +58,9 @@ export default async function BlogPost({ params }: BlogPostProps) {
             className="mb-7 mt-5 max-h-96 w-full object-cover rounded"
           />
         )}
-
-        <p className="whitespace-pre-line font-normal md:text-[17px] text-main-text">{text}</p>
+        <div className="space-y-6 text-main-text">
+          {documentToReactComponents(text, options)}
+        </div>
       </article>
     </main>
   );
