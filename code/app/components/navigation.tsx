@@ -235,7 +235,7 @@ function ProfilePicture({user, onClick}: {user: User, onClick: () => void}){
   if(user) return(
     <li className="flex items-center gap-2">
       <Image
-        src={user.profilePicture ?? "/images/default-profile-picture.jpg"}
+        src={user.profilePicture ?? "/images/default-profile-picture.svg"}
         alt={user.name ?? "User"}
         width={300}
         height={300}
