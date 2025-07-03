@@ -7,6 +7,8 @@ import { useState, useRef, useEffect } from "react";
 import { useClickOutside } from "../hooks/useClickOutside";
 import { useRouter, useSearchParams } from "next/navigation";
 import Image from "next/image";
+import Cookies from "js-cookie";
+import { authClient } from "../lib/auth-client";
 
 type Page = {
   title: string;
@@ -14,6 +16,7 @@ type Page = {
 };
 
 type User = {
+  id: string | null;
   name: string | null;
   profilePicture: string | null;
 } | null;
@@ -228,16 +231,85 @@ function Hamburger({ isOpen, toggleMenu }: HamburgerProps) {
   );
 }
 
-export function Navigation({ user }: { user: User }) {
+function ProfilePicture({user, onClick}: {user: User, onClick: () => void}){
+  if(user) return(
+    <li className="flex items-center gap-2">
+      <Image
+        src={user.profilePicture ?? "/images/default-profile-picture.jpg"}
+        alt={user.name ?? "User"}
+        width={300}
+        height={300}
+        className="w-8 h-8 rounded-full object-cover cursor-pointer"
+        onClick={onClick}
+      />
+    </li>
+  );
+  return null;
+}
+
+function ProfileDropdown({user, open, closeMenu}: {user: User, open: boolean, closeMenu: () => void}){
+  if(user)
+  return(
+    <ul
+      className={cn(
+        "flex flex-col absolute top-full right-3 items-center min-w-1/2 md:min-w-auto bg-white px-12 py-6 space-y-6 text-sm md:text-md text-black z-50 drop-shadow-sm",
+        { hidden: !open }
+      )}
+    >
+      <li key="username" className="font-bold">
+        User: {user?.name}
+      </li>
+      <li key="profile">
+        <Link
+          href="/profile-settings"
+          className="font-bold hover:text-brand active:text-brand"
+          onClick={closeMenu}
+        >
+          Profile
+        </Link>
+      </li>
+      <li key="logout" onClick={()=>{closeMenu(); handleLogout(user.id)}} className="font-bold hover:text-brand active:text-brand cursor-pointer">
+        Log Out
+      </li>
+    </ul>
+  );
+}
+
+const handleLogout = async (userId: string | null) => {
+  if(userId)
+  try {
+    type RatingsCookie = {
+      ratings: Record<string, number>;
+    };
+    const cookieRaw = Cookies.get("quizRatings");
+    const cookieRatings: RatingsCookie | null = cookieRaw ? JSON.parse(cookieRaw) : null;
+    if(userId && cookieRatings && Object.keys(cookieRatings.ratings).length > 0)
+    await fetch("/api/ratings/toDb", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ userId: userId, ratings: cookieRatings.ratings }),
+    });
+
+    await authClient.signOut();
+  } catch (error) {
+    console.error("Error logging out:", error);
+  }
+};
+
+export function Navigation({ user, isPending }: { user: User, isPending: boolean }) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isProfileDropdownOpen, setIsProfileDropdownOpen] = useState(false)
   const navRef = useRef<HTMLDivElement>(null);
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
+  const toggleProfileDropdown = () => setIsProfileDropdownOpen(!isProfileDropdownOpen);
   const closeMenu = () => setIsMenuOpen(false);
+  const closeProfileDropdown = () => setIsProfileDropdownOpen(false);
 
   useClickOutside(navRef, closeMenu);
+  useClickOutside(navRef, closeProfileDropdown);
 
   const visiblePages = pages.filter((page) => {
-    if (page.path === "/login" && user) return false;
+    if (page.path === "/login" && (user || isPending)) return false;
     return true;
   });
 
@@ -246,62 +318,49 @@ export function Navigation({ user }: { user: User }) {
       className="flex h-14 items-center justify-between px-2 md:px-4 lg:px-8 xl:px-12 relative"
       ref={navRef}
     >
-      <Link href="/" onClick={closeMenu}>
+      <Link href="/" onClick={() => {closeMenu(); closeProfileDropdown();}}>
         <Logo />
       </Link>
 
       {/* Hidden on mobile */}
       <div className="hidden md:flex items-center">
-        <SearchBar closeMenu={closeMenu} />
+        <SearchBar closeMenu={() => {closeMenu(); closeProfileDropdown();}} />
       </div>
       <div className="hidden md:flex items-center space-x-4">
         <ul className="flex justify-center items-center">
           {visiblePages.map((page, index) => processPage(page, index))}
         </ul>
-        {user && (
-          <div className="flex items-center space-x-2 ml-4">
-            <Image
-              src={user.profilePicture ?? "/images/default-profile-picture.jpg"}
-              width={300}
-              height={300}
-              alt={user.name ?? "User"}
-              className="w-8 h-8 rounded-full object-cover"
-            />
-            {user.name && (
-              <span className="text-sm font-medium">{user.name}</span>
-            )}
-          </div>
-        )}
+        {isPending && (
+            <div className="w-8 h-8 border-[3px] border-secondary-text border-t-transparent rounded-full animate-spin" />
+          )
+        }
+        {user && <ProfilePicture user={user} onClick={toggleProfileDropdown}/>}
+        {isProfileDropdownOpen && user && <ProfileDropdown user={user} open={isProfileDropdownOpen} closeMenu={closeProfileDropdown}/>}
       </div>
 
       {/* Visible on mobile */}
-      <div className="flex md:hidden space-x-2">
-        <SearchBar closeMenu={closeMenu} />
-        <Hamburger isOpen={isMenuOpen} toggleMenu={toggleMenu} />
-      </div>
+      <div className="flex md:hidden space-x-2 items-center">
+        <div className="flex md:hidden space-x-2">
+          <SearchBar closeMenu={() => {closeMenu(); closeProfileDropdown();}} />
+          <Hamburger isOpen={isMenuOpen} toggleMenu={() => {closeProfileDropdown(); toggleMenu()}} />
+        </div>
 
-      <ul
-        className={cn(
-          "flex md:hidden flex-col absolute top-full left-0 items-center w-full bg-off-white py-6 space-y-6 text-sm text-black z-50",
-          { hidden: !isMenuOpen }
-        )}
-      >
-        {visiblePages.map((page, index) => processPage(page, index, closeMenu))}
-        {user && (
-          <li className="flex items-center gap-2">
-            <Image
-              src={user.profilePicture ?? "/images/default-profile-picture.jpg"}
-              alt={user.name ?? "User"}
-              width={300}
-              height={300}
-              className="w-8 h-8 rounded-full object-cover"
-            />
-            {user.name && (
-              <span className="text-sm font-medium">{user.name}</span>
-            )}
-          </li>
-        )}
-      </ul>
+        <ul
+          className={cn(
+            "flex flex-col absolute top-full right-3 items-center min-w-1/2 md:min-w-auto bg-white px-12 py-6 space-y-6 text-sm md:text-md text-black z-50 drop-shadow-sm",
+            { hidden: !isMenuOpen }
+          )}
+        >
+          {visiblePages.map((page, index) => processPage(page, index, closeMenu))}
+        </ul>
+
+        {isPending && (
+            <div className="w-8 h-8 border-[3px] border-secondary-text border-t-transparent rounded-full animate-spin" />
+          )
+        }
+        {user && <ProfilePicture user={user} onClick={() => {closeMenu(); toggleProfileDropdown()}}/>}
+        {isProfileDropdownOpen && user && <ProfileDropdown user={user} open={isProfileDropdownOpen} closeMenu={closeProfileDropdown}/>}
+      </div>
     </nav>
   );
 }

@@ -10,17 +10,17 @@ export default function ClientRootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const { data: session } = authClient.useSession();
+  const { data: session, isPending } = authClient.useSession();
 
   const user = session
-    ? { name: session.user.name, profilePicture: session.user.image ?? null }
+    ? { id: session.user.id, name: session.user.name, profilePicture: session.user.image ?? null }
     : null;
 
   return (
     <>
       <ReviewSyncTracker/>
       <Suspense fallback={<div>Loading...</div>}>
-        <Navigation user={user} />
+        <Navigation user={user} isPending={isPending} />
       </Suspense>
       {children}
     </>
