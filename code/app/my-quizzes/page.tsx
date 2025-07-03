@@ -75,7 +75,6 @@ export default function MyQuizzesPage() {
       const res = await fetch(`/api/quizzes/publish-user-quiz?id=${quizId}`, {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
-        // Send new published status as JSON in body to toggle on backend
         body: JSON.stringify({ published: !currentStatus }),
       });
 
@@ -120,9 +119,8 @@ export default function MyQuizzesPage() {
       ) : (
         <div className="w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {quizzes.map((quiz) => (
-            <Link
+            <div
               key={quiz.id}
-              href={quiz.published ? `/quiz/${quiz.slug}` : `#`}
               className={`border rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-shadow ${
                 quiz.published
                   ? "bg-white hover:bg-green-100"
@@ -148,11 +146,10 @@ export default function MyQuizzesPage() {
                   <div className="flex justify-between items-center mb-2">
                     <button
                       onClick={(e) => {
-                          e.preventDefault(); 
-                          e.stopPropagation(); 
-                          handleTogglePublish(quiz.id, !!quiz.published)
-                        }
-                      }
+                        e.stopPropagation();
+                        e.preventDefault();
+                        handleTogglePublish(quiz.id, !!quiz.published);
+                      }}
                       className={`px-2 py-1 text-xs rounded-full ${
                         quiz.published
                           ? "bg-red-100 text-red-800"
@@ -173,10 +170,10 @@ export default function MyQuizzesPage() {
                   <div className="flex space-x-4">
                     <button
                       onClick={(e) => {
-                        e.preventDefault(); 
-                        e.stopPropagation(); 
+                        e.preventDefault();
+                        e.stopPropagation();
                         setQuizToDelete(quiz);
-                    }}
+                      }}
                       className="text-red-600 hover:underline"
                     >
                       Delete
@@ -184,7 +181,7 @@ export default function MyQuizzesPage() {
                   </div>
                 </div>
               </div>
-            </Link>
+            </div>
           ))}
         </div>
       )}
