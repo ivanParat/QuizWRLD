@@ -34,7 +34,6 @@ export default async function BlogPost({ params }: BlogPostProps) {
     preserveWhitespace: true,
   };
   const { title, text } = post.fields;
-  console.log(text);
   const imageUrl = post.fields.image?.fields?.file?.url
     ? `https:${post.fields.image.fields.file.url}`
     : null;

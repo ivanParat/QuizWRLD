@@ -14,54 +14,55 @@ export default function BlogPage() {
     string
   >;
 
-  const [skip, setSkip] = useState(0);
+  const [page, setPage] = useState(1);
   const [total, setTotal] = useState(0);
   const [loading, setLoading] = useState(false);
   const [posts, setPosts] = useState<BlogEntry[]>([]);
 
+  const totalPages = Math.ceil(total / PAGE_SIZE);
+
   useEffect(() => {
+    const savedPage = sessionStorage.getItem("blogPage");
     const savedPosts = sessionStorage.getItem("blogPosts");
-    const savedSkip = sessionStorage.getItem("blogSkip");
     const savedTotal = sessionStorage.getItem("blogTotal");
 
-    if (savedPosts && savedSkip && savedTotal) {
+    if (savedPosts && savedPage && savedTotal) {
+      setPage(Number(savedPage));
       setPosts(JSON.parse(savedPosts));
-      setSkip(Number(savedSkip));
       setTotal(Number(savedTotal));
     } else {
-      loadMore();
+      fetchPosts(1);
     }
   }, []);
+
   useEffect(() => {
     if (posts.length > 0) {
+      sessionStorage.setItem("blogPage", page.toString());
       sessionStorage.setItem("blogPosts", JSON.stringify(posts));
-      sessionStorage.setItem("blogSkip", skip.toString());
       sessionStorage.setItem("blogTotal", total.toString());
     }
-  }, [posts, skip, total]);
+  }, [posts, page, total]);
 
-  const loadMore = async () => {
-    if (loading) return;
-
+  const fetchPosts = async (pageNum: number) => {
     setLoading(true);
+    const skip = (pageNum - 1) * PAGE_SIZE;
 
     const { posts: newPosts, total: newTotal } = await getBlogPosts(
       PAGE_SIZE,
       skip
     );
 
-    setPosts((prev) => {
-      const existingIds = new Set(prev.map((p) => p.sys.id));
-      const uniqueNewPosts = newPosts.filter((p) => !existingIds.has(p.sys.id));
-      return [...prev, ...uniqueNewPosts];
-    });
-
-    setSkip((prev) => prev + PAGE_SIZE);
+    setPosts(newPosts);
     setTotal(newTotal);
     setLoading(false);
   };
 
-  const hasMore = skip < total;
+  const handlePageChange = (pageNum: number) => {
+    if (pageNum !== page) {
+      setPage(pageNum);
+      fetchPosts(pageNum);
+    }
+  };
 
   return (
     <main className="flex min-h-screen flex-col items-center p-10 bg-off-white">
@@ -69,9 +70,28 @@ export default function BlogPage() {
         Blog
       </h1>
 
+      {totalPages > 1 && (
+        <div className="flex space-x-2 mt-4 mb-10">
+          {Array.from({ length: totalPages }, (_, i) => i + 1).map((num) => (
+            <button
+              key={num}
+              onClick={() => handlePageChange(num)}
+              disabled={loading || num === page}
+              className={`px-4 py-2 rounded-lg border text-sm font-medium ${
+                num === page
+                  ? "bg-brand text-white"
+                  : "bg-white border-gray-300 hover:bg-gray-100"
+              }`}
+            >
+              {num}
+            </button>
+          ))}
+        </div>
+      )}
+
       <ul className="w-full max-w-2xl space-y-4 mb-6">
         {posts.map((post) => (
-          <li key={post.sys.id} className="mb-4">
+          <li key={post.sys.id}>
             <Link
               href={`/blog/${post.sys.id}`}
               className="block p-6 bg-white rounded-lg border border-gray-200 shadow-md hover:bg-gray-100 transition-colors duration-200"
@@ -84,16 +104,6 @@ export default function BlogPage() {
           </li>
         ))}
       </ul>
-
-      {hasMore && (
-        <button
-          onClick={loadMore}
-          disabled={loading}
-          className="px-6 py-2 bg-brand text-white font-semibold rounded-lg hover:bg-brand-hover transition-colors drop-shadow-sm"
-        >
-          {loading ? "Loading..." : "Show More"}
-        </button>
-      )}
     </main>
   );
 }
