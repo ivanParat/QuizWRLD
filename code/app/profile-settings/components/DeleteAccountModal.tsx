@@ -32,13 +32,13 @@ const DeleteAccountModal: React.FC<DeleteAccountModalProps> = ({
         />
         <div className="flex justify-end gap-4">
           <button
-            className="px-4 py-2 rounded text-gray-600 hover:text-gray-800 font-medium"
+            className="px-4 py-2 rounded text-gray-600 sm:hover:text-gray-800 font-medium"
             onClick={onClose}
           >
             Cancel
           </button>
           <button
-            className="px-4 py-2 bg-incorrect hover:bg-incorrect-hover text-white rounded-md font-medium drop-shadow-sm"
+            className="px-4 py-2 bg-incorrect sm:hover:bg-incorrect-hover text-white rounded-md font-medium drop-shadow-sm"
             onClick={() => onConfirm(password)}
           >
             Delete Account

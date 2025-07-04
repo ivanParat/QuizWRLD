@@ -19,7 +19,7 @@ type SectionsProps = {
 
 function processCategoryCard(categoryCard: CategoryCard, index: number) {
   return (
-    <Link href={`/category/${categoryCard.name}`} key={index} className="transition duration-200 hover:brightness-110 active:brightness-125">
+    <Link href={`/category/${categoryCard.name}`} key={index} className="transition duration-200 sm:hover:brightness-110 sm:active:brightness-125">
       <div
         key={index}
         className={`rounded-md overflow-hidden relative bg-gradient-to-tr aspect-[1/1] lg:aspect-[4/3]`}
@@ -100,7 +100,7 @@ export default function CategoriesSection({
       </div>
       {
         n < categories.length &&
-        <button onClick={()=>{handleClickMore()}} className="flex mt-6 text-lg font-medium text-main-text hover:text-brand active:text-brand">
+        <button onClick={()=>{handleClickMore()}} className="flex mt-6 text-lg font-medium text-main-text sm:hover:text-brand sm:active:text-brand">
           <span>More</span>
           <ChevronDown size={28}/>
         </button>

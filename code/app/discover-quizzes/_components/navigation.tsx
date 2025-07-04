@@ -26,7 +26,7 @@ function processPage(page: Page, index: number, pathname: string) {
         href={page.path}
         className={`
           text-lg
-          ${pathname === page.path ? "font-semibold" : "hover:font-semibold active:font-semibold"}
+          ${pathname === page.path ? "font-semibold" : "sm:hover:font-semibold sm:active:font-semibold"}
         `}
       >
         {page.title}

@@ -260,7 +260,7 @@ const ProfileUpdateForm = () => {
         <div className="mb-4">
           <h3 className="block font-semibold text-lg">Profile Picture</h3>
           <div className="flex flex-col items-start md:items-center md:space-y-0 md:flex-row md:space-x-3">
-            <label className="inline-flex items-center px-4 py-2 bg-brand text-white cursor-pointer hover:bg-brand-hover active:bg-brand-hover rounded-md font-semibold drop-shadow-sm mb-2 mt-2">
+            <label className="inline-flex items-center px-4 py-2 bg-brand text-white cursor-pointer sm:hover:bg-brand-hover sm:active:bg-brand-hover rounded-md font-semibold drop-shadow-sm mb-2 mt-2">
               Find Image
               <input
                 type="file"
@@ -274,13 +274,13 @@ const ProfileUpdateForm = () => {
           </div>
           <div className="flex flex-col space-y-4 items-start md:space-y-0 md:flex-row md:space-x-3 md:mt-2">
             <button
-              className="px-4 py-2 bg-brand hover:bg-brand-hover active:bg-brand-hover text-white rounded-md font-semibold drop-shadow-sm"
+              className="px-4 py-2 bg-brand sm:hover:bg-brand-hover sm:active:bg-brand-hover text-white rounded-md font-semibold drop-shadow-sm"
               onClick={handleUploadProfilePicture}
             >
               Upload the Image
             </button>
             <button
-              className="px-4 py-2 bg-gray-500 hover:bg-gray-400 active:bg-gray-400 text-white rounded-md font-semibold drop-shadow-sm"
+              className="px-4 py-2 bg-gray-500 sm:hover:bg-gray-400 sm:active:bg-gray-400 text-white rounded-md font-semibold drop-shadow-sm"
               onClick={handleRemoveProfilePicture}
             >
               Remove Profile Picture
@@ -300,7 +300,7 @@ const ProfileUpdateForm = () => {
           />
         </div>
         <button
-          className="mb-3 px-4 py-2 bg-brand hover:bg-brand-hover active:bg-brand-hover text-white rounded-md font-semibold drop-shadow-sm"
+          className="mb-3 px-4 py-2 bg-brand sm:hover:bg-brand-hover sm:active:bg-brand-hover text-white rounded-md font-semibold drop-shadow-sm"
           onClick={handleUsernameChange}
         >
           Save Changes
@@ -339,7 +339,7 @@ const ProfileUpdateForm = () => {
         </div>
 
         <button
-          className="mb-4 px-4 py-2 bg-brand hover:bg-brand-hover active:bg-brand-hover text-white rounded-md font-semibold drop-shadow-sm"
+          className="mb-4 px-4 py-2 bg-brand sm:hover:bg-brand-hover sm:active:bg-brand-hover text-white rounded-md font-semibold drop-shadow-sm"
           onClick={handlePasswordChange}
         >
           Save Changes
@@ -348,13 +348,13 @@ const ProfileUpdateForm = () => {
 
       <div className="flex space-x-3">
         <button
-          className="px-4 py-2 bg-incorrect hover:bg-incorrect-hover active:bg-incorrect-hover text-white rounded-md font-semibold drop-shadow-sm"
+          className="px-4 py-2 bg-incorrect sm:hover:bg-incorrect-hover sm:active:bg-incorrect-hover text-white rounded-md font-semibold drop-shadow-sm"
           onClick={() => setIsDeleteModalOpen(true)}
         >
           Delete Account
         </button>
         <button
-          className="px-4 py-2 bg-gray-500 hover:bg-gray-400 active:bg-gray-400 text-white rounded-md font-semibold drop-shadow-sm"
+          className="px-4 py-2 bg-gray-500 sm:hover:bg-gray-400 sm:active:bg-gray-400 text-white rounded-md font-semibold drop-shadow-sm"
           onClick={handleLogout}
         >
           Log Out

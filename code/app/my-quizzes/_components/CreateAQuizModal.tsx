@@ -20,7 +20,7 @@ export default function CreateAQuizModal({
             onClick={() => {
               onConfirm();
             }}
-            className="px-4 py-2 rounded-md bg-brand text-white hover:bg-brand-hover active:bg-brand-hover disabled:opacity-60 font-medium drop-shadow-sm"
+            className="px-4 py-2 rounded-md bg-brand text-white sm:hover:bg-brand-hover sm:active:bg-brand-hover disabled:opacity-60 font-medium drop-shadow-sm"
           >
             Ok
           </button>

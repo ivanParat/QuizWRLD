@@ -58,7 +58,7 @@ export default function Login() {
   };
 
   return (
-    <main className="min-h-screen flex flex-1 justify-center bg-off-white py-10 md:py-24 px-4 sm:px-6 lg:px-8">
+    <main className="min-h-screen flex flex-1 justify-center bg-off-white py-32 md:py-24 px-10 sm:px-6 lg:px-8">
       <div className="max-w-md w-full space-y-8">
         <h2 className="text-center sm:text-3xl text-2xl font-bold">
           Log In to Your Account
@@ -93,7 +93,7 @@ export default function Login() {
           <button
             type="submit"
             disabled={loading}
-            className="bg-brand text-white px-7 py-1.5 rounded-md hover:bg-brand-hover active:bg-brand-hover font-bold drop-shadow-sm"
+            className="bg-brand text-white px-7 py-1.5 rounded-md sm:hover:bg-brand-hover sm:active:bg-brand-hover font-bold drop-shadow-sm"
           >
             {loading ? "Logging In..." : "Log In"}
           </button>

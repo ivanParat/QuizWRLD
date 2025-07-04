@@ -80,7 +80,7 @@ export default function BlogPage() {
               className={`px-4 py-2 rounded-lg border text-sm font-medium ${
                 num === page
                   ? "bg-brand text-white"
-                  : "bg-white border-gray-300 hover:bg-gray-100"
+                  : "bg-white border-gray-300 sm:hover:bg-gray-100"
               }`}
             >
               {num}
@@ -94,7 +94,7 @@ export default function BlogPage() {
           <li key={post.sys.id}>
             <Link
               href={`/blog/${post.sys.id}`}
-              className="block p-6 bg-white rounded-lg border border-gray-200 shadow-md hover:bg-gray-100 transition-colors duration-200"
+              className="block p-6 bg-white rounded-lg border border-gray-200 shadow-md sm:hover:bg-gray-100 transition-colors duration-200"
             >
               <h2 className="mb-2 text-2xl font-bold tracking-tight text-gray-900">
                 {post.fields.title}

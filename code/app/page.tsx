@@ -17,7 +17,7 @@ function HeroSection() {
         </p>
         <div className="flex justify-center">
           <Link href="/discover-quizzes/quizzes">
-            <button className="font-semibold md:text-lg bg-brand text-white px-8 md:px-10 py-[7px] mt-4 rounded-md hover:bg-brand-hover active:bg-brand-hover">
+            <button className="font-semibold md:text-lg bg-brand text-white px-8 md:px-10 py-[7px] mt-4 rounded-md sm:hover:bg-brand-hover sm:active:bg-brand-hover">
               Solve Quiz
             </button>
           </Link>

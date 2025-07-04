@@ -89,7 +89,7 @@ export default function SavedAndDraftsPage() {
   };
 
   return (
-    <main className="flex min-h-screen flex-col items-center p-4 md:p-10">
+    <main className="flex min-h-screen flex-col items-center pt-8">
       {loading && (
         <div className="text-center py-10">
           <p className="text-xl text-gray-600">Loading...</p>
@@ -97,19 +97,19 @@ export default function SavedAndDraftsPage() {
       )}
 
       {error && !loading && (
-        <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-6">
+        <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-6 mt-2 sm:mt-0">
           {error}
         </div>
       )}
 
       {!loading && quizzes.length === 0 ? (
-        <div className="text-center py-10">
+        <div className="text-center py-10 mt-24 sm:mt-0">
           <p className="text-xl text-gray-600 mb-4">
             You don't have any drafts.
           </p>
           <Link
             href="/my-quizzes/create-a-quiz"
-            className="inline-block bg-brand hover:bg-brand-hover text-white font-bold py-2 px-4 rounded"
+            className="inline-block bg-brand sm:hover:bg-brand-hover text-white font-bold py-2 px-4 rounded"
           >
             Create Your Quizzes
           </Link>
@@ -119,10 +119,10 @@ export default function SavedAndDraftsPage() {
           {quizzes.map((quiz) => (
             <div
               key={quiz.id}
-              className={`border rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-shadow ${
+              className={`border rounded-lg overflow-hidden shadow-md sm:hover:shadow-lg transition-shadow ${
                 quiz.published
-                  ? "bg-white hover:bg-green-100"
-                  : "bg-white hover:bg-yellow-100 cursor-default"
+                  ? "bg-white sm:hover:bg-green-100"
+                  : "bg-white sm:hover:bg-yellow-100 cursor-default"
               }`}
             >
               {quiz.heroImageUrl && (
@@ -163,7 +163,7 @@ export default function SavedAndDraftsPage() {
                   <div className="flex space-x-4">
                     <button
                       onClick={() => setQuizToDelete(quiz)}
-                      className="text-red-600 hover:underline"
+                      className="text-red-600 sm:hover:underline"
                     >
                       Delete
                     </button>
