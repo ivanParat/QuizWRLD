@@ -113,7 +113,7 @@ export default function QuestionCard({
 }: QuestionCardProps){
   const router = useRouter();
   return(
-    <div className="flex flex-col bg-background-form rounded-md w-19/20 md:w-[644px] px-4 md:px-[30px] pt-[15px] drop-shadow-md">
+    <div className="flex flex-col bg-background-form rounded-md w-full md:w-[644px] px-4 md:px-[30px] pt-[15px] drop-shadow-md">
       <div className="flex justify-between items-center mb-[15px]">
         <span className="text-main-text">
           Question {currentQuestionIndex + 1} of {totalQuestions}
