@@ -272,7 +272,7 @@ const ProfileUpdateForm = () => {
               <span className="text-sm text-main-text mb-5 md:mb-0">{image.name}</span>
             )}
           </div>
-          <div className="flex flex-col space-y-4 items-start md:space-y-0 md:flex-row md:space-x-3 md:mt-2">
+          <div className="flex flex-col space-y-2 items-start md:space-y-0 md:flex-row md:space-x-3 md:mt-2">
             <button
               className="px-4 py-2 bg-brand sm:hover:bg-brand-hover sm:active:bg-brand-hover text-white rounded-md font-semibold drop-shadow-sm"
               onClick={handleUploadProfilePicture}

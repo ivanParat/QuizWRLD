@@ -5,7 +5,7 @@ export const metadata: Metadata = {
   title: "My Quizzes",
 };
 
-export default function DiscoverQuizzesLayout({
+export default function MyQuizzesLayout({
   children,
 }: {
   children: React.ReactNode;

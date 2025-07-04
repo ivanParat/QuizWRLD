@@ -111,7 +111,7 @@ export default function MyQuizzesPage() {
           </p>
           <Link
             href="/my-quizzes/create-a-quiz"
-            className="inline-block bg-brand sm:hover:bg-brand-hover text-white font-bold py-2 px-4 rounded-md"
+            className="inline-block bg-brand sm:hover:bg-brand-hover text-white font-bold py-2 px-4 rounded-md drop-shadow-sm"
           >
             Create Your First Quiz
           </Link>

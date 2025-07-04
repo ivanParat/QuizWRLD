@@ -10,7 +10,7 @@ export default function CreateAQuizModal({
   onConfirm,
 }: Props) {
   return (
-    <div className="fixed inset-0 z-50 bg-off-white bg-opacity-40 flex items-center justify-center">
+    <div className="fixed inset-0 z-50 bg-off-white bg-opacity-40 flex items-center justify-center px-6 sm:px-0">
       <div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-sm">
         <p className="text-lg font-medium mb-4">
           {message}

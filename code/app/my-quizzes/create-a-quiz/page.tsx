@@ -321,7 +321,7 @@ export default function QuizForm() {
                               e.target.value
                             )
                           }
-                          className="flex-1 p-2 border rounded mr-2 bg-off-white"
+                          className="flex-1 p-2 border rounded mr-2 bg-off-white w-1/2 sm:w-auto"
                           placeholder="Answer text"
                           required
                         />
@@ -330,7 +330,7 @@ export default function QuizForm() {
                           onClick={() =>
                             removeAnswer(currentQuestionIndex, aIndex)
                           }
-                          className="text-red-500"
+                          className="text-red-500 text-sm sm:text-base"
                         >
                           Remove
                         </button>
@@ -346,14 +346,14 @@ export default function QuizForm() {
                   </button>
                 </div>
 
-                <div className="flex justify-between mt-4">
+                <div className="flex flex-col items-center sm:flex-row sm:justify-between mt-4 space-y-2 sm:space-y-0">
                   <button
                     type="button"
                     disabled={currentQuestionIndex === 0}
                     onClick={() =>
                       setCurrentQuestionIndex(currentQuestionIndex - 1)
                     }
-                    className={`px-3 py-1 rounded ${
+                    className={`px-3 py-2 sm:py-1 rounded w-2/3 sm:w-auto ${
                       currentQuestionIndex === 0
                         ? "bg-gray-300 text-gray-500"
                         : "bg-gray-500 sm:hover:bg-gray-400 text-white"
@@ -367,7 +367,7 @@ export default function QuizForm() {
                     onClick={() =>
                       setCurrentQuestionIndex(currentQuestionIndex + 1)
                     }
-                    className={`px-3 py-1 rounded ${
+                    className={`px-3 py-2 sm:py-1 rounded w-2/3 sm:w-auto ${
                       currentQuestionIndex === questions.length - 1
                         ? "bg-gray-300 text-gray-500"
                         : "bg-gray-500 sm:hover:bg-gray-400 text-white"
@@ -380,29 +380,29 @@ export default function QuizForm() {
             )}
         </div>
 
-        <div className="flex justify-between mt-6">
+        <div className="flex flex-col sm:flex-row justify-between mt-6 space-y-2 sm:space-y-0 items-center">
           <button
             type="button"
             onClick={() => {
               if (confirm("Are you sure you want to exit without saving?")) {
               }
             }}
-            className="px-4 py-2 bg-incorrect text-white rounded-md sm:hover:bg-incorrect-hover font-semibold drop-shadow-sm"
+            className="px-4 py-2 bg-incorrect text-white rounded-md sm:hover:bg-incorrect-hover font-semibold drop-shadow-sm w-3/4 sm:w-auto"
           >
             Exit Without Saving
           </button>
-          <div className="space-x-3">
+          <div className="flex flex-col sm:flex-row sm:space-x-3 space-y-2 sm:space-y-0 w-full sm:w-auto items-center">
             <button
               type="submit"
               onClick={() => setPublished(false)}
-              className="px-4 py-2 bg-gray-500 text-white rounded-md sm:hover:bg-gray-400 font-semibold drop-shadow-sm"
+              className="px-4 py-2 bg-gray-500 text-white rounded-md sm:hover:bg-gray-400 font-semibold drop-shadow-sm w-3/4 sm:w-auto"
             >
               Save to Drafts
             </button>
             <button
               type="submit"
               onClick={() => setPublished(true)}
-              className="px-4 py-2 bg-correct text-white rounded-md sm:hover:bg-correct-hover font-semibold drop-shadow-sm"
+              className="px-4 py-2 bg-correct text-white rounded-md sm:hover:bg-correct-hover font-semibold drop-shadow-sm w-3/4 sm:w-auto"
             >
               Publish Quiz
             </button>

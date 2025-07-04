@@ -40,7 +40,7 @@ function QuestionBox({ text }: { text: string }) {
   return (
     <div
       ref={textRef}
-      className="px-3 text-center max-h-[100px] overflow-hidden text-ellipsis line-clamp-3"
+      className="flex items-center px-3 pt-2 pb-1.5 text-center h-[133px] md:max-h-[100px] overflow-hidden text-ellipsis line-clamp-3"
       title={isTruncated ? text : ""}
     >
       {text}
@@ -113,7 +113,7 @@ export default function QuestionCard({
 }: QuestionCardProps){
   const router = useRouter();
   return(
-    <div className="flex flex-col bg-background-form rounded-md w-19/20 md:w-[644px] px-[30px] pt-[15px] drop-shadow-md">
+    <div className="flex flex-col bg-background-form rounded-md w-19/20 md:w-[644px] px-4 md:px-[30px] pt-[15px] drop-shadow-md">
       <div className="flex justify-between items-center mb-[15px]">
         <span className="text-main-text">
           Question {currentQuestionIndex + 1} of {totalQuestions}
@@ -125,7 +125,7 @@ export default function QuestionCard({
           Quit
         </button>
       </div>
-      <div className="flex justify-center items-center bg-off-white font-medium text-[20px] text-main-text h-[100px] rounded-md drop-shadow-md mb-[42px]">
+      <div className="flex justify-center items-center bg-off-white font-medium text-[20px] text-main-text md:h-[100px] rounded-md drop-shadow-md mb-[42px]">
         <QuestionBox text={currentQuestion.title}/>
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-[15px] md:gap-[9px] mb-[30px] text-[18px] font-medium">

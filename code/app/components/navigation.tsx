@@ -233,7 +233,7 @@ function Hamburger({ isOpen, toggleMenu }: HamburgerProps) {
 
 function ProfilePicture({user, onClick}: {user: User, onClick: () => void}){
   if(user) return(
-    <li className="flex items-center gap-2">
+    <li className="flex items-center gap-2 min-w-8">
       <Image
         src={user.profilePicture ?? "/images/default-profile-picture.svg"}
         alt={user.name ?? "User"}
@@ -340,7 +340,7 @@ export function Navigation({ user, isPending }: { user: User, isPending: boolean
 
       {/* Visible on mobile */}
       <div className="flex md:hidden space-x-2 items-center">
-        <div className="flex md:hidden space-x-2">
+        <div className="flex space-x-2">
           <SearchBar closeMenu={() => {closeMenu(); closeProfileDropdown();}} />
           <Hamburger isOpen={isMenuOpen} toggleMenu={() => {closeProfileDropdown(); toggleMenu()}} />
         </div>
