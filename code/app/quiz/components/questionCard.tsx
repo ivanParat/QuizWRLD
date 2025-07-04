@@ -40,7 +40,7 @@ function QuestionBox({ text }: { text: string }) {
   return (
     <div
       ref={textRef}
-      className="px-3 text-center max-h-[100px] overflow-hidden text-ellipsis line-clamp-3"
+      className="flex items-center px-3 pt-2 pb-1.5 text-center h-[133px] md:max-h-[100px] overflow-hidden text-ellipsis line-clamp-3"
       title={isTruncated ? text : ""}
     >
       {text}
@@ -74,7 +74,7 @@ function Answer({text, selectedAnswer, isSelected, isCorrect, onClick, color }: 
       style={{ backgroundColor: color }}
       className="relative flex items-center justify-between text-white py-[19px] md:py-[14px] px-[10px] rounded-md drop-shadow-sm text-left
       max-h-[65px] md:max-h-[55px] overflow-hidden text-ellipsis whitespace-nowrap
-      hover:opacity-85 active:opacity-85"
+      sm:hover:opacity-85 sm:active:opacity-85"
       title={isTruncated ? text : ""}
       onClick={onClick}
       disabled={selectedAnswer ? true : false} // Disable button after selecting an answer
@@ -113,19 +113,19 @@ export default function QuestionCard({
 }: QuestionCardProps){
   const router = useRouter();
   return(
-    <div className="flex flex-col bg-background-form rounded-md w-19/20 md:w-[644px] px-[30px] pt-[15px] drop-shadow-md">
+    <div className="flex flex-col bg-background-form rounded-md w-full md:w-[644px] px-4 md:px-[30px] pt-[15px] drop-shadow-md">
       <div className="flex justify-between items-center mb-[15px]">
         <span className="text-main-text">
           Question {currentQuestionIndex + 1} of {totalQuestions}
         </span>
         <button 
-          className="font-bold text-base bg-[#969DA5] text-white px-6 py-1 rounded-md hover:bg-[#a9b1b8] active:bg-[#a9b1b8] drop-shadow-sm"
+          className="font-bold text-base bg-[#969DA5] text-white px-6 py-1 rounded-md sm:hover:bg-[#a9b1b8] sm:active:bg-[#a9b1b8] drop-shadow-sm"
           onClick={() => router.back()}
         >
           Quit
         </button>
       </div>
-      <div className="flex justify-center items-center bg-off-white font-medium text-[20px] text-main-text h-[100px] rounded-md drop-shadow-md mb-[42px]">
+      <div className="flex justify-center items-center bg-off-white font-medium text-[20px] text-main-text md:h-[100px] rounded-md drop-shadow-md mb-[42px]">
         <QuestionBox text={currentQuestion.title}/>
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-[15px] md:gap-[9px] mb-[30px] text-[18px] font-medium">
@@ -162,13 +162,13 @@ export function FinalBox({score, nOfQuestions, quizId}: {score: number, nOfQuest
         }
         <div className="flex justify-between sm:justify-evenly w-full space-x-2">
           <button 
-            className="w-full sm:w-[88px] font-bold bg-accent text-main-text py-2 sm:py-1.5 rounded-md hover:bg-[#ffd145] active:bg-[#ffd145]"
+            className="w-full sm:w-[88px] font-bold bg-accent text-main-text py-2 sm:py-1.5 rounded-md sm:hover:bg-[#ffd145] sm:active:bg-[#ffd145]"
             onClick={() => window.location.reload()}
           >
             Retry
           </button>
           <button 
-            className="w-full sm:w-[88px] font-bold bg-correct text-white py-2 sm:py-1.5 rounded-md hover:bg-[#48b561] active:bg-[#48b561] "
+            className="w-full sm:w-[88px] font-bold bg-correct text-white py-2 sm:py-1.5 rounded-md sm:hover:bg-[#48b561] sm:active:bg-[#48b561] "
             onClick={() => router.back()}
           >
             Exit

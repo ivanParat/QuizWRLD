@@ -41,19 +41,19 @@ const pages: Page[] = [
 const SocialLinks = () => {
   return (
     <div className="flex gap-1 md:gap-3 mt-1 h-9">
-      <Link href={"https://www.facebook.com"} className="h-full hover:text-brand-light active:text-brand-light">
+      <Link href={"https://www.facebook.com"} className="h-full sm:hover:text-brand-light sm:active:text-brand-light">
         <FaFacebookSquare className="w-full h-full"/>
       </Link>
 
-      <Link href={"https://www.youtube.com"} className="h-full hover:text-brand-light active:text-brand-light">
+      <Link href={"https://www.youtube.com"} className="h-full sm:hover:text-brand-light sm:active:text-brand-light">
         <FaYoutubeSquare className="w-full h-full"/>
       </Link>
 
-      <Link href={"https://www.linkedin.com"} className="h-full hover:text-brand-light active:text-brand-light">
+      <Link href={"https://www.linkedin.com"} className="h-full sm:hover:text-brand-light sm:active:text-brand-light">
         <FaLinkedin className="w-full h-full"/>
       </Link>
 
-      <Link href={"https://www.instagram.com"} className="h-full hover:text-brand-light active:text-brand-light">
+      <Link href={"https://www.instagram.com"} className="h-full sm:hover:text-brand-light sm:active:text-brand-light">
         <FaInstagramSquare className="w-full h-full"/>
       </Link>
     </div>
@@ -67,7 +67,7 @@ const UsefulLinks = ({ pages }: { pages: Page[] }) => {
         <li key={page.title} className="pb-1">
           <Link
             href={page.path}
-            className="hover:text-brand-light active:text-brand-light text-[15px] md:text-[17px] py-[5px]"
+            className="sm:hover:text-brand-light sm:active:text-brand-light text-[15px] md:text-[17px] py-[5px]"
           >
             {page.title}
           </Link>
@@ -86,7 +86,7 @@ const Footer = () => {
           Don&apos;t have an account yet?
         </div>
         <Link href="/login">
-          <button className="bg-brand-light text-brand-dark w-24 rounded-md p-1 font-bold mt-1 hover:bg-brand-hover active:bg-brand-hover">
+          <button className="bg-brand-light text-brand-dark w-24 rounded-md p-1 font-bold mt-1 sm:hover:bg-brand-hover sm:active:bg-brand-hover">
             Sign up
           </button>
         </Link>
@@ -99,9 +99,9 @@ const Footer = () => {
             <Image
               src={emailicon}
               alt="Email"
-              className="hover:text-brand-light"
+              className="sm:hover:text-brand-light"
             ></Image>
-            <a href="mailto:support@quizwrld.com" className="hover:text-brand-light">
+            <a href="mailto:support@quizwrld.com" className="sm:hover:text-brand-light">
               <div className="text-[15px] md:text-[17px]">
                 support@quizwrld.com
               </div>

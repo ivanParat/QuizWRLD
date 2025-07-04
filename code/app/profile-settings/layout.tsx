@@ -3,7 +3,7 @@ import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { ReactNode } from "react";
 
-export default async function LoginLayout({
+export default async function ProfileLayout({
   children,
 }: {
   children: ReactNode;
@@ -16,5 +16,5 @@ export default async function LoginLayout({
     redirect("/");
   }
 
-  return <main className="bg-off-white py-10 px-3">{children}</main>;
+  return <main className="bg-off-white py-10 px-4">{children}</main>;
 }

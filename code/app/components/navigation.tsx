@@ -54,7 +54,7 @@ function processPage(page: Page, index: number, onClick?: () => void) {
           onClick={onClick}
           className="font-bold md:ml-1 lg:ml-3 xl:ml-5"
         >
-          <button className="bg-brand text-white px-6 py-1 rounded-md hover:bg-brand-hover active:bg-brand-hover">
+          <button className="bg-brand text-white px-6 py-1 rounded-md sm:hover:bg-brand-hover sm:active:bg-brand-hover">
             {page.title}
           </button>
         </Link>
@@ -62,7 +62,7 @@ function processPage(page: Page, index: number, onClick?: () => void) {
         <Link
           href={page.path}
           onClick={onClick}
-          className="font-bold hover:text-brand active:text-brand px-5 py-1 md:px-1 lg:px-3 xl:px-5"
+          className="font-bold sm:hover:text-brand sm:active:text-brand px-5 py-1 md:px-1 lg:px-3 xl:px-5"
         >
           {page.title}
         </Link>
@@ -105,7 +105,7 @@ function SearchBar({ closeMenu }: SearchBarProps) {
           onKeyDown={(e) => e.key === "Enter" && handleSearch()}
         />
         <button
-          className="ml-2 text-main-text hover:text-brand"
+          className="ml-2 text-main-text sm:hover:text-brand"
           onClick={handleSearch}
         >
           <svg
@@ -132,7 +132,7 @@ function SearchBar({ closeMenu }: SearchBarProps) {
                 setIsSearchOpen(false);
                 closeMenu();
               }}
-              className="ml-2 text-black hover:text-brand"
+              className="ml-2 text-black sm:hover:text-brand"
             >
               ✖️
             </button>
@@ -145,7 +145,7 @@ function SearchBar({ closeMenu }: SearchBarProps) {
               onKeyDown={(e) => e.key === "Enter" && handleSearch()}
             />
             <button
-              className="ml-2 text-black hover:text-brand"
+              className="ml-2 text-black sm:hover:text-brand"
               onClick={() => {
                 setIsSearchOpen(false);
                 closeMenu();
@@ -170,7 +170,7 @@ function SearchBar({ closeMenu }: SearchBarProps) {
           </div>
         ) : (
           <button
-            className="ml-2 text-black hover:text-brand"
+            className="ml-2 text-black sm:hover:text-brand"
             onClick={() => {
               setIsSearchOpen(true);
               closeMenu();
@@ -205,7 +205,7 @@ type HamburgerProps = {
 function Hamburger({ isOpen, toggleMenu }: HamburgerProps) {
   return (
     <button
-      className="flex md:hidden flex-col justify-center items-end w-11 h-11 p-2 space-y-1.5 rounded-sm  hover:bg-off-white active:bg-off-white"
+      className="flex md:hidden flex-col justify-center items-end w-11 h-11 p-2 space-y-1.5 rounded-sm  sm:hover:bg-off-white sm:active:bg-off-white"
       aria-label={isOpen ? "Close menu" : "Open menu"}
       onClick={toggleMenu}
     >
@@ -233,7 +233,7 @@ function Hamburger({ isOpen, toggleMenu }: HamburgerProps) {
 
 function ProfilePicture({user, onClick}: {user: User, onClick: () => void}){
   if(user) return(
-    <li className="flex items-center gap-2">
+    <li className="flex items-center gap-2 min-w-8">
       <Image
         src={user.profilePicture ?? "/images/default-profile-picture.svg"}
         alt={user.name ?? "User"}
@@ -262,13 +262,13 @@ function ProfileDropdown({user, open, closeMenu}: {user: User, open: boolean, cl
       <li key="profile">
         <Link
           href="/profile-settings"
-          className="font-bold hover:text-brand active:text-brand"
+          className="font-bold sm:hover:text-brand sm:active:text-brand"
           onClick={closeMenu}
         >
           Profile
         </Link>
       </li>
-      <li key="logout" onClick={()=>{closeMenu(); handleLogout(user.id)}} className="font-bold hover:text-brand active:text-brand cursor-pointer">
+      <li key="logout" onClick={()=>{closeMenu(); handleLogout(user.id)}} className="font-bold sm:hover:text-brand sm:active:text-brand cursor-pointer">
         Log Out
       </li>
     </ul>
@@ -340,7 +340,7 @@ export function Navigation({ user, isPending }: { user: User, isPending: boolean
 
       {/* Visible on mobile */}
       <div className="flex md:hidden space-x-2 items-center">
-        <div className="flex md:hidden space-x-2">
+        <div className="flex space-x-2">
           <SearchBar closeMenu={() => {closeMenu(); closeProfileDropdown();}} />
           <Hamburger isOpen={isMenuOpen} toggleMenu={() => {closeProfileDropdown(); toggleMenu()}} />
         </div>

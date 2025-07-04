@@ -20,7 +20,7 @@ export default function DeleteQuizModal({
   if (!open) return null;
 
   return (
-    <div className="fixed inset-0 z-50 bg-off-white bg-opacity-40 flex items-center justify-center">
+    <div className="fixed inset-0 z-50 bg-off-white bg-opacity-40 flex items-center justify-center px-6 sm:px-0">
       <div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-sm">
         <h2 className="text-lg font-semibold mb-4">
           Delete quiz &quot;{quizTitle}&quot;?
@@ -29,7 +29,7 @@ export default function DeleteQuizModal({
         <div className="flex justify-end gap-4">
           <button
             onClick={onCancel}
-            className="px-4 py-2 rounded text-gray-600 hover:text-gray-800 font-medium"
+            className="px-4 py-2 rounded text-gray-600 sm:hover:text-gray-800 font-medium"
             disabled={loading}
           >
             Cancel
@@ -40,7 +40,7 @@ export default function DeleteQuizModal({
               await onConfirm();
               setLoading(false);
             }}
-            className="px-4 py-2 rounded-md bg-incorrect text-white hover:bg-incorrect-hover active:bg-incorrect-hover disabled:opacity-60 font-medium drop-shaodw-sm"
+            className="px-4 py-2 rounded-md bg-incorrect text-white sm:hover:bg-incorrect-hover sm:active:bg-incorrect-hover disabled:opacity-60 font-medium drop-shaodw-sm"
             disabled={loading}
           >
             {loading ? "Deleting..." : "Yes, delete"}

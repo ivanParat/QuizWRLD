@@ -30,7 +30,7 @@ function processQuizCard(
   { isMobile }: QuizCardProps
 ) {
   return (
-    <Link href={`/quiz/${quizCard.slug}`} key={index} className="transition duration-200 hover:brightness-110 active:brightness-125">
+    <Link href={`/quiz/${quizCard.slug}`} key={index} className="transition duration-200 sm:hover:brightness-110 sm:active:brightness-125">
       <div className="rounded-md overflow-hidden relative aspect-[1/1] lg:aspect-[4/3]">
         <Image
           src={quizCard.heroImageUrl || "/images/placeholder.png"}
@@ -108,7 +108,7 @@ export default function QuizzesSection({ title, quizzes }: SectionsProps) {
       </div>
       {
         n < quizzes.length &&
-        <button onClick={()=>{handleClickMore()}} className="flex mt-6 text-lg font-medium text-main-text hover:text-brand active:text-brand">
+        <button onClick={()=>{handleClickMore()}} className="flex mt-6 text-lg font-medium text-main-text sm:hover:text-brand sm:active:text-brand">
           <span>More</span>
           <ChevronDown size={28}/>
         </button>
