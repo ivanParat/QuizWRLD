@@ -245,6 +245,7 @@ const ProfileUpdateForm = () => {
                   alt="Profile"
                   fill={true}
                   className="w-48 h-48 rounded-full object-cover mb-4"
+                  priority={true}
                 />
               </div>
             ) : (

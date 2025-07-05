@@ -23,7 +23,7 @@ export default function StarsEndOfQuiz({ quizId }: { quizId: string }) {
     }
   }
 
-  function handleMouseLeave(i: number){
+  function handleMouseLeave(){
     if(session){
       setHovered(null);
     }
@@ -42,7 +42,7 @@ export default function StarsEndOfQuiz({ quizId }: { quizId: string }) {
     }
   }
 
-  function handleMouseUp(i: number){
+  function handleMouseUp(){
     if(session){
       setHovered(null);
     }
@@ -58,9 +58,9 @@ export default function StarsEndOfQuiz({ quizId }: { quizId: string }) {
             <span
               key={i}
               onMouseEnter={() => handleMouseEnter(i)}
-              onMouseLeave={() => handleMouseLeave(i)}
+              onMouseLeave={() => handleMouseLeave()}
               onMouseDown={() => handleMouseDown(i)}
-              onMouseUp={() => handleMouseUp(i)}
+              onMouseUp={() => handleMouseUp()}
               onClick={e => {if(session){
                   e.stopPropagation();
                   e.preventDefault();

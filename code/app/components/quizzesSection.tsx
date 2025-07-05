@@ -67,7 +67,7 @@ export default function QuizzesSection({ title, quizzes }: SectionsProps) {
     if(n === 6 || n === 8){
       setn(isMobile ? 6 : 8)
     }
-  }, [isMobile])
+  }, [isMobile, n])
 
   function handleClickMore(){
     const m = isMobile? 6 : 8;

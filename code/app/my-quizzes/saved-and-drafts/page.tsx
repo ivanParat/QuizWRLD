@@ -105,7 +105,7 @@ export default function SavedAndDraftsPage() {
       {!loading && quizzes.length === 0 ? (
         <div className="text-center py-10 mt-24 sm:mt-0">
           <p className="text-xl text-gray-600 mb-4">
-            You don't have any drafts.
+            You don&apos;t have any drafts.
           </p>
           <Link
             href="/my-quizzes/create-a-quiz"

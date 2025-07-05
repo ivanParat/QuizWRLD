@@ -3,7 +3,7 @@ import Cookies from "js-cookie";
 export function saveRatingToCookies(quizId: string, value: number){
   // Get existing ratings from cookie
   const existing = Cookies.get("quizRatings");
-  let data = existing ? JSON.parse(existing) : { ratings: {} };
+  const data = existing ? JSON.parse(existing) : { ratings: {} };
 
   // Update rating for this quiz
   data.ratings[quizId] = value; 
@@ -34,7 +34,7 @@ export function readRatingFromCookies(quizId: string){
       else {
         return null;
       }
-    } catch (e) {
+    } catch {
       // Ignore parse errors
     }
   }

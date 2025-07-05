@@ -8,7 +8,7 @@ import {
 } from "../content-types";
 import { db } from "../db/drizzle";
 import { answers, categories, questions, quizzes, ratings } from "../db/schema";
-import { eq, sql, and, like } from "drizzle-orm";
+import { eq, sql, and } from "drizzle-orm";
 import { Entry } from "contentful";
 
 const MINUTE = 60;

@@ -3,7 +3,7 @@ import { syncRatingsCookieToDb } from "@/app/lib/cookiesServer";
 
 export async function POST(req: NextRequest) {
   try {
-    let body: any;
+    let body: { userId: string; ratings: Record<string, number>;};
     const contentType = req.headers.get("content-type") || "";
 
     if (contentType.includes("application/json")) {

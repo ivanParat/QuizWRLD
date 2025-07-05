@@ -13,7 +13,7 @@ export default function Stars({ avgRating, isMobile, quizId }: { avgRating: numb
   useEffect(() => {
     const rating = readRatingFromCookies(quizId);
     setClicked(rating);
-  }, [quizId]);
+  }, [quizId, session]);
 
   function handleMouseEnter(i: number){
     if(session){
@@ -21,7 +21,7 @@ export default function Stars({ avgRating, isMobile, quizId }: { avgRating: numb
     }
   }
 
-  function handleMouseLeave(i: number){
+  function handleMouseLeave(){
     if(session){
       setHovered(null);
     }
@@ -40,7 +40,7 @@ export default function Stars({ avgRating, isMobile, quizId }: { avgRating: numb
     }
   }
 
-  function handleMouseUp(i: number){
+  function handleMouseUp(){
     if(session){
       setHovered(null);
     }
@@ -62,9 +62,9 @@ export default function Stars({ avgRating, isMobile, quizId }: { avgRating: numb
             <span
               key={i}
               onMouseEnter={() => handleMouseEnter(i)}
-              onMouseLeave={() => handleMouseLeave(i)}
+              onMouseLeave={() => handleMouseLeave()}
               onMouseDown={() => handleMouseDown(i)}
-              onMouseUp={() => handleMouseUp(i)}
+              onMouseUp={() => handleMouseUp()}
               onClick={e => {if(session){
                   e.stopPropagation();
                   e.preventDefault();
