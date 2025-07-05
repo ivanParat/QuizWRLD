@@ -5,6 +5,8 @@ import {
   TypeQuizzHomePageSkeleton,
   TypeAboutUsSkeleton,
   TypeBlogSkeleton,
+  TypeNavigationSkeleton,
+  NavigationItem,
 } from "../content-types";
 import { db } from "../db/drizzle";
 import { answers, categories, questions, quizzes, ratings } from "../db/schema";
@@ -15,17 +17,17 @@ const MINUTE = 60;
 const HOUR = 60 * MINUTE;
 
 export const getMainNavigation = unstable_cache(
-  async (): Promise<{ title: string; link: string }[]> => {
+  async (): Promise<NavigationItem[]> => {
     try {
-      const response = await client.getEntries({ content_type: "navigation" });
-      const data = response.items;
+      const response =
+        await client.withoutUnresolvableLinks.getEntries<TypeNavigationSkeleton>(
+          {
+            content_type: "navigation",
+            order: ["fields.order"],
+          }
+        );
 
-      const navigationItems = data.map((item) => ({
-        title: String(item.fields.title) || "",
-        link: String(item.fields.link) || "",
-      }));
-
-      return navigationItems;
+      return response.items as NavigationItem[];
     } catch (error) {
       console.error("Error fetching navigation:", error);
       return [];
@@ -370,7 +372,7 @@ export async function getRatingsByUserId(userId: string) {
       .from(ratings)
       .where(eq(ratings.userId, userId));
 
-    return data; 
+    return data;
   } catch (error) {
     console.error("Error fetching ratings for user:", error);
     throw new Error("An error occurred while fetching user ratings.");
