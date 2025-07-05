@@ -241,6 +241,7 @@ function ProfilePicture({user, onClick}: {user: User, onClick: () => void}){
         height={300}
         className="w-8 h-8 rounded-full object-cover cursor-pointer"
         onClick={onClick}
+        priority={true}
       />
     </li>
   );

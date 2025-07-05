@@ -26,6 +26,7 @@ export default async function AboutUsPage() {
               width={600}
               height={400}
               layout="intrinsic"
+              priority={true}
             />
           )}
         </div>
@@ -46,6 +47,7 @@ export default async function AboutUsPage() {
               width={600}
               height={400}
               layout="intrinsic"
+              priority={true}
             />
           )}
         </div>

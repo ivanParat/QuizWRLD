@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { ArrowLeft } from "lucide-react";
 import type { Metadata } from "next";
 import { getBlogById } from "@/app/lib/api";
@@ -9,7 +10,7 @@ export const metadata: Metadata = {
 };
 
 type BlogPostProps = {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 };
 
 export default async function BlogPost({ params }: BlogPostProps) {
@@ -51,10 +52,11 @@ export default async function BlogPost({ params }: BlogPostProps) {
           {title}
         </h1>
         {imageUrl && (
-          <img
+          <Image
             src={imageUrl}
             alt={title}
             className="mb-7 mt-5 max-h-96 w-full object-cover rounded"
+            priority={true}
           />
         )}
         <div className="space-y-6 text-main-text">

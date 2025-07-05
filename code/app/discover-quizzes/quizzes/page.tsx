@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic";
+
 import QuizzesSection from "@/app/components/quizzesSection";
 import { getQuizzesByRating, getQuizzesByNewest } from "@/app/lib/api";
 

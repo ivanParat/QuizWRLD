@@ -26,6 +26,7 @@ export async function POST(req: NextRequest) {
 
     return res;
   } catch (error) {
+    console.error(error);
     return NextResponse.json({ error: "Failed to sync ratings" }, { status: 500 });
   }
 }
