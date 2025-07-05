@@ -77,6 +77,24 @@ export interface TypeAboutUsFields {
   image2: EntryFieldTypes.AssetLink;
 }
 
+export interface TypeNavigationFields {
+  title: EntryFieldTypes.Symbol;
+  path: EntryFieldTypes.Symbol;
+  order: EntryFieldTypes.Number;
+}
+
+export type TypeNavigationSkeleton = EntrySkeletonType<
+  TypeNavigationFields,
+  "navigation"
+>;
+
+export type TypeNavigation<
+  Modifiers extends ChainModifiers,
+  Locales extends LocaleCode = LocaleCode
+> = Entry<TypeNavigationSkeleton, Modifiers, Locales>;
+
+export type NavigationItem = TypeNavigation<"WITHOUT_UNRESOLVABLE_LINKS">;
+
 export type TypeCategorySkeleton = EntrySkeletonType<
   TypeCategoryFields,
   "category"

@@ -4,6 +4,8 @@ import { Roboto } from "next/font/google";
 import "./globals.css";
 import Footer from "./components/footer";
 import ClientRootLayout from "./ClientRootLayout";
+import { getMainNavigation } from "./lib/api";
+import { NavigationItem } from "./content-types";
 
 const roboto = Roboto({
   subsets: ["latin"],
@@ -29,17 +31,19 @@ export const metadata: Metadata = {
   description: "Create or solve fun and challenging quizzes instantly.",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const pages: NavigationItem[] = await getMainNavigation();
+
   return (
     <html lang="en">
       <body
         className={`${roboto.variable} ${geistSans.variable} ${geistMono.variable} antialiased space-y-0`}
       >
-        <ClientRootLayout>{children}</ClientRootLayout>
+        <ClientRootLayout pages={pages}>{children}</ClientRootLayout>
         <Footer />
       </body>
     </html>
