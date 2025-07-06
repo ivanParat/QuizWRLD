@@ -150,9 +150,9 @@ export default function MyQuizzesPage() {
                         e.preventDefault();
                         handleTogglePublish(quiz.id, !!quiz.published);
                       }}
-                      className={`px-2 py-1 text-xs rounded-full ${
+                      className={`px-2 py-1 text-xs rounded-full sm:hover:underline ${
                         quiz.published
-                          ? "bg-red-100 text-red-800"
+                          ? "bg-yellow-100 text-yellow-800"
                           : "bg-green-100 text-green-800"
                       }`}
                     >
@@ -174,7 +174,7 @@ export default function MyQuizzesPage() {
                         e.stopPropagation();
                         setQuizToDelete(quiz);
                       }}
-                      className="text-red-600 sm:hover:underline"
+                      className="bg-red-100 text-red-800 sm:hover:underline px-2 py-1 text-xs rounded-full"
                     >
                       Delete
                     </button>
