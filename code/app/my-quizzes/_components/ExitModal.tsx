@@ -1,49 +1,32 @@
 "use client";
 
-import { useState } from "react";
-
 interface Props {
-  quizTitle: string;
-  onConfirm: () => Promise<void>;
+  onConfirm: () => void;
   onCancel: () => void;
-  open: boolean;
 }
 
-export default function DeleteQuizModal({
-  quizTitle,
+export default function ExitModal({
   onConfirm,
   onCancel,
-  open,
 }: Props) {
-  const [loading, setLoading] = useState(false);
-
-  if (!open) return null;
-
   return (
     <div className="fixed inset-0 z-50 bg-off-white bg-opacity-40 flex items-center justify-center px-6 sm:px-0">
       <div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-sm">
-        <h2 className="text-lg font-semibold mb-4">
-          Delete quiz &quot;{quizTitle}&quot;?
+        <h2 className="text-lg font-medium mb-4">
+          Are you sure you want to exit without saving?
         </h2>
-        <p className="text-gray-600 mb-6">This action cannot be undone.</p>
         <div className="flex justify-end gap-4">
           <button
             onClick={onCancel}
             className="px-4 py-2 rounded-md bg-gray-500 text-white sm:hover:bg-gray-400 sm:active:bg-gray-400 disabled:opacity-60 font-medium drop-shadow-sm"
-            disabled={loading}
           >
             Cancel
           </button>
           <button
-            onClick={async () => {
-              setLoading(true);
-              await onConfirm();
-              setLoading(false);
-            }}
+            onClick={onConfirm}
             className="px-4 py-2 rounded-md bg-incorrect text-white sm:hover:bg-incorrect-hover sm:active:bg-incorrect-hover disabled:opacity-60 font-medium drop-shadow-sm"
-            disabled={loading}
           >
-            {loading ? "Deleting..." : "Yes, delete"}
+            Yes, Exit
           </button>
         </div>
       </div>

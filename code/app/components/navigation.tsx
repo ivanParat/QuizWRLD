@@ -235,10 +235,14 @@ function ProfileDropdown({
   user,
   open,
   closeMenu,
+  beginLoading,
+  endLoading,
 }: {
   user: User;
   open: boolean;
   closeMenu: () => void;
+  beginLoading: () =>  void;
+  endLoading: () =>  void;
 }) {
   if (user)
     return (
@@ -262,9 +266,11 @@ function ProfileDropdown({
         </li>
         <li
           key="logout"
-          onClick={() => {
+          onClick={async () => {
             closeMenu();
-            handleLogout(user.id);
+            beginLoading();
+            await handleLogout(user.id);
+            endLoading();
           }}
           className="font-bold sm:hover:text-brand sm:active:text-brand cursor-pointer"
         >
@@ -321,6 +327,7 @@ export function Navigation({
     setIsProfileDropdownOpen(!isProfileDropdownOpen);
   const closeMenu = () => setIsMenuOpen(false);
   const closeProfileDropdown = () => setIsProfileDropdownOpen(false);
+  const [loading, setLoading] = useState(false);
 
   useClickOutside(navRef, closeMenu);
   useClickOutside(navRef, closeProfileDropdown);
@@ -360,15 +367,17 @@ export function Navigation({
             processPage(page, index, closeProfileDropdown)
           )}
         </ul>
-        {isPending && (
+        {(isPending || loading ) && (
           <div className="w-8 h-8 border-[3px] border-secondary-text border-t-transparent rounded-full animate-spin" />
         )}
-        {user && <ProfilePicture user={user} onClick={toggleProfileDropdown} />}
+        {user && !loading && <ProfilePicture user={user} onClick={toggleProfileDropdown} />}
         {isProfileDropdownOpen && user && (
           <ProfileDropdown
             user={user}
             open={isProfileDropdownOpen}
             closeMenu={closeProfileDropdown}
+            beginLoading={() => {setLoading(true)}}
+            endLoading={() => {setLoading(false)}}
           />
         )}
       </div>
@@ -402,10 +411,10 @@ export function Navigation({
           )}
         </ul>
 
-        {isPending && (
+        {(isPending || loading ) && (
           <div className="w-8 h-8 border-[3px] border-secondary-text border-t-transparent rounded-full animate-spin" />
         )}
-        {user && (
+        {user && !loading && (
           <ProfilePicture
             user={user}
             onClick={() => {
@@ -419,6 +428,8 @@ export function Navigation({
             user={user}
             open={isProfileDropdownOpen}
             closeMenu={closeProfileDropdown}
+            beginLoading={() => {setLoading(true)}}
+            endLoading={() => {setLoading(false)}}
           />
         )}
       </div>

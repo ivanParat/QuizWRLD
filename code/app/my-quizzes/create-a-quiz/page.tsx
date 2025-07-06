@@ -4,6 +4,9 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import supabase from "@/app/lib/supabase";
 import Loading from "@/app/loading";
 import CreateAQuizModal from "../_components/CreateAQuizModal";
+import ExitModal from "../_components/ExitModal";
+import { useRouter } from "next/navigation";
+
 interface Answer {
   text: string;
   isCorrect: boolean;
@@ -39,6 +42,8 @@ export default function QuizForm() {
   const [loading, setLoading] = useState(false);
   const [categories, setCategories] = useState<Category[]>([]);
   const [modalMessage, setModalMessage] = useState<string | null>(null);
+  const [exit, setExit] = useState<boolean>(false);
+  const router = useRouter();
 
   useEffect(() => {
     const fetchCategories = async () => {
@@ -266,7 +271,7 @@ export default function QuizForm() {
                   <button
                     type="button"
                     onClick={() => removeQuestion(currentQuestionIndex)}
-                    className="text-red-500 text-sm"
+                    className="text-red-500 sm:hover:text-red-400 text-sm font-medium py-1.5 px-2"
                   >
                     Remove Question
                   </button>
@@ -330,7 +335,7 @@ export default function QuizForm() {
                           onClick={() =>
                             removeAnswer(currentQuestionIndex, aIndex)
                           }
-                          className="text-red-500 text-sm sm:text-base"
+                          className="text-red-500 sm:hover:text-red-400 text-sm font-medium px-1 py-1.5"
                         >
                           Remove
                         </button>
@@ -340,7 +345,7 @@ export default function QuizForm() {
                   <button
                     type="button"
                     onClick={() => addAnswer(currentQuestionIndex)}
-                    className="text-blue-500 text-sm mt-2"
+                    className="text-blue-500 sm:hover:text-blue-400 text-sm mt-2 font-medium px-2 py-1.5"
                   >
                     + Add Answer
                   </button>
@@ -384,8 +389,7 @@ export default function QuizForm() {
           <button
             type="button"
             onClick={() => {
-              if (confirm("Are you sure you want to exit without saving?")) {
-              }
+              setExit(true);
             }}
             className="px-4 py-2 bg-incorrect text-white rounded-md sm:hover:bg-incorrect-hover font-semibold drop-shadow-sm w-3/4 sm:w-auto"
           >
@@ -395,7 +399,7 @@ export default function QuizForm() {
             <button
               type="submit"
               onClick={() => setPublished(false)}
-              className="px-4 py-2 bg-gray-500 text-white rounded-md sm:hover:bg-gray-400 font-semibold drop-shadow-sm w-3/4 sm:w-auto"
+              className="px-4 py-2 bg-yellow-500 text-white rounded-md sm:hover:bg-yellow-400 font-semibold drop-shadow-sm w-3/4 sm:w-auto"
             >
               Save to Drafts
             </button>
@@ -410,6 +414,10 @@ export default function QuizForm() {
         </div>
       </form>
     </div>
+    {
+      exit &&
+      <ExitModal onCancel={() => {setExit(false)}} onConfirm={() => {router.push("/")}}/>
+    }
     { 
       modalMessage &&
       <CreateAQuizModal message={modalMessage} onConfirm={onModalConfirm}/>
