@@ -178,15 +178,17 @@ export default function QuizForm() {
       {loading ? (
         <Loading />
       ) : error ? (
-        <div className="text-center py-10 mt-24 sm:mt-0">
-          <p className="text-xl text-gray-600 mb-4">{error}</p>
-          <Link
-            href="/login"
-            className="inline-block bg-brand sm:hover:bg-brand-hover text-white font-bold py-1.5 px-6 rounded-md drop-shadow-sm mt-10"
-          >
-            Log in
-          </Link>
-        </div>
+        <main className="flex min-h-screen flex-col items-center pt-8">
+          <div className="text-center py-10 mt-24 sm:mt-0">
+            <p className="text-xl text-gray-600 mb-4">{error}</p>
+            <Link
+              href="/login"
+              className="inline-block bg-brand sm:hover:bg-brand-hover text-white font-bold py-1.5 px-6 rounded-md drop-shadow-sm mt-10"
+            >
+              Log in
+            </Link>
+          </div>
+        </main>
       ) : (
         <div className="max-w-4xl mx-auto p-6 bg-background-form rounded-lg shadow-md mt-8">
           <h1 className="text-2xl font-bold mb-6">Create New Quiz</h1>
@@ -313,7 +315,7 @@ export default function QuizForm() {
                       <button
                         type="button"
                         onClick={() => removeQuestion(currentQuestionIndex)}
-                        className="text-red-500 text-sm sm:hover:text-red-400"
+                        className="text-red-500 sm:hover:text-red-400 text-sm font-medium py-1.5 px-2"
                       >
                         Remove Question
                       </button>
@@ -377,7 +379,7 @@ export default function QuizForm() {
                               onClick={() =>
                                 removeAnswer(currentQuestionIndex, aIndex)
                               }
-                              className="text-red-500 text-sm sm:text-base"
+                              className="text-red-500 sm:hover:text-red-400 text-sm font-medium px-1 py-1.5"
                             >
                               Remove
                             </button>
@@ -387,7 +389,7 @@ export default function QuizForm() {
                       <button
                         type="button"
                         onClick={() => addAnswer(currentQuestionIndex)}
-                        className="text-blue-500 text-sm mt-2"
+                        className="text-blue-500 sm:hover:text-blue-400 text-sm mt-2 font-medium px-2 py-1.5"
                       >
                         + Add Answer
                       </button>
