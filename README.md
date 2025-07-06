@@ -2,9 +2,11 @@
 
 - [Project Structure](#project-structure)
 - [My Project Links](#my-project-links)
+  - [Semester Project](#semester-project)
   - [Semester Assignments](#semester-assignments)
 - [Project Requirements](#project-requirements)
   - [Web Application Requirements](#web-application-requirements)
+  - [Project Demonstration](#project-demonstration)
 
 ## Project Structure
 
