@@ -6,6 +6,7 @@ import { quizzes } from "../../db/schema";
 import Link from "next/link";
 import Image from "next/image";
 import DeleteQuizModal from "../_components/DeleteQuizModal";
+import Loading from "@/app/loading";
 
 type Quiz = InferSelectModel<typeof quizzes>;
 type QuizCard = Pick<
@@ -30,11 +31,16 @@ export default function SavedAndDraftsPage() {
           method: "GET",
         });
 
-        const result = await response.json();
-        if (response.ok) {
-          setQuizzes(result.quizzes);
+        if (response.status === 401) {
+          setError("Please log in to see your drafts.");
         } else {
-          setError("Failed to fetch user quizzes: " + result.error);
+          const result = await response.json();
+
+          if (response.ok) {
+            setQuizzes(result.quizzes);
+          } else {
+            setError("Failed to fetch user quizzes: " + result.error);
+          }
         }
       } catch (error) {
         setError("Failed to fetch user quizzes: " + error);
@@ -90,19 +96,19 @@ export default function SavedAndDraftsPage() {
 
   return (
     <main className="flex min-h-screen flex-col items-center pt-8">
-      {loading && (
-        <div className="text-center py-10">
-          <p className="text-xl text-gray-600">Loading...</p>
+      {loading ? (
+        <Loading />
+      ) : error ? (
+        <div className="text-center py-10 mt-24 sm:mt-0">
+          <p className="text-xl text-gray-600 mb-4">{error}</p>
+          <Link
+            href="/login"
+            className="inline-block bg-brand sm:hover:bg-brand-hover text-white font-bold py-1.5 px-6 rounded-md drop-shadow-sm mt-10"
+          >
+            Log in
+          </Link>
         </div>
-      )}
-
-      {error && !loading && (
-        <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-6 mt-2 sm:mt-0">
-          {error}
-        </div>
-      )}
-
-      {!loading && quizzes.length === 0 ? (
+      ) : quizzes.length === 0 ? (
         <div className="text-center py-10 mt-24 sm:mt-0">
           <p className="text-xl text-gray-600 mb-4">
             You don&apos;t have any drafts.
@@ -158,8 +164,6 @@ export default function SavedAndDraftsPage() {
 
                 <div className="flex justify-between items-center text-sm text-gray-500">
                   <span>{new Date(quiz.created_at).toLocaleDateString()}</span>
-
-                  <div className="flex justify-between items-center mb-2"></div>
                   <div className="flex space-x-4">
                     <button
                       onClick={() => setQuizToDelete(quiz)}
@@ -174,6 +178,7 @@ export default function SavedAndDraftsPage() {
           ))}
         </div>
       )}
+
       <DeleteQuizModal
         quizTitle={quizToDelete?.title || ""}
         onConfirm={handleDelete}
