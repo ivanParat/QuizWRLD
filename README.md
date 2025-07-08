@@ -18,6 +18,7 @@
 ### Semester Project
 
 - Link to production version: [**Production Version**](https://quiz-wrld.vercel.app/)
+- Link to final report: [**Final Report**](https://www.notion.so/QuizWRLD-Report-15fd6a80cfee808a87dceb7c63e64fad#226d6a80cfee803ea180e05879c1aed8)
 
 ### Semester Assignments
 
