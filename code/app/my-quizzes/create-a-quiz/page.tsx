@@ -67,6 +67,7 @@ export default function QuizForm() {
         }
       } catch (err) {
         setError("Unexpected error fetching categories.");
+        console.error(err);
       } finally {
         setLoading(false);
       }
